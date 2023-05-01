@@ -2,6 +2,8 @@
 
 sudo apt update && sudo apt install peco
 
+cp ./.gitconfig ~/.gitconfig
+
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 echo "source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ${ZSOTDIR:-$HOME}/.zshrc
 

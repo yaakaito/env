@@ -1,0 +1,19 @@
+[user]
+	email = yaakaito@gmail.com
+	name = yaakaito
+[pull]
+	ff = only
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[core]
+	editor = code --wait
+[alias]
+	co = checkout
+	st = status
+	sw = switch
+	ci = commit
+[init]
+	defaultBranch = main
