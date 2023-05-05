@@ -12,4 +12,4 @@ echo "source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZD
 
 cp ./peco.zsh ~/.zsh/peco.zsh
 echo "source ~/.zsh/peco.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-mkdir -p ~/.cache/shell
+mkdir -p ~/.cache
