@@ -8,9 +8,17 @@
     },
     "customizations": {
         "vscode": {
+            "settings": {
+                "editor.formatOnSave": true,
+                "editor.defaultFormatter": "denoland.vscode-deno",
+                "deno.enable": true,
+                "javascript.preferences.importModuleSpecifier": "relative",
+                "typescript.preferences.importModuleSpecifier": "relative"
+            },
             "extensions": [
                 "github.copilot",
                 "github.vscode-github-actions",
+                "denoland.vscode-deno",
                 "streetsidesoftware.code-spell-checker"
             ]
         }
