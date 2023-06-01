@@ -40,6 +40,4 @@ function peco-cdr() {
 zle -N peco-cdr
 bindkey '^s' peco-cdr
 
-
-# ブランチを簡単切り替え。git checkout lbで実行できる
 alias -g lb='`git branch | peco --prompt "GIT BRANCH>" | head -n 1 | sed -e "s/^\*\s*//g"`'
