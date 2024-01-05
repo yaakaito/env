@@ -15,5 +15,6 @@
 	st = status
 	sw = switch
 	ci = commit
+	push-force = push --force-with-lease --force-if-includes
 [init]
 	defaultBranch = main
