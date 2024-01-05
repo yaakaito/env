@@ -18,3 +18,5 @@
 	push-force = push --force-with-lease --force-if-includes
 [init]
 	defaultBranch = main
+[include]
+	path = ~/.gitconfig.local
