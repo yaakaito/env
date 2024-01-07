@@ -3,16 +3,9 @@
     "containerEnv": {
         "TZ": "Asia/Tokyo"
     },
-    "features": {
-        "ghcr.io/devcontainers/features/github-cli:1": {}
-    },
     "customizations": {
         "vscode": {
-            "extensions": [
-                "github.copilot",
-                "github.vscode-github-actions",
-                "streetsidesoftware.code-spell-checker"
-            ]
+            "extensions": ["biomejs.biome", "github.copilot", "github.copilot-chat", "github.vscode-github-actions", "streetsidesoftware.code-spell-checker"]
         }
     }
 }
