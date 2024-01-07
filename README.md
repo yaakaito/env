@@ -18,4 +18,5 @@ cd ~/.env
 ```
 npx tiged yaakaito/env/devcontainers/deno .devcontainer
 npx tiged yaakaito/env/.github .github
+npx tiged yaakaito/env/.vscode .vscode
 ```
