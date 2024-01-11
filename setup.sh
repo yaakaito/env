@@ -15,3 +15,5 @@ echo "source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZD
 cp ./peco.zsh ~/.zsh/peco.zsh
 echo "source ~/.zsh/peco.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 mkdir -p ~/.cache
+
+code --install-extension mhutchie.git-graph
