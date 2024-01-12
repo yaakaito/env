@@ -17,3 +17,4 @@ echo "source ~/.zsh/peco.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 mkdir -p ~/.cache
 
 code --install-extension mhutchie.git-graph
+code --install-extension quick-lint.quick-lint-js
