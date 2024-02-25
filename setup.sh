@@ -14,12 +14,5 @@ echo "source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZD
 
 cp ./peco.zsh ~/.zsh/peco.zsh
 echo "source ~/.zsh/peco.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+echo "source ~/.zsh/vscode-extensions.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 mkdir -p ~/.cache
-
-source ~/.zshrc
-
-code --install-extension github.copilot
-code --install-extension github.copilot-chat
-code --install-extension mhutchie.git-graph
-code --install-extension eamodio.gitlens
-code --install-extension quick-lint.quick-lint-js
