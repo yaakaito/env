@@ -17,3 +17,12 @@ echo "source ~/.zsh/peco.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 cp ./vscode-extensions.zsh ~/.zsh/vscode-extensions.zsh
 echo "source ~/.zsh/vscode-extensions.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 mkdir -p ~/.cache
+
+cursor_exists() {
+  cursor -v "$1" &> /dev/null
+}
+
+if cursor_exists cursor; then
+  echo '[core]' >> ~/.gitconfig.local
+  echo '\teditor = cursor --wait' >> ~/.gitconfig.local
+fi
