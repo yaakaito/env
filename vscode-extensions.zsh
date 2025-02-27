@@ -10,6 +10,7 @@ if code_exists code; then
     code --install-extension mhutchie.git-graph
     code --install-extension eamodio.gitlens
     code --install-extension quick-lint.quick-lint-js
+    code --install-extension RooVeterinaryInc.roo-cline
     touch ~/.zsh/.vscode-extensions
   fi
 fi
@@ -24,6 +25,7 @@ if cursor_exists cursor; then
     cursor --install-extension mhutchie.git-graph
     cursor --install-extension eamodio.gitlens
     cursor --install-extension quick-lint.quick-lint-js
+    cursor --install-extension RooVeterinaryInc.roo-cline
     touch ~/.zsh/.cursor-extensions
   fi
 fi
