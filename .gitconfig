@@ -9,7 +9,7 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 [core]
-	editor = cursor --wait
+	editor = code --wait
 [alias]
 	co = checkout
 	st = status
