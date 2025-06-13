@@ -1,12 +1,13 @@
 {
     "image": "mcr.microsoft.com/devcontainers/base:1",
+    "postCreateCommand": ".devcontainer/setup.sh",
+    "containerEnv": {
+        "TZ": "Asia/Tokyo"
+    },
     "features": {
         "ghcr.io/devcontainers/features/node:1": {},
         "ghcr.io/shyim/devcontainers-features/bun:0": {},
         "ghcr.io/devcontainers/features/github-cli:1": {}
-    },
-    "containerEnv": {
-        "TZ": "Asia/Tokyo"
     },
     "customizations": {
         "vscode": {
