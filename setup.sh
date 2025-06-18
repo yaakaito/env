@@ -5,7 +5,7 @@ sudo apt update && sudo apt install peco
 cp ./.gitconfig ~/.gitconfig
 mkdir -p ~/.config/git
 cp ./.config/git/ignore ~/.config/git/ignore
-cp ./.claude ~/.claude
+cp -r ./.claude ~/.claude
 
 mkdir -p ~/.zsh
 
