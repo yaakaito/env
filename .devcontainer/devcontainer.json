@@ -1,7 +1,11 @@
 {
-    "build": { "dockerfile": "Dockerfile" },
+    "image": "mcr.microsoft.com/devcontainers/base:1",
+    "containerEnv": {
+        "TZ": "Asia/Tokyo"
+    },
     "features": {
-        "ghcr.io/devcontainers/features/github-cli:1": {}
+        "ghcr.io/devcontainers/features/github-cli:1": {},
+        "ghcr.io/devcontainers/features/node:1": {}
     },
     "customizations": {
         "vscode": {
