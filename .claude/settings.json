@@ -4,6 +4,7 @@
             "Bash(cat:*)",
             "Bash(cp:*)",
             "Bash(find:*)",
+            "Bash(head:*)",
             "Bash(gh issue create:*)",
             "Bash(gh issue edit:*)",
             "Bash(gh pr diff:*)",
@@ -18,7 +19,9 @@
             "Bash(ls:*)",
             "Bash(mkdir:*)",
             "Bash(mv:*)",
-            "Bash(rg:*)"
+            "Bash(rg:*)",
+            "Bash(tail:*)",
+            "Bash(xargs grep:*)"
         ]
     }
 }
