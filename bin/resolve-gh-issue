@@ -145,11 +145,18 @@ create_worktree() {
     # Create the working-trees directory if it doesn't exist
     mkdir -p "$repo_root/.git/working-trees"
     
+    # Check if worktree already exists
+    if [ -d "$worktree_dir" ] || git worktree list | grep -q "$worktree_dir"; then
+        log_warning "Worktree for branch '$branch_name' already exists at: $worktree_dir" >&2
+        log_error "Please remove the existing worktree first or choose a different issue" >&2
+        exit 1
+    fi
+    
     # Check if branch already exists
     if git show-ref --verify --quiet refs/heads/$branch_name; then
-        log_warning "Branch '$branch_name' already exists, removing existing worktree if any" >&2
-        git worktree remove "$worktree_dir" --force 2>/dev/null || true
-        git branch -D "$branch_name" >&2
+        log_warning "Branch '$branch_name' already exists" >&2
+        log_error "Please delete the existing branch first or choose a different issue" >&2
+        exit 1
     fi
     
     # Create worktree
