@@ -21,7 +21,8 @@
             "Bash(mv:*)",
             "Bash(rg:*)",
             "Bash(tail:*)",
-            "Bash(xargs grep:*)"
+            "Bash(xargs grep:*)",
+            "Read(~/.claude/commands/commit.md)"
         ]
     }
 }
