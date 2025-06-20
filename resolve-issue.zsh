@@ -6,7 +6,7 @@ DIRNAME="${0:A:h}"
 
 # GitHub Issue Resolver function
 resolve-issue() {
-    local script_output worktree_dir prompt
+    local script_output working_dir prompt current_dir
 
     # Check if we're in a git repository
     if ! git rev-parse --git-dir &> /dev/null; then
@@ -24,15 +24,24 @@ resolve-issue() {
         return 1
     fi
 
-    # Execute the script and capture output
-    script_output=$("$script_path")
+    # Store current directory for comparison
+    current_dir=$(pwd)
+
+    # Execute the script with all arguments passed through and capture output
+    script_output=$("$script_path" "$@")
     if [ $? -eq 0 ]; then
-        # First line is worktree directory, rest is prompt
-        worktree_dir=$(echo "$script_output" | head -n1)
+        # First line is working directory, rest is prompt
+        working_dir=$(echo "$script_output" | head -n1)
         prompt=$(echo "$script_output" | tail -n+2)
 
-        echo "Setup completed! Changing to worktree directory: $worktree_dir" >&2
-        cd "$worktree_dir" && echo "$prompt" | claude --dangerously-skip-permissions
+        # Only change directory if working_dir is different from current directory
+        if [[ "$working_dir" != "$current_dir" ]]; then
+            echo "Setup completed! Changing to working directory: $working_dir" >&2
+            cd "$working_dir" && echo "$prompt" | claude --dangerously-skip-permissions
+        else
+            echo "Setup completed! Working in current directory: $working_dir" >&2
+            echo "$prompt" | claude --dangerously-skip-permissions
+        fi
     else
         echo "Error: Issue solver setup failed" >&2
         return 1
