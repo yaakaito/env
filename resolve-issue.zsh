@@ -46,3 +46,5 @@ export -f resolve-issue 2>/dev/null || true
 if command -v compdef &> /dev/null; then
     compdef _default resolve-issue
 fi
+
+alias claude-yolo='claude --dangerously-skip-permissions'
