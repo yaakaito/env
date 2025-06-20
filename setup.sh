@@ -19,7 +19,9 @@ cp ./peco.zsh ~/.zsh/peco.zsh
 echo "source ~/.zsh/peco.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 cp ./vscode-extensions.zsh ~/.zsh/vscode-extensions.zsh
 echo "source ~/.zsh/vscode-extensions.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+mkdir -p ~/.zsh/bin
 cp ./resolve-issue.zsh ~/.zsh/resolve-issue.zsh
+cp ./bin/resolve-gh-issue ~/.zsh/bin/resolve-gh-issue
 echo "source ~/.zsh/resolve-issue.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 mkdir -p ~/.cache
 
