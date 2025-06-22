@@ -37,7 +37,12 @@ resolve-issue() {
         # Only change directory if working_dir is different from current directory
         if [[ "$working_dir" != "$current_dir" ]]; then
             echo "Setup completed! Changing to working directory: $working_dir" >&2
-            cd "$working_dir" && echo "$prompt" | claude --dangerously-skip-permissions
+            if cd "$working_dir"; then
+                echo "$prompt" | claude --dangerously-skip-permissions
+            else
+                echo "Error: Failed to change directory to $working_dir" >&2
+                return 1
+            fi
         else
             echo "Setup completed! Working in current directory: $working_dir" >&2
             echo "$prompt" | claude --dangerously-skip-permissions
