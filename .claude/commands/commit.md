@@ -21,3 +21,13 @@ prompt: <user's input prompt>
 - Scope examples: (api), (ui), (auth), (parser)
 - Description: Present tense, lowercase, under 50 chars, no period
 - Separate conversation exchanges with ----
+
+## Issue Reference
+
+When working on a specific issue, include the issue number in the description using `#{issue_number}` format:
+
+```
+feat: implement user authentication #1234
+```
+
+This should be added when Claude recognizes that the changes are specifically resolving or working on a particular GitHub issue.
