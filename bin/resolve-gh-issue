@@ -158,9 +158,21 @@ get_issue_details() {
     log_info "Getting issue details for #$issue_number..." >&2
     
     local issue_data
-    issue_data=$(gh issue view "$issue_number" --json title,body,labels)
+    issue_data=$(gh issue view "$issue_number" --json title,body,labels,comments)
     
-    echo "$issue_data"
+    # Filter comments to only include author and body fields, excluding minimized comments
+    local filtered_data
+    filtered_data=$(echo "$issue_data" | jq '{
+        title: .title,
+        body: .body,
+        labels: .labels,
+        comments: [.comments[] | select(.isMinimized == false) | {
+            author: .author.login,
+            body: .body
+        }]
+    }')
+    
+    echo "$filtered_data"
 }
 
 # Generate branch name using claude
