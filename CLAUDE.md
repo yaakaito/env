@@ -2,6 +2,11 @@
 
 このファイルは、このリポジトリでコードを扱う際のClaude Code (claude.ai/code) への指針を提供します。
 
+## YOU MUST
+
+- ユーザーの入力に使用された言語にかかわらず、日本語で返答やコードの出力を行います
+- Git Commit や Pull request を作成する際、指示がなければ Conventional Commits を用いてメッセージは日本語で作成します
+
 ## リポジトリ概要
 
 このリポジトリは、開発環境の自動設定を提供するdotfiles/開発環境セットアップリポジトリです。シェル設定、VS Code拡張機能、devcontainerテンプレートが含まれています。
