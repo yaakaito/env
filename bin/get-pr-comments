@@ -1,0 +1,309 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+log_info() {
+    echo -e "${BLUE}[INFO]${NC} $1"
+}
+
+log_success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $1"
+}
+
+log_warning() {
+    echo -e "${YELLOW}[WARNING]${NC} $1"
+}
+
+log_error() {
+    echo -e "${RED}[ERROR]${NC} $1"
+}
+
+# Show help message
+show_help() {
+    cat << EOF
+Usage: get-pr-comments [PR_NUMBER]
+
+PR comments fetching tool with Claude Code integration.
+
+OPTIONS:
+    PR_NUMBER            Optional PR number to fetch comments from (if not provided, will show list)
+    -h, --help          Show this help message
+
+DESCRIPTION:
+    This tool helps you fetch GitHub PR comments by:
+    1. Selecting a PR (or using provided number)
+    2. Fetching PR-level comments and review comments
+    3. Generating a prompt for Claude Code with all comments
+
+EOF
+}
+
+# Check if required commands are available
+check_requirements() {
+    local missing_commands=()
+    
+    for cmd in git gh jq; do
+        if ! command -v "$cmd" &> /dev/null; then
+            missing_commands+=("$cmd")
+        fi
+    done
+    
+    if [ ${#missing_commands[@]} -ne 0 ]; then
+        log_error "Missing required commands: ${missing_commands[*]}"
+        exit 1
+    fi
+}
+
+# Find git repository root
+find_git_root() {
+    local current_dir="$(pwd)"
+    
+    while [ "$current_dir" != "/" ]; do
+        if [ -d "$current_dir/.git" ]; then
+            echo "$current_dir"
+            return 0
+        fi
+        current_dir="$(dirname "$current_dir")"
+    done
+    
+    log_error "Not in a git repository"
+    exit 1
+}
+
+# Select PR using gh command
+select_pr() {
+    log_info "Selecting PR..." >&2
+    
+    # Check if gh is authenticated
+    if ! gh auth status &> /dev/null; then
+        log_error "Please authenticate with GitHub CLI first: gh auth login" >&2
+        exit 1
+    fi
+    
+    # Get PRs list formatted for peco
+    local prs_list
+    prs_list=$(gh pr list --state=open --json number,title,author --template '{{range .}}{{printf "#%v: %s (by %s)\n" .number .title .author.login}}{{end}}')
+    
+    if [ -z "$prs_list" ]; then
+        log_error "No open PRs found" >&2
+        exit 1
+    fi
+    
+    # Use peco to select PR interactively
+    local selected_pr
+    selected_pr=$(echo "$prs_list" | peco --prompt="Select PR to fetch comments from: ")
+    
+    if [ -z "$selected_pr" ]; then
+        log_error "No PR selected" >&2
+        exit 1
+    fi
+    
+    # Extract PR number from selected line (format: #123: Title)
+    local pr_number
+    pr_number=$(echo "$selected_pr" | sed 's/^#\([0-9]*\):.*/\1/')
+    
+    if [ -z "$pr_number" ]; then
+        log_error "Could not extract PR number" >&2
+        exit 1
+    fi
+    
+    echo "$pr_number"
+}
+
+# Get repository info
+get_repo_info() {
+    local pr_number="$1"
+    
+    log_info "Getting repository info for PR #$pr_number..." >&2
+    
+    # Get PR info to extract repository details
+    local pr_info
+    pr_info=$(gh pr view "$pr_number" --json headRepository,baseRepository,number)
+    
+    local owner
+    local repo
+    owner=$(echo "$pr_info" | jq -r '.headRepository.owner.login')
+    repo=$(echo "$pr_info" | jq -r '.headRepository.name')
+    
+    echo "$owner/$repo"
+}
+
+# Get PR comments
+get_pr_comments() {
+    local pr_number="$1"
+    local repo_info="$2"
+    
+    log_info "Fetching PR comments for #$pr_number..." >&2
+    
+    # Get PR-level comments
+    local pr_comments
+    pr_comments=$(gh api "/repos/$repo_info/issues/$pr_number/comments" || echo "[]")
+    
+    # Get review comments
+    local review_comments
+    review_comments=$(gh api "/repos/$repo_info/pulls/$pr_number/comments" || echo "[]")
+    
+    # Combine and format comments
+    local formatted_comments
+    formatted_comments=$(jq -n \
+        --argjson pr_comments "$pr_comments" \
+        --argjson review_comments "$review_comments" \
+        --arg repo_info "$repo_info" \
+        --arg pr_number "$pr_number" \
+        '{
+            pr_number: $pr_number,
+            repository: $repo_info,
+            pr_comments: $pr_comments,
+            review_comments: $review_comments
+        }')
+    
+    echo "$formatted_comments"
+}
+
+# Format comments for display
+format_comments() {
+    local comments_json="$1"
+    
+    # Use jq to format the comments nicely
+    echo "$comments_json" | jq -r '
+        "## Comments\n" +
+        if (.pr_comments | length) > 0 then
+            "### PR Comments:\n" +
+            (.pr_comments | map(
+                "- @" + .user.login + ":\n" +
+                "  > " + (.body | gsub("\n"; "\n  > "))
+            ) | join("\n\n")) + "\n\n"
+        else
+            "### PR Comments:\nNo PR comments found.\n\n"
+        end +
+        if (.review_comments | length) > 0 then
+            "### Review Comments:\n" +
+            (.review_comments | map(
+                "- @" + .user.login + " " + .path + (if .line then "#" + (.line | tostring) else "" end) + ":\n" +
+                (if .diff_hunk then "  ```diff\n" + .diff_hunk + "\n  ```\n" else "" end) +
+                "  > " + (.body | gsub("\n"; "\n  > "))
+            ) | join("\n\n")) + "\n"
+        else
+            "### Review Comments:\nNo review comments found.\n"
+        end
+    '
+}
+
+# Main function
+main() {
+    local pr_number=""
+    
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -h|--help)
+                show_help
+                exit 0
+                ;;
+            -*)
+                log_error "Unknown option: $1"
+                show_help
+                exit 1
+                ;;
+            *)
+                pr_number="$1"
+                shift
+                ;;
+        esac
+    done
+    
+    log_info "Starting PR comments fetching tool with Claude..." >&2
+    
+    # Check requirements
+    check_requirements
+    
+    # Find git repository root
+    local repo_root
+    repo_root=$(find_git_root)
+    log_success "Found git repository at: $repo_root" >&2
+    
+    # Change to repo root
+    cd "$repo_root"
+    
+    # Select PR if not provided
+    if [ -z "$pr_number" ]; then
+        pr_number=$(select_pr)
+        log_success "Selected PR #$pr_number" >&2
+    else
+        log_info "Using provided PR #$pr_number" >&2
+    fi
+    
+    # Get repository info
+    local repo_info
+    repo_info=$(get_repo_info "$pr_number")
+    log_success "Repository: $repo_info" >&2
+    
+    # Get PR comments
+    local comments_data
+    comments_data=$(get_pr_comments "$pr_number" "$repo_info")
+    
+    # Format comments for display
+    local formatted_comments
+    formatted_comments=$(format_comments "$comments_data")
+    
+    log_success "PR comments fetch completed!" >&2
+    log_info "Working directory: $repo_root" >&2
+    log_info "PR: #$pr_number" >&2
+    echo "" >&2
+    log_info "Outputting working directory and comments prompt..." >&2
+    echo "" >&2
+    
+    # Output working directory first, then the prompt
+    echo "$repo_root"
+    
+    # Generate comments prompt using the provided template
+    cat << EOF
+You are an AI assistant integrated into a git-based version control system. Your task is to fetch and display comments from a GitHub pull request.
+
+Follow these steps:
+
+1. Use \`gh pr view --json number,headRepository\` to get the PR number and repository info
+2. Use \`gh api /repos/{owner}/{repo}/issues/{number}/comments\` to get PR-level comments
+3. Use \`gh api /repos/{owner}/{repo}/pulls/{number}/comments\` to get review comments. Pay particular attention to the following fields: \`body\`, \`diff_hunk\`, \`path\`, \`line\`, etc. If the comment references some code, consider fetching it using eg \`gh api /repos/{owner}/{repo}/contents/{path}?ref={branch} | jq .content -r | base64 -d\`
+4. Parse and format all comments in a readable way
+5. Return ONLY the formatted comments, with no additional text
+
+Format the comments as:
+
+## Comments
+
+[For each comment thread:]
+- @author file.ts#line:
+  \`\`\`diff
+  [diff_hunk from the API response]
+  \`\`\`
+  > quoted comment text
+  
+  [any replies indented]
+
+If there are no comments, return "No comments found."
+
+Remember:
+1. Only show the actual comments, no explanatory text
+2. Include both PR-level and code review comments
+3. Preserve the threading/nesting of comment replies
+4. Show the file and line number context for code review comments
+5. Use jq to parse the JSON responses from the GitHub API
+
+PR number: $pr_number
+Repository: $repo_info
+
+Comments data:
+$formatted_comments
+EOF
+}
+
+# Run main function
+main "$@"
