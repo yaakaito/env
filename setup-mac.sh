@@ -35,4 +35,3 @@ if cursor_exists cursor; then
   echo '\teditor = cursor --wait' >> ~/.gitconfig.local
 fi
 
-npm install -g @anthropic-ai/claude-code
