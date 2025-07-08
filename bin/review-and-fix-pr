@@ -230,23 +230,6 @@ EOF
     echo "$review_result"
 }
 
-# Get repository info
-get_repo_info() {
-    local pr_number="$1"
-    
-    log_info "Getting repository info for PR #$pr_number..." >&2
-    
-    # Get PR info to extract repository details
-    local pr_info
-    pr_info=$(gh pr view "$pr_number" --json headRepository,baseRepository,number)
-    
-    local owner
-    local repo
-    owner=$(echo "$pr_info" | jq -r '.headRepository.owner.login')
-    repo=$(echo "$pr_info" | jq -r '.headRepository.name')
-    
-    echo "$owner/$repo"
-}
 
 # Get PR comments
 get_pr_comments() {
@@ -255,57 +238,50 @@ get_pr_comments() {
     
     log_info "Step 2: Fetching PR comments..." >&2
     
-    # Get repository info
-    local repo_info
-    repo_info=$(get_repo_info "$pr_number")
-    log_info "Repository: $repo_info" >&2
+    # Generate prompt for Claude Code to handle GitHub API calls and formatting
+    local comments_prompt
+    comments_prompt=$(cat << EOF
+You are an AI assistant integrated into a git-based version control system. Your task is to fetch and display comments from a GitHub pull request.
+
+Follow these steps:
+
+1. Use \`gh pr view --json number,headRepository\` to get the PR number and repository info
+2. Use \`gh api /repos/{owner}/{repo}/issues/{number}/comments\` to get PR-level comments
+3. Use \`gh api /repos/{owner}/{repo}/pulls/{number}/comments\` to get review comments. Pay particular attention to the following fields: \`body\`, \`diff_hunk\`, \`path\`, \`line\`, etc. If the comment references some code, consider fetching it using eg \`gh api /repos/{owner}/{repo}/contents/{path}?ref={branch} | jq .content -r | base64 -d\`
+4. Parse and format all comments in a readable way
+5. Return ONLY the formatted comments, with no additional text
+
+Format the comments as:
+
+## Comments
+
+[For each comment thread:]
+- @author file.ts#line:
+  \`\`\`diff
+  [diff_hunk from the API response]
+  \`\`\`
+  > quoted comment text
+  
+  [any replies indented]
+
+If there are no comments, return "No comments found."
+
+Remember:
+1. Only show the actual comments, no explanatory text
+2. Include both PR-level and code review comments
+3. Preserve the threading/nesting of comment replies
+4. Show the file and line number context for code review comments
+5. Use jq to parse the JSON responses from the GitHub API
+
+PR number: $pr_number
+EOF
+)
     
-    # Get PR-level comments
-    local pr_comments
-    pr_comments=$(gh api "/repos/$repo_info/issues/$pr_number/comments" || echo "[]")
+    log_info "Running Claude Code to fetch and format comments..." >&2
     
-    # Get review comments
-    local review_comments
-    review_comments=$(gh api "/repos/$repo_info/pulls/$pr_number/comments" || echo "[]")
-    
-    # Combine and format comments
-    local formatted_comments
-    formatted_comments=$(jq -n \
-        --argjson pr_comments "$pr_comments" \
-        --argjson review_comments "$review_comments" \
-        --arg repo_info "$repo_info" \
-        --arg pr_number "$pr_number" \
-        '{
-            pr_number: $pr_number,
-            repository: $repo_info,
-            pr_comments: $pr_comments,
-            review_comments: $review_comments
-        }')
-    
-    # Format comments for display
+    # Run Claude Code to handle GitHub API calls and formatting
     local comments_result
-    comments_result=$(echo "$formatted_comments" | jq -r '
-        "## Comments\n" +
-        if (.pr_comments | length) > 0 then
-            "### PR Comments:\n" +
-            (.pr_comments | map(
-                "- @" + .user.login + ":\n" +
-                "  > " + (.body | gsub("\n"; "\n  > "))
-            ) | join("\n\n")) + "\n\n"
-        else
-            "### PR Comments:\nNo PR comments found.\n\n"
-        end +
-        if (.review_comments | length) > 0 then
-            "### Review Comments:\n" +
-            (.review_comments | map(
-                "- @" + .user.login + " " + .path + (if .line then "#" + (.line | tostring) else "" end) + ":\n" +
-                (if .diff_hunk then "  ```diff\n" + .diff_hunk + "\n  ```\n" else "" end) +
-                "  > " + (.body | gsub("\n"; "\n  > "))
-            ) | join("\n\n")) + "\n"
-        else
-            "### Review Comments:\nNo review comments found.\n"
-        end
-    ')
+    comments_result=$(echo "$comments_prompt" | claude -p 2>&1 || true)
     
     log_success "PR comments fetched" >&2
     
