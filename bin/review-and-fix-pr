@@ -216,9 +216,6 @@ Keep your review concise but thorough. Focus on:
 Format your review with clear sections and bullet points.
 
 PR number: $pr_number
-
-PR Details:
-$pr_data
 EOF
 )
     
