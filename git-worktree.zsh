@@ -30,7 +30,7 @@ function git-create-worktree() {
         git worktree add "$worktree_path" "$branch_name"
     else
         echo "Branch '$branch_name' does not exist. Creating from main..."
-        git worktree add -b "$branch_name" "$worktree_path" main
+        git worktree add "$worktree_path"  -b "$branch_name" main
     fi
     
     # worktree の作成が成功したかチェック
