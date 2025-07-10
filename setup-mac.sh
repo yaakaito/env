@@ -21,9 +21,6 @@ mkdir -p ~/.zsh/bin
 cp ./resolve-issue.zsh ~/.zsh/resolve-issue.zsh
 cp ./bin/resolve-gh-issue ~/.zsh/bin/resolve-gh-issue
 echo "source ~/.zsh/resolve-issue.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-cp ./review-and-fix.zsh ~/.zsh/review-and-fix.zsh
-cp ./bin/review-and-fix-pr ~/.zsh/bin/review-and-fix-pr
-echo "source ~/.zsh/review-and-fix.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 mkdir -p ~/.cache
 
 cursor_exists() {
@@ -34,4 +31,3 @@ if cursor_exists cursor; then
   echo '[core]' >> ~/.gitconfig.local
   echo '\teditor = cursor --wait' >> ~/.gitconfig.local
 fi
-
