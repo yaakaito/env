@@ -1,5 +1,5 @@
 ---
-allow-tools: Bash(gh pr view), Bash(gh api:*)
+allowed-tools: Bash(gh pr view), Bash(gh api:*)
 description: Fetch and apply fixes based on GitHub PR comments.
 ---
 
