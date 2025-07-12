@@ -6,7 +6,7 @@
 
 Claude Code では、`.claude/commands/` ディレクトリにマークダウンファイルを配置することで、カスタムスラッシュコマンドを作成できます。これにより、繰り返し行う作業を自動化し、効率的な開発ワークフローを構築できます。
 
-**推奨事項**: コマンド名と description は英語で記述することを推奨します。これにより、チーム開発や国際的なプロジェクトでの利用がしやすくなります。
+**推奨事項**: コマンド名、description、およびプロンプト内容はすべて英語で記述することを推奨します。また、Claude Code は作成時に必ず英語で出力を行う必要があります。これにより、チーム開発や国際的なプロジェクトでの利用がしやすくなります。
 
 ## 基本構造
 
@@ -35,7 +35,7 @@ allowed-tools: Bash(ls:*), Read(*)
 description: Show project overview
 ---
 
-プロジェクトの構造を確認し、README.md の内容を表示してください。
+Please check the project structure and display the contents of README.md. Always provide output in English.
 ```
 
 #### 2. コマンド実行
@@ -59,18 +59,20 @@ allowed-tools: Bash(npm test:*), Bash(mkdir:*), Write(*)
 description: Run tests and generate report
 ---
 
-以下の手順でテストを実行し、結果をレポートします：
+Execute tests and generate a report following these steps:
 
-1. プロジェクトのテストスイートを実行する
-2. テスト結果を解析する
-3. `reports/` ディレクトリを作成する
-4. テスト結果サマリーを `reports/test-summary.md` に保存する
+1. Run the project test suite
+2. Analyze test results
+3. Create the `reports/` directory
+4. Save test result summary to `reports/test-summary.md`
 
-レポートには以下を含めてください：
-- 実行されたテスト数
-- 成功/失敗の数
-- 失敗したテストの詳細
-- 実行時間
+The report should include:
+- Number of tests executed
+- Number of successes/failures
+- Details of failed tests
+- Execution time
+
+Always provide output in English.
 ```
 
 ### 例2: コードレビュー準備
@@ -81,12 +83,14 @@ allowed-tools: Bash(git diff:*), Bash(git log:*), Read(*), Write(*)
 description: Prepare code review for pull request
 ---
 
-プルリクエストの準備として以下を実行してください：
+Prepare for pull request by executing the following:
 
-1. `git log --oneline -10` で最近のコミットを確認
-2. `git diff main..HEAD` で変更内容を取得
-3. 変更されたファイルを特定し、重要な変更点を分析
-4. 以下の形式でプルリクエスト説明文を生成：
+1. Check recent commits with `git log --oneline -10`
+2. Get changes with `git diff main..HEAD`
+3. Identify changed files and analyze important modifications
+4. Generate pull request description in the following format:
+
+Always provide output in English.
 
 ```
 ## 変更概要
@@ -112,20 +116,22 @@ allowed-tools: Bash(node --version:*), Bash(npm --version:*), Bash(which:*), Rea
 description: Check development environment status
 ---
 
-開発環境が正しくセットアップされているかを確認してください：
+Check if the development environment is properly set up:
 
-1. **ランタイム確認**
-   - Node.js のバージョン
-   - npm/yarn のバージョン
-   - 必要な CLI ツールの存在確認
+1. **Runtime Verification**
+   - Node.js version
+   - npm/yarn version
+   - Check existence of required CLI tools
 
-2. **プロジェクト設定確認**
-   - package.json の依存関係
-   - 必要な環境変数の設定状況
-   - 設定ファイルの存在確認
+2. **Project Configuration Check**
+   - package.json dependencies
+   - Required environment variables setup
+   - Configuration files existence check
 
-3. **結果レポート**
-   以下の形式で結果を表示：
+3. **Results Report**
+   Display results in the following format:
+   
+Always provide output in English.
    ```
    ## 環境確認結果
    
@@ -222,6 +228,23 @@ allowed-tools: Bash(gh run list:*), Bash(gh run view:*)
 - コマンドの目的と使用場面を明記
 - 依存関係や前提条件を記載
 - 使用例を含める
+
+### 5. 英語出力の徹底
+```markdown
+**重要**: すべてのカスタムコマンドは必ず英語で出力を行う必要があります
+
+**推奨実装:**
+- プロンプト内に "Always provide output in English." を明記
+- 出力形式の例も英語で提供
+- エラーメッセージや警告も英語で表示
+
+**例:**
+```
+Check the project status and provide a summary report.
+
+Always provide output in English.
+```
+```
 
 ## 参考リンク
 
