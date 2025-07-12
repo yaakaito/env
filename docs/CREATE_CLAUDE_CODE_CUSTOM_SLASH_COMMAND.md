@@ -27,7 +27,7 @@ Claude への指示内容をここに記述します。
 ### 基本的なコマンドの作成
 
 #### 1. ファイル作成
-`.claude/commands/project-overview.md` を作成：
+`.claude/commands/example.md` を作成：
 
 ```markdown
 ---
@@ -40,7 +40,7 @@ description: Show project overview
 
 #### 2. コマンド実行
 ```bash
-/project-overview
+/example
 ```
 
 ### 一般的なコマンドパターン
