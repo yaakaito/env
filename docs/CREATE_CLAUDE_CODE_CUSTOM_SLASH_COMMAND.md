@@ -77,7 +77,7 @@ Always provide output in English.
 
 ### 例2: コードレビュー準備
 
-```markdown
+````markdown
 ---
 allowed-tools: Bash(git diff:*), Bash(git log:*), Read(*), Write(*)
 description: Prepare code review for pull request
@@ -106,11 +106,11 @@ Always provide output in English.
 ## 注意点
 [レビュー時の注意点]
 ```
-```
+````
 
 ### 例3: 環境セットアップ確認
 
-```markdown
+````markdown
 ---
 allowed-tools: Bash(node --version:*), Bash(npm --version:*), Bash(which:*), Read(package.json)
 description: Check development environment status
@@ -144,7 +144,7 @@ Always provide output in English.
    ### ❌ エラー項目
    - [項目名]: [エラー内容]
    ```
-```
+````
 
 ## allowed-tools の設定
 
@@ -230,7 +230,7 @@ allowed-tools: Bash(gh run list:*), Bash(gh run view:*)
 - 使用例を含める
 
 ### 5. 英語出力の徹底
-```markdown
+````markdown
 **重要**: すべてのカスタムコマンドは必ず英語で出力を行う必要があります
 
 **推奨実装:**
@@ -244,7 +244,7 @@ Check the project status and provide a summary report.
 
 Always provide output in English.
 ```
-```
+````
 
 ## 参考リンク
 
