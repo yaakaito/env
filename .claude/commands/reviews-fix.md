@@ -9,8 +9,8 @@ Follow these steps:
 
 1. **Fetch PR and comment information:**
    - Use `gh pr view --json number,headRepository,headRefName` to get the PR number, repository info, and branch name
-   - Use `gh api /repos/{owner}/{repo}/issues/{number}/comments` to get PR-level comments
-   - Use `gh api /repos/{owner}/{repo}/pulls/{number}/comments` to get review comments with fields: `body`, `diff_hunk`, `path`, `line`, `original_line`, `start_line`, etc.
+   - Use `gh api /repos/{owner}/{repo}/issues/{number}/comments --paginate` to get PR-level comments
+   - Use `gh api /repos/{owner}/{repo}/pulls/{number}/comments --paginate` to get review comments with fields: `body`, `diff_hunk`, `path`, `line`, `original_line`, `start_line`, etc.
 
 2. **Analyze comments and determine fixes:**
    - Parse each comment to understand what changes are requested
