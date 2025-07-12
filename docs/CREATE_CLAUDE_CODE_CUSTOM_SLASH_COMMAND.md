@@ -6,6 +6,8 @@
 
 Claude Code では、`.claude/commands/` ディレクトリにマークダウンファイルを配置することで、カスタムスラッシュコマンドを作成できます。これにより、繰り返し行う作業を自動化し、効率的な開発ワークフローを構築できます。
 
+**推奨事項**: コマンド名と description は英語で記述することを推奨します。これにより、チーム開発や国際的なプロジェクトでの利用がしやすくなります。
+
 ## 基本構造
 
 カスタムコマンドファイルは以下の構造を持ちます：
@@ -13,7 +15,7 @@ Claude Code では、`.claude/commands/` ディレクトリにマークダウン
 ```markdown
 ---
 allowed-tools: Bash(command:*), Read(*), Write(*)
-description: コマンドの簡潔な説明
+description: Brief description of the command
 ---
 
 Claude への指示内容をここに記述します。
@@ -25,12 +27,12 @@ Claude への指示内容をここに記述します。
 ### 基本的なコマンドの作成
 
 #### 1. ファイル作成
-`.claude/commands/example.md` を作成：
+`.claude/commands/project-overview.md` を作成：
 
 ```markdown
 ---
 allowed-tools: Bash(ls:*), Read(*)
-description: プロジェクトの概要を表示
+description: Show project overview
 ---
 
 プロジェクトの構造を確認し、README.md の内容を表示してください。
@@ -38,7 +40,7 @@ description: プロジェクトの概要を表示
 
 #### 2. コマンド実行
 ```bash
-/example
+/project-overview
 ```
 
 ### 一般的なコマンドパターン
@@ -54,7 +56,7 @@ description: プロジェクトの概要を表示
 ```markdown
 ---
 allowed-tools: Bash(npm test:*), Bash(mkdir:*), Write(*)
-description: テストを実行してレポートを生成
+description: Run tests and generate report
 ---
 
 以下の手順でテストを実行し、結果をレポートします：
@@ -76,7 +78,7 @@ description: テストを実行してレポートを生成
 ```markdown
 ---
 allowed-tools: Bash(git diff:*), Bash(git log:*), Read(*), Write(*)
-description: プルリクエスト用のコードレビュー準備
+description: Prepare code review for pull request
 ---
 
 プルリクエストの準備として以下を実行してください：
@@ -107,7 +109,7 @@ description: プルリクエスト用のコードレビュー準備
 ```markdown
 ---
 allowed-tools: Bash(node --version:*), Bash(npm --version:*), Bash(which:*), Read(package.json)
-description: 開発環境の状態を確認
+description: Check development environment status
 ---
 
 開発環境が正しくセットアップされているかを確認してください：
