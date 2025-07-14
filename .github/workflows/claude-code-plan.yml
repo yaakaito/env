@@ -6,7 +6,6 @@ on:
     types: [opened, edited, labeled, unlabeled]
 jobs:
   claude-response:
-    if: contains(github.event.issue.labels.*.name, 'claude')
     runs-on: ubuntu-latest
     permissions:
       contents: write
