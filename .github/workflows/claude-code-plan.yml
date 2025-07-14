@@ -3,7 +3,7 @@ on:
   issue_comment:
     types: [created]
   issues:
-    types: [opened, edited, labeled, unlabeled]
+    types: [opened, labeled, unlabeled]
 jobs:
   claude-response:
     runs-on: ubuntu-latest
