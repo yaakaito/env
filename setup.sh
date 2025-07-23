@@ -21,6 +21,8 @@ cp ./git-worktree.zsh ~/.zsh/git-worktree.zsh
 echo "source ~/.zsh/git-worktree.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 cp ./vscode-extensions.zsh ~/.zsh/vscode-extensions.zsh
 echo "source ~/.zsh/vscode-extensions.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+cp ./zsh-history-sync.zsh ~/.zsh/zsh-history-sync.zsh
+echo "source ~/.zsh/zsh-history-sync.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 mkdir -p ~/.zsh/bin
 cp ./resolve-issue.zsh ~/.zsh/resolve-issue.zsh
 cp ./bin/resolve-gh-issue ~/.zsh/bin/resolve-gh-issue

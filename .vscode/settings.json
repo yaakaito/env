@@ -13,5 +13,8 @@
     "editor.codeActionsOnSave": {
         "quickfix.biome": "explicit",
         "source.organizeImports.biome": "explicit"
+    },
+    "files.exclude": {
+        ".zsh_history": true
     }
 }
