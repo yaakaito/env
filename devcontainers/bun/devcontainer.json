@@ -12,6 +12,23 @@
     "customizations": {
         "vscode": {
             "extensions": ["biomejs.biome", "streetsidesoftware.code-spell-checker"]
+        },
+        "settings": {
+            "files.exclude": {
+                "**/.git": false,
+                "**/.git/COMMIT_EDITMSG": true,
+                "**/.git/description": true,
+                "**/.git/FETCH_HEAD": true,
+                "**/.git/HEAD": true,
+                "**/.git/index": true,
+                "**/.git/info": true,
+                "**/.git/logs": true,
+                "**/.git/objects": true,
+                "**/.git/ORIG_HEAD": true,
+                "**/.git/packed-refs": true,
+                "**/.git/refs": true,
+                "**/.git/worktrees": true
+            }
         }
     }
 }
