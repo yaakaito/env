@@ -25,5 +25,10 @@
             "Bash(xargs grep:*)",
             "Read(~/.claude/commands/commit.md)"
         ]
+    },
+    "statusLine": {
+        "type": "command",
+        "command": "~/.claude/status-line.sh",
+        "padding": 0
     }
 }
