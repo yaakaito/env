@@ -1,0 +1,13 @@
+{
+    "name": "yaakaito/env",
+    "owner": {
+        "name": "yaakaito"
+    },
+    "plugins": [
+        {
+            "name": "dev-plan",
+            "source": "./cc-plugins/dev-plan",
+            "description": "オレオレ仕様駆動開発"
+        }
+    ]
+}
