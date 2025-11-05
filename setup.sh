@@ -28,3 +28,5 @@ echo "source ~/.zsh/resolve-issue.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 mkdir -p ~/.cache
 
 npm install -g @anthropic-ai/claude-code
+claude plugin marketplace add yaakaito/env
+claude plugin install dev-plan@yaakaito-env
