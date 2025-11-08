@@ -8,6 +8,11 @@
             "name": "dev-plan",
             "source": "./cc-plugins/dev-plan",
             "description": "オレオレ仕様駆動開発"
+        },
+        {
+            "name": "devtools",
+            "source": "./cc-plugins/devtools",
+            "description": "Chrome DevTools MCP 関連"
         }
     ]
 }
