@@ -1,11 +1,9 @@
 GitHub 上の PR から対応が必要なレビューコメントを取得し、修正を行います。
 
-1. 以下のコマンドを実行して、未解決のレビューコメントを取得してください。
+1. gh を使って、現在のリポジトリの owner reponame pr-number を取得します。
+2. 以下のコマンドを実行して、未解決のレビューコメントを取得してください、$ONWER $REPO $PR_NUMBER は 1. で取得したものに置き換えてください。
 
 ```bash
-OWNER=$(echo $REPO_INFO | jq -r .owner.login) && \
-REPO=$(echo $REPO_INFO | jq -r .name) && \
-PR_NUMBER=$(gh pr view --json number -q .number) && \
 gh api graphql -f query='
 query($owner: String!, $repo: String!, $number: Int!) {
     repository(owner: $owner, name: $repo) {
@@ -33,7 +31,7 @@ query($owner: String!, $repo: String!, $number: Int!) {
 <author>\(.comments.nodes[0].author.login)</author>\n  <body>\(.comments.nodes[0].body)</body>\n</review-comment>\n"'
 ```
 
-2. 取得した review-comments を一つづつ確認してすべて修正してください。
-3. 一つ修正を行う事にその内容を commit してください。
-4. すべての修正が完了するまで繰り返します。
-5. すべての修正が完了したら、ブランチを remote へ push してください。
+3. 取得した review-comments を一つづつ確認してすべて修正してください。
+4. 一つ修正を行う事にその内容を commit してください。
+5. すべての修正が完了するまで繰り返します。
+6. すべての修正が完了したら、ブランチを remote へ push してください。
