@@ -1,8 +1,11 @@
 GitHub 上の PR から対応が必要なレビューコメントを取得し、修正を行います。
 
-1. 以下のコマンドを実行して、未解決のレビューコメントを取得してください、$ONWER $REPO $PR_NUMBER は適宜置き換えてください。
+1. 以下のコマンドを実行して、未解決のレビューコメントを取得してください。
 
 ```bash
+OWNER=$(echo $REPO_INFO | jq -r .owner.login) && \
+REPO=$(echo $REPO_INFO | jq -r .name) && \
+PR_NUMBER=$(gh pr view --json number -q .number) && \
 gh api graphql -f query='
 query($owner: String!, $repo: String!, $number: Int!) {
     repository(owner: $owner, name: $repo) {
