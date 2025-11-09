@@ -5,6 +5,11 @@
     },
     "plugins": [
         {
+            "name": "coderabbit",
+            "source": "./cc-plugins/coderabbit",
+            "description": "Code Rabbit 関連"
+        },
+        {
             "name": "dev-plan",
             "source": "./cc-plugins/dev-plan",
             "description": "オレオレ仕様駆動開発"
