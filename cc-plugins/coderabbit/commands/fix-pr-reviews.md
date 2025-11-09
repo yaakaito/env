@@ -31,7 +31,7 @@ query($owner: String!, $repo: String!, $number: Int!) {
 <author>\(.comments.nodes[0].author.login)</author>\n  <body>\(.comments.nodes[0].body)</body>\n</review-comment>\n"'
 ```
 
-3. 取得した review-comments を一つづつ確認してすべて修正してください。
+3. 取得した review-comments を一つづつ確認してすべて修正してください。未解決のレビューがなければ終了してください。
 4. 一つ修正を行う事にその内容を commit してください。
 5. すべての修正が完了するまで繰り返します。
 6. すべての修正が完了したら、ブランチを remote へ push してください。
