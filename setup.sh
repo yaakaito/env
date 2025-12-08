@@ -6,6 +6,9 @@ cp ./.gitconfig ~/.gitconfig
 mkdir -p ~/.config/git
 cp ./.config/git/ignore ~/.config/git/ignore
 cp -r ./.claude ~/.claude
+cp -r ./.codex ~/.codex
+cp -r ./cc-plugins/dev-plan/skills/adr-writer ~/.codex/skills/adr-writer
+cp -r ./cc-plugins/skills/skills/frontend-design ~/.codex/skills/frontend-design
 
 mkdir -p ~/.zsh
 
@@ -30,3 +33,4 @@ mkdir -p ~/.cache
 npm install -g @anthropic-ai/claude-code
 claude plugin marketplace add yaakaito/env
 claude plugin install dev-plan@yaakaito-env
+claude plugin install skills@yaakaito-env
