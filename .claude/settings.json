@@ -33,11 +33,5 @@
         "type": "command",
         "command": "~/.claude/status-line.sh",
         "padding": 0
-    },
-    "enabledPlugins": {
-        "devtools@yaakaito-env": true,
-        "coderabbit@yaakaito-env": true,
-        "example-skills@anthropic-agent-skills": true,
-        "dev-plan@yaakaito-env": true
-    },
+    }
 }
