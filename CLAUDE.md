@@ -1,99 +1,62 @@
-# CLAUDE.md
+# env
 
-このファイルは、このリポジトリでコードを扱う際のClaude Code (claude.ai/code) への指針を提供します。
+## Project Overview
 
-## YOU MUST
+A dotfiles repository automatically executed by GitHub Codespaces and devcontainers. Sets up shell configurations, Claude Code plugins, Codex skills, and other development tools.
 
-- ユーザーの入力に使用された言語にかかわらず、日本語で返答やコードの出力を行います
-- Git Commit や Pull request を作成する際、指示がなければ Conventional Commits を用いてメッセージは日本語で作成します
+## Architecture
 
-## リポジトリ概要
-
-このリポジトリは、開発環境の自動設定を提供するdotfiles/開発環境セットアップリポジトリです。シェル設定、VS Code拡張機能、devcontainerテンプレートが含まれています。
-
-## よく使用するコマンド
-
-### 初期セットアップ
-
-**Linux/WSL:**
-```bash
-./setup.sh
+```
+env/
+├── .claude/              # Claude Code settings and commands
+│   ├── commands/         # Custom slash commands (commit, reviews-fix, workflow-fix)
+│   ├── settings.json     # Claude Code settings
+│   └── CLAUDE.md         # Project-specific instructions
+├── .codex/               # OpenAI Codex settings
+│   ├── config.toml       # Codex configuration
+│   └── skills/           # Codex skills directory
+├── .config/git/          # Git ignore patterns
+├── bin/                  # Executable scripts
+│   └── resolve-gh-issue  # GitHub Issue resolver CLI
+├── cc-plugins/           # Claude Code plugins
+│   ├── dev-plan/         # Spec-driven development workflow (includes adr-writer skill)
+│   ├── devtools/         # Chrome DevTools MCP integration
+│   ├── coderabbit/       # CodeRabbit integration
+│   └── skills/           # Basic skills (frontend-design, agents-md)
+├── devcontainers/        # Pre-configured devcontainer templates
+│   ├── deno/             # Deno runtime
+│   ├── node-pnpm/        # Node.js with pnpm
+│   └── bun/              # Bun runtime
+├── docs/                 # Documentation
+├── raycast/              # Raycast integrations
+│   └── script-commands/  # Raycast script commands
+├── .gitconfig            # Git user settings and aliases
+├── git-worktree.zsh      # Git worktree management utilities
+├── peco.zsh              # Interactive filtering for history and directory navigation
+├── resolve-issue.zsh     # GitHub Issue resolver shell integration
+├── setup.sh              # Linux/WSL environment setup
+├── setup-mac.sh          # macOS environment setup (with Oh My Zsh)
+└── vscode-extensions.zsh # Auto-install VS Code extensions on first run
 ```
 
-**macOS:**
-```bash
-./setup-mac.sh
-```
+- Setup scripts are idempotent and safe to run multiple times
+- Biome is the default formatter for JavaScript/TypeScript
+- Devcontainers include GitHub CLI and Asia/Tokyo timezone
 
-**devcontainerテンプレートのクローン:**
-```bash
-# Deno devcontainer
-npx tiged yaakaito/env/devcontainers/deno .devcontainer
-npx tiged yaakaito/env/.github .github
-npx tiged yaakaito/env/.vscode .vscode
+## Core Principles
 
-# Node.js with pnpm
-npx tiged yaakaito/env/devcontainers/node-pnpm .devcontainer
+- Correspond to the current codebase, data, and terminology over theory or general practices; always review thoroughly
+- Choose simple over easy; prefer clarity over cleverness
+- Avoid adding new dependencies unless necessary; remove when possible
+- Write comments that explain Why, not What
+- Use descriptive variable and function names
+- Remove unused code and arguments immediately
+- Follow Conventional Commits for commit messages unless otherwise instructed
 
-# Bun runtime
-npx tiged yaakaito/env/devcontainers/bun .devcontainer
-```
+## Language Policy
 
-### インストールされるツールとエイリアス
-
-**.gitconfigで設定されるGitエイリアス:**
-- `git co` - checkout
-- `git st` - status
-- `git sw` - switch
-- `git ci` - commit
-- `git push-force` - push with lease and force-if-includes
-
-**Pecoキーバインディング:**
-- `Ctrl+R` - インタラクティブなコマンド履歴検索
-- `Ctrl+S` - 最近のディレクトリからのインタラクティブなディレクトリナビゲーション
-- `lb` - pecoを使用したGitブランチ選択
-
-## アーキテクチャと構造
-
-### 主要コンポーネント
-
-1. **セットアップスクリプト**
-   - `setup.sh`: Linux/WSL環境のセットアップ
-   - `setup-mac.sh`: Oh My Zshを含むmacOS環境のセットアップ
-   - 両スクリプトでインストールされるもの: zshプラグイン（autosuggestions、syntax-highlighting）、peco、VS Code拡張機能、Claude Code CLI
-
-2. **シェル拡張機能**
-   - `peco.zsh`: コマンド履歴とディレクトリナビゲーションのインタラクティブフィルタリング
-   - `vscode-extensions.zsh`: 初回実行時のVS Code拡張機能自動インストール
-   - より快適なターミナル体験のためのZsh autosuggestionsとsyntax highlighting
-
-3. **Devcontainerテンプレート** (`devcontainers/`内)
-   - Deno、Node.js/pnpm、Bun用の事前設定済み開発コンテナ
-   - GitHub CLIとタイムゾーン設定（Asia/Tokyo）を含む
-   - VS Code Remote Containersですぐに使用可能
-
-4. **AI開発ワークフロー**
-   - `memory-bank.txt`: Roo/Claude AIアシスタントワークフローのドキュメント
-   - AI支援開発のためのメモリバンク構造を重視
-   - Claude Code CLIがnpmでグローバルインストール
-
-### 開発ワークフロー
-
-1. **環境セットアップ**: OSに適したセットアップスクリプトを実行
-2. **VS Code統合**: 初回ターミナル起動時に拡張機能が自動インストール
-3. **コンテナ開発**: tigedを使用して適切なdevcontainerテンプレートをクローン
-4. **AI支援**: Claude Code CLIがグローバルで利用可能、メモリバンクワークフローが文書化済み
-
-### 設定ファイル
-
-- `.gitconfig`: Gitユーザー設定とエイリアス
-- `.devcontainer/`: アクティブなdevcontainer設定（現在はDeno基盤）
-- `.vscode/settings.json`: Biomeフォーマッタ設定
-- `.github/dependabot.yml`: 自動依存関係更新
-
-## 重要な注意事項
-
-- このリポジトリはJavaScript/TypeScriptのデフォルトフォーマッタとしてBiomeを使用
-- VS CodeがGitの可視化、リンティング、AI支援のための拡張機能を含む主要エディタ
-- セットアップスクリプトは冪等性があり、複数回実行しても安全
-- メモリバンクワークフローは、セッション間でのAIアシスタントのコンテキスト維持を重視
+- Follow the user's language by default
+- The following files must always be written in English:
+  - CLAUDE.md, AGENTS.md
+  - Files under .claude/
+  - Files under docs/agents/
