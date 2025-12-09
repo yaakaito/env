@@ -1,10 +1,18 @@
-## NEVER
+## General
 
-## YOU MUST
+- Respond in Japanese
+- Follow the project's language for code, documentation, and Git Commit/PR messages
 
-- ユーザーの入力に使用された言語にかかわらず、日本語で返答やコードの出力を行います
-- Git Commit や Pull request を作成する際、指示がなければ日本語で内容を作成します
+## TypeScript
 
-## IMPORTANT
+- Prefer `type` and `satisfies`
 
-- git commit を行うときは、指示がなければ [commit.md](~/.claude/commands/commit.md) のルールに従ってください
+## Testing
+
+- Practice TDD as advocated by Kent Beck and t_wada
+- Write tests first when building new features
+
+## Git
+
+- Follow Conventional Commits unless otherwise specified
+- Focus commit messages on why the change was made
