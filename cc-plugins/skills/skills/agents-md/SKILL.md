@@ -24,15 +24,18 @@ For format-specific features, see:
 
 ## Document Structure
 
-Use this 7-section structure. See `assets/template.md` for the full template.
+Use this 8-section structure. See `assets/template.md` for the full template.
 
-### 1. Project Overview
-Brief description of the project's purpose and goals. Answer "WHY does this project exist?"
+### 1. Project Name & Overview
+Start with `# [Project Name]` followed by a brief description (1-3 sentences) explaining WHY this project exists, then list key features/capabilities as bullet points. No separate section heading needed.
 
-### 2. Architecture
-Factual description of the repository structure and package responsibilities. Answer "WHAT is in this codebase?"
+### 2. Architecture Overview
+Key architectural points as bullet list - important components, data flow, design decisions. Answer "WHAT are the key things to know?" Keep it concise (3-5 bullets). If `docs/ARCHITECTURE.md` or similar exists, link to it for details.
 
-### 3. Core Principles
+### 3. Directory Structure
+Tree view of the repository layout with brief descriptions. Answer "WHERE is everything?"
+
+### 4. Core Principles
 Coding principles to follow. **Use these defaults as-is; append project-specific items rather than replacing:**
 
 ```markdown
@@ -46,7 +49,7 @@ Coding principles to follow. **Use these defaults as-is; append project-specific
 - Follow Conventional Commits for commit messages unless otherwise instructed
 ```
 
-### 4. Development Commands
+### 5. Development Commands
 Build, run, lint, and test commands. Example:
 
 ```markdown
@@ -58,7 +61,7 @@ Build, run, lint, and test commands. Example:
 - `npm run lint` - Run linter
 ```
 
-### 5. Testing Instructions
+### 6. Testing Instructions
 Testing strategy and policies (not commands). **Use these defaults as-is; append project-specific items rather than replacing:**
 
 ```markdown
@@ -69,7 +72,7 @@ Testing strategy and policies (not commands). **Use these defaults as-is; append
 - New features require corresponding tests
 ```
 
-### 6. Language Policy
+### 7. Language Policy
 Programming and natural language rules. **Use these defaults as-is; append project-specific items rather than replacing:**
 
 ```markdown
@@ -81,7 +84,7 @@ Programming and natural language rules. **Use these defaults as-is; append proje
   - Files under docs/agents/
 ```
 
-### 7. Additional Resources
+### 8. Additional Resources
 References to detailed documentation. Format:
 
 ```markdown
