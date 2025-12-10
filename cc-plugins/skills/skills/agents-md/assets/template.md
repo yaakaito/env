@@ -1,12 +1,20 @@
 # [Project Name]
 
-## Project Overview
-
 [Brief description of the project's purpose and goals. 1-3 sentences explaining WHY this project exists.]
 
-## Architecture
+- [Key feature 1]
+- [Key feature 2]
+- [Key feature 3]
 
-[Factual description of the repository structure and key components.]
+## Architecture Overview
+
+- [Key architectural point 1]
+- [Key architectural point 2]
+- [Key architectural point 3]
+
+For detailed architecture, see `docs/ARCHITECTURE.md`.
+
+## Directory Structure
 
 ```
 project/
@@ -15,9 +23,6 @@ project/
 ├── docs/          # [Description]
 └── ...
 ```
-
-- [Architecture description]
-- [Architecture description]
 
 ## Core Principles
 
