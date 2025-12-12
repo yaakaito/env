@@ -27,21 +27,18 @@ project/
 ## Core Principles
 
 - Correspond to the current codebase, data, and terminology over theory or general practices; always review thoroughly
-- Choose simple over easy; prefer clarity over cleverness
 - Avoid adding new dependencies unless necessary; remove when possible
-- Write comments that explain Why, not What
-- Use descriptive variable and function names
-- Remove unused code and arguments immediately
+- Follow clean code principles (simplicity, clarity, descriptive names, remove unused code)
 - Follow Conventional Commits for commit messages unless otherwise instructed
 - [Add project-specific items as needed]
 
-## Development Commands
+## Commands
 
 - `[command]` - [Description]
 - `[command]` - [Description]
 - `[command]` - [Description]
 
-## Testing Instructions
+## Testing
 
 - Prefer integration tests over unit tests; write unit tests to cover edge cases
 - Do not use mocks by default; use them only for external communication or resource fetching
@@ -51,7 +48,7 @@ project/
 
 ## Language Policy
 
-- Follow the user's language by default
+- Follow the user's language by default (comments, commits, tests)
 - The following files must always be written in English:
   - CLAUDE.md, AGENTS.md
   - Files under .claude/
@@ -60,5 +57,6 @@ project/
 
 ## Additional Resources
 
+- `docs/ARCHITECTURE.md`: [Description]
 - `docs/agents/[FILE].md`: [Description]
-- `docs/agents/[FILE].md`: [Description]
+- `docs/adr/adr-001-[slug].md`: [ADR title]

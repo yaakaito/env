@@ -41,19 +41,16 @@ Coding principles to follow. **Use these defaults as-is; append project-specific
 ```markdown
 ## Core Principles
 - Correspond to the current codebase, data, and terminology over theory or general practices; always review thoroughly
-- Choose simple over easy; prefer clarity over cleverness
 - Avoid adding new dependencies unless necessary; remove when possible
-- Write comments that explain Why, not What
-- Use descriptive variable and function names
-- Remove unused code and arguments immediately
+- Follow clean code principles (simplicity, clarity, descriptive names, remove unused code)
 - Follow Conventional Commits for commit messages unless otherwise instructed
 ```
 
-### 5. Development Commands
+### 5. Commands
 Build, run, lint, and test commands. Example:
 
 ```markdown
-## Development Commands
+## Commands
 - `npm install` - Install dependencies
 - `npm run dev` - Start development server
 - `npm run build` - Production build
@@ -61,11 +58,11 @@ Build, run, lint, and test commands. Example:
 - `npm run lint` - Run linter
 ```
 
-### 6. Testing Instructions
+### 6. Testing
 Testing strategy and policies (not commands). **Use these defaults as-is; append project-specific items rather than replacing:**
 
 ```markdown
-## Testing Instructions
+## Testing
 - Prefer integration tests over unit tests; write unit tests to cover edge cases
 - Do not use mocks by default; use them only for external communication or resource fetching
 - Test names should follow the user's language
@@ -77,7 +74,7 @@ Programming and natural language rules. **Use these defaults as-is; append proje
 
 ```markdown
 ## Language Policy
-- Follow the user's language by default
+- Follow the user's language by default (comments, commits, tests)
 - The following files must always be written in English:
   - CLAUDE.md, AGENTS.md
   - Files under .claude/
@@ -89,9 +86,9 @@ References to detailed documentation. Format:
 
 ```markdown
 ## Additional Resources
-- `docs/agents/DATABASE.md`: Database schema and relationships
-- `docs/agents/API.md`: API endpoints and usage
-- `docs/agents/ARCHITECTURE.md`: Detailed architecture decisions
+- `docs/ARCHITECTURE.md`: Detailed architecture decisions
+- `docs/agents/[FILE].md`: [Description]
+- `docs/adr/adr-001-[slug].md`: [ADR title]
 ```
 
 ## Best Practices
