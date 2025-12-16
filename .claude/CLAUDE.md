@@ -2,6 +2,7 @@
 
 - Respond in Japanese
 - Follow the project's language for code, documentation, and Git Commit/PR messages
+- Do not commit until the user explicitly instructs you to do so
 
 ## TypeScript
 
