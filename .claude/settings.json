@@ -33,5 +33,6 @@
         "type": "command",
         "command": "~/.claude/status-line.sh",
         "padding": 0
-    }
+    },
+    "alwaysThinkingEnabled": true
 }
