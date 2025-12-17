@@ -20,8 +20,8 @@
             "description": "Chrome DevTools MCP 関連"
         },
         {
-            "name": "skills",
-            "source": "./cc-plugins/skills",
+            "name": "base",
+            "source": "./cc-plugins/base",
             "description": "Basic skills"
         }
     ]
