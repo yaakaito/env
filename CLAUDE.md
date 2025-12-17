@@ -22,7 +22,7 @@ env/
 │   ├── dev-plan/         # Spec-driven development workflow (includes adr-writer skill)
 │   ├── devtools/         # Chrome DevTools MCP integration
 │   ├── coderabbit/       # CodeRabbit integration
-│   └── skills/           # Basic skills (frontend-design, agents-md)
+│   └── base/             # Basic skills (frontend-design, agents-md)
 ├── devcontainers/        # Pre-configured devcontainer templates
 │   ├── deno/             # Deno runtime
 │   ├── node-pnpm/        # Node.js with pnpm
