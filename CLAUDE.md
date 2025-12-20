@@ -1,7 +1,5 @@
 # env
 
-## Project Overview
-
 A dotfiles repository automatically executed by GitHub Codespaces and devcontainers. Sets up shell configurations, Claude Code plugins, Codex skills, and other development tools.
 
 ## Architecture
