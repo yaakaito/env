@@ -17,3 +17,5 @@
 
 - Follow Conventional Commits unless otherwise specified
 - Focus commit messages on why the change was made
+- Commit messages must not include development phases or task numbers; only GitHub Issue numbers are allowed
+- Use `chore` instead of `refactor` when editing files under `.github/`
