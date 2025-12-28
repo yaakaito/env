@@ -1,5 +1,5 @@
 ---
-name: github-pr-review-fetcher
+name: github-pr-unresolved-review-fetcher
 description: Fetch unresolved PR review comments from GitHub. Use when working with pull request reviews, addressing review feedback, or checking outstanding review comments on a PR. Triggers on requests like "get PR reviews", "fetch review comments", "show unresolved comments", or "what feedback is pending on this PR".
 ---
 
