@@ -79,6 +79,7 @@ Programming and natural language rules. **Use these defaults as-is; append proje
   - CLAUDE.md, AGENTS.md
   - Files under .claude/
   - Files under docs/agents/
+  - Files under .github/ (except comments)
 ```
 
 ### 8. Additional Resources

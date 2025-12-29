@@ -53,6 +53,7 @@ project/
   - CLAUDE.md, AGENTS.md
   - Files under .claude/
   - Files under docs/agents/
+  - Files under .github/ (except comments)
 - [Add project-specific items as needed]
 
 ## Additional Resources
