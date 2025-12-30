@@ -74,3 +74,16 @@ jobs:
 - Set appropriate `permissions` to follow least privilege
 - Use `concurrency` to cancel redundant runs
 - Prefer `${{ github.token }}` over PAT when possible
+- Avoid emoji in workflow names and step names
+- Use `$GITHUB_STEP_SUMMARY` to output execution results in Markdown format
+
+## Step Summary Example
+
+```yaml
+- name: Report test results
+  run: |
+    echo "## Test Results" >> $GITHUB_STEP_SUMMARY
+    echo "| Suite | Passed | Failed |" >> $GITHUB_STEP_SUMMARY
+    echo "|-------|--------|--------|" >> $GITHUB_STEP_SUMMARY
+    echo "| Unit  | 42     | 0      |" >> $GITHUB_STEP_SUMMARY
+```
