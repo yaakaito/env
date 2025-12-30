@@ -4,6 +4,7 @@
 - Follow the project's language for code, documentation, and Git Commit/PR messages
 - Do not commit until the user explicitly instructs you to do so
 - Use AskUserQuestion tool proactively when something is unclear
+- Avoid obvious comments; only add comments to explain the why behind complex logic
 
 ## TypeScript
 
