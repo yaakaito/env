@@ -76,6 +76,7 @@ jobs:
 - Prefer `${{ github.token }}` over PAT when possible
 - Avoid emoji in workflow names and step names
 - Use `$GITHUB_STEP_SUMMARY` to output execution results in Markdown format
+- Avoid obvious comments; only add comments to explain complex logic
 
 ## Step Summary Example
 
