@@ -34,5 +34,7 @@ npm install -g @anthropic-ai/claude-code
 claude plugin marketplace add yaakaito/env
 claude plugin install dev-plan@yaakaito-env
 claude plugin install base@yaakaito-env
+claude plugin install typescript-lsp@claude-plugins-official
+npm install -g typescript-language-server typescript
 
 npm install -g @openai/codex
