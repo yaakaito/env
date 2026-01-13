@@ -1,6 +1,7 @@
 {
     "env": {
-        "MAX_THINKING_TOKENS": "31999"
+        "MAX_THINKING_TOKENS": "31999",
+        "ENABLE_LSP_TOOL": "1"
     },
     "permissions": {
         "allow": [
