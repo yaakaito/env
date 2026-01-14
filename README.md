@@ -96,3 +96,4 @@ npx tiged yaakaito/env/devcontainers/bun .devcontainer
 ### その他
 - セットアップスクリプトは冪等性があり、複数回実行しても安全です
 - VS CodeがGitの可視化、リンティング、AI支援のための拡張機能を含む主要エディタとして設定されます
+- `claude --plugin-dir` でプラグインをテストできます
