@@ -1,5 +1,6 @@
 {
     "image": "mcr.microsoft.com/devcontainers/base:1",
+    "initializeCommand": "mkdir -p ${localEnv:HOME}/.local/share/devcontainer/${devcontainerId} && touch ${localEnv:HOME}/.local/share/devcontainer/${devcontainerId}/.zsh_history",
     "containerEnv": {
         "TZ": "Asia/Tokyo"
     },
@@ -13,5 +14,6 @@
                 "github.copilot"
             ]
         }
-    }
+    },
+    "mounts": ["source=${localEnv:HOME}/.local/share/devcontainer/${devcontainerId}/.zsh_history,target=/home/vscode/.zsh_history,type=bind"]
 }
