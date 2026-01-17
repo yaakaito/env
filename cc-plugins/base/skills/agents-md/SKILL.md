@@ -40,10 +40,9 @@ Coding principles to follow. **Use these defaults as-is; append project-specific
 
 ```markdown
 ## Core Principles
-- Correspond to the current codebase, data, and terminology over theory or general practices; always review thoroughly
+- Prefer existing patterns and terminology over general best practices
 - Avoid adding new dependencies unless necessary; remove when possible
-- Follow clean code principles (simplicity, clarity, descriptive names, remove unused code)
-- Follow Conventional Commits for commit messages unless otherwise instructed
+- Follow Conventional Commits for commit messages
 ```
 
 ### 5. Commands
@@ -63,10 +62,9 @@ Testing strategy and policies (not commands). **Use these defaults as-is; append
 
 ```markdown
 ## Testing
-- Prefer integration tests over unit tests; write unit tests to cover edge cases
-- Do not use mocks by default; use them only for external communication or resource fetching
-- Test names should follow the user's language
-- New features require corresponding tests
+- Prefer integration tests over unit tests
+- Use in-source testing for unit tests covering edge cases
+- Avoid mocks; use them only for external communication or resource fetching
 ```
 
 ### 7. Language Policy
@@ -74,12 +72,11 @@ Programming and natural language rules. **Use these defaults as-is; append proje
 
 ```markdown
 ## Language Policy
-- Follow the user's language by default (comments, commits, tests)
-- The following files must always be written in English:
+- Follow the user's language for comments, commits, and tests
+- Write the following files in English:
   - CLAUDE.md, AGENTS.md
-  - Files under .claude/
-  - Files under docs/agents/
-  - Files under .github/ (except comments)
+  - Files under `.claude/`
+  - Files under `.github/` (except comments)
 ```
 
 ### 8. Additional Resources
