@@ -27,7 +27,12 @@
             "Bash(rg:*)",
             "Bash(tail:*)",
             "Bash(xargs grep:*)",
-            "Read(~/.claude/commands/commit.md)"
+            "Read(~/.claude/commands/commit.md)",
+            "WebFetch(domain:github.com)",
+            "WebFetch(domain:docs.github.com)",
+            "WebFetch(domain:raw.githubusercontent.com)",
+            "WebFetch(domain:gist.github.com)",
+            "WebFetch(domain:gist.githubusercontent.com)"
         ]
     },
     "statusLine": {
