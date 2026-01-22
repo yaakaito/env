@@ -30,7 +30,8 @@ cp ./bin/resolve-gh-issue ~/.zsh/bin/resolve-gh-issue
 echo "source ~/.zsh/resolve-issue.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 mkdir -p ~/.cache
 
-npm install -g @anthropic-ai/claude-code
+curl -fsSL https://claude.ai/install.sh | bash
+
 claude plugin marketplace add yaakaito/env
 claude plugin install dev-plan@yaakaito-env
 claude plugin install base@yaakaito-env
