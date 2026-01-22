@@ -38,5 +38,6 @@ claude plugin install base@yaakaito-env
 claude plugin install typescript-lsp@claude-plugins-official
 npm install -g typescript-language-server typescript
 claude plugin install code-simplifier@claude-plugins-official
+claude plugin install frontend-design@claude-plugins-official
 
 npm install -g @openai/codex
