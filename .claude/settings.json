@@ -41,5 +41,6 @@
         "command": "~/.claude/status-line.sh",
         "padding": 0
     },
+    "respectGitignore": false,
     "alwaysThinkingEnabled": true
 }
