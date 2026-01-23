@@ -1,0 +1,17 @@
+{
+    "cSpell.words": [
+        "biomejs",
+        "codespaces",
+        "githubactions",
+        "rsbuild",
+        "rspack",
+        "turbopack",
+        "turborepo",
+    ],
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "quickfix.biome": "explicit",
+        "source.organizeImports.biome": "explicit"
+    }
+}
