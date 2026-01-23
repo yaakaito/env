@@ -41,7 +41,3 @@ zle -N peco-cdr
 bindkey '^s' peco-cdr
 
 alias -g lb='`git branch | peco --prompt "GIT BRANCH>" | head -n 1 | sed -e "s/^\*\s*//g"`'
-
-# git worktree list から選択して削除
-alias git-worktree-remove='git worktree list | peco --prompt "DELETE WORKTREE>" | awk "{print \$1}" | xargs -I {} git worktree remove {}'
-

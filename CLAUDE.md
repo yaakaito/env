@@ -15,7 +15,7 @@ env/
 │   └── skills/           # Codex skills directory
 ├── .config/git/          # Git ignore patterns
 ├── bin/                  # Executable scripts
-│   └── resolve-gh-issue  # GitHub Issue resolver CLI
+│   └── git-worktree-add  # Git worktree creation with Claude-powered branch naming
 ├── cc-plugins/           # Claude Code plugins
 │   ├── dev-plan/         # Spec-driven development workflow (includes adr-writer skill)
 │   ├── devtools/         # Chrome DevTools MCP integration
@@ -31,7 +31,6 @@ env/
 ├── .gitconfig            # Git user settings and aliases
 ├── git-worktree.zsh      # Git worktree management utilities
 ├── peco.zsh              # Interactive filtering for history and directory navigation
-├── resolve-issue.zsh     # GitHub Issue resolver shell integration
 ├── setup.sh              # Linux/WSL environment setup
 ├── setup-mac.sh          # macOS environment setup (with Oh My Zsh)
 └── vscode-extensions.zsh # Auto-install VS Code extensions on first run
@@ -58,3 +57,4 @@ env/
   - CLAUDE.md, AGENTS.md
   - Files under .claude/
   - Files under docs/agents/
+
