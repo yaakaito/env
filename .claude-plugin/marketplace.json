@@ -10,8 +10,8 @@
             "description": "Code Rabbit 関連"
         },
         {
-            "name": "dev-plan",
-            "source": "./cc-plugins/dev-plan",
+            "name": "spec",
+            "source": "./cc-plugins/spec",
             "description": "オレオレ仕様駆動開発"
         },
         {
