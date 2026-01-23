@@ -1,11 +1,12 @@
 # Usage
 
-1. Create a new repository with README.md
-2. Open in Codespaces or Dev Container
-3. Run this command in the terminal:
+1. Create a new repository
+2. Run the setup command:
 
 ```bash
-npx tiged yaakaito/env/devcontainers/deno .devcontainer
+curl -fsSL https://raw.githubusercontent.com/yaakaito/env/main/bin/setup-repository | bash -s -- deno
 ```
 
-4. Rebuild container
+Available templates: `deno`, `node-pnpm`, `bun`
+
+3. Open in Codespaces or rebuild Dev Container
