@@ -1,0 +1,43 @@
+#!/bin/bash
+set -euo pipefail
+
+REPO="yaakaito/env"
+TEMPLATES=("deno" "node-pnpm" "bun")
+
+# Parse arguments
+TEMPLATE="${1:-}"
+TARGET_DIR="${2:-.}"
+
+# Template selection (interactive if not provided)
+if [[ -z "$TEMPLATE" ]]; then
+  echo "Select devcontainer template:"
+  select TEMPLATE in "${TEMPLATES[@]}"; do
+    [[ -n "$TEMPLATE" ]] && break
+  done
+fi
+
+# Validate template
+if [[ ! " ${TEMPLATES[*]} " =~ " ${TEMPLATE} " ]]; then
+  echo "Error: Invalid template '${TEMPLATE}'. Choose from: ${TEMPLATES[*]}"
+  exit 1
+fi
+
+# Check for npx
+if ! command -v npx &> /dev/null; then
+  echo "Error: npx is required. Install Node.js first."
+  exit 1
+fi
+
+# Create target directory if needed
+if [[ "$TARGET_DIR" != "." ]] && [[ ! -d "$TARGET_DIR" ]]; then
+  mkdir -p "$TARGET_DIR"
+fi
+
+echo "Downloading ${TEMPLATE} template to ${TARGET_DIR}..."
+
+# Download using tiged
+npx tiged "${REPO}/devcontainers/${TEMPLATE}" "${TARGET_DIR}/.devcontainer" --force
+npx tiged "${REPO}/repository-template/.github" "${TARGET_DIR}/.github" --force
+npx tiged "${REPO}/repository-template/.vscode" "${TARGET_DIR}/.vscode" --force
+
+echo "Done! Rebuild your devcontainer to apply changes."
