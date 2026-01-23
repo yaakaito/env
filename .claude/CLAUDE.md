@@ -20,3 +20,5 @@
 - Focus commit messages on why the change was made
 - Commit messages must not include development phases or task numbers; only GitHub Issue numbers are allowed
 - Use `chore` instead of `refactor` when editing files under `.github/`
+- Use `git-worktree-add` instead of `git checkout -b` when starting new work
+  - Example: `git-worktree-add -b feature/login`

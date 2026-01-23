@@ -25,9 +25,7 @@ echo "source ~/.zsh/git-worktree.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 cp ./vscode-extensions.zsh ~/.zsh/vscode-extensions.zsh
 echo "source ~/.zsh/vscode-extensions.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 mkdir -p ~/.zsh/bin
-cp ./resolve-issue.zsh ~/.zsh/resolve-issue.zsh
-cp ./bin/resolve-gh-issue ~/.zsh/bin/resolve-gh-issue
-echo "source ~/.zsh/resolve-issue.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+cp ./bin/git-worktree-add ~/.zsh/bin/git-worktree-add
 mkdir -p ~/.cache
 
 curl -fsSL https://claude.ai/install.sh | bash
