@@ -2,3 +2,4 @@ memory-bank
 **/.claude/settings.local.json
 .dev-plans
 .worktrees
+.worktreerc
