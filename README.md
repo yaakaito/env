@@ -88,23 +88,31 @@ run:
 
 ## Devcontainerテンプレート
 
-プロジェクトに応じてdevcontainerテンプレートを適用できます：
+以下のコマンドでdevcontainer、GitHub Actions、VS Code設定を一括セットアップできます：
 
 ### Deno
 ```bash
-npx tiged yaakaito/env/devcontainers/deno .devcontainer
-npx tiged yaakaito/env/.github .github
-npx tiged yaakaito/env/.vscode .vscode
+curl -fsSL https://raw.githubusercontent.com/yaakaito/env/main/bin/setup-repository | bash -s -- deno
 ```
 
 ### Node.js with pnpm
 ```bash
-npx tiged yaakaito/env/devcontainers/node-pnpm .devcontainer
+curl -fsSL https://raw.githubusercontent.com/yaakaito/env/main/bin/setup-repository | bash -s -- node-pnpm
 ```
 
 ### Bun
 ```bash
-npx tiged yaakaito/env/devcontainers/bun .devcontainer
+curl -fsSL https://raw.githubusercontent.com/yaakaito/env/main/bin/setup-repository | bash -s -- bun
+```
+
+### 新規ディレクトリに作成
+```bash
+curl -fsSL https://raw.githubusercontent.com/yaakaito/env/main/bin/setup-repository | bash -s -- deno my-project
+```
+
+### 対話モード（テンプレート選択）
+```bash
+curl -fsSL https://raw.githubusercontent.com/yaakaito/env/main/bin/setup-repository | bash
 ```
 
 ## 注意事項
