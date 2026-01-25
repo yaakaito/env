@@ -283,7 +283,7 @@ run_commands() {
 }
 
 generate_suffix() {
-    head -c 3 /dev/urandom | xxd -p
+    tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 6
 }
 
 create_worktree() {
