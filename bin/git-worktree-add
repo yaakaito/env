@@ -119,9 +119,12 @@ parse_arguments() {
     done
 
     if [[ -z "$BRANCH_NAME" && -z "$DESCRIPTION" ]]; then
-        log_error "Either a description or -b/--branch is required"
-        show_help
-        exit 1
+        echo -n "Enter description: " >&2
+        read -r DESCRIPTION
+        if [[ -z "$DESCRIPTION" ]]; then
+            log_error "Description is required"
+            exit 1
+        fi
     fi
 }
 
