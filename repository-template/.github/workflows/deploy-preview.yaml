@@ -1,0 +1,115 @@
+name: Deploy Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  deploy:
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    # Uncomment if your app is in a subdirectory
+    # defaults:
+    #   run:
+    #     working-directory: packages/app
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Choose your package manager (uncomment one)
+      # Node.js with npm
+      # - uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 22
+      #     cache: npm
+      # - run: npm ci
+      # - run: npm run build
+
+      # Bun
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+
+      - name: Generate env name
+        id: env-name
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BRANCH_NAME="${{ github.head_ref }}"
+          else
+            BRANCH_NAME="${{ github.ref_name }}"
+          fi
+          ENV_HASH=$(echo -n "${BRANCH_NAME}" | sha256sum | cut -c1-8)
+          ENV_NAME="preview-${ENV_HASH}"
+          echo "branch_name=${BRANCH_NAME}" >> $GITHUB_OUTPUT
+          echo "env_name=${ENV_NAME}" >> $GITHUB_OUTPUT
+          echo "env_hash=${ENV_HASH}" >> $GITHUB_OUTPUT
+
+      # Cloudflare Workers deployment example
+      - name: Deploy to Cloudflare Workers
+        id: deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          ENV_NAME="${{ steps.env-name.outputs.env_name }}"
+          cp wrangler.toml wrangler.${ENV_NAME}.toml
+          OUTPUT=$(bun wrangler versions upload --config wrangler.${ENV_NAME}.toml --tag ${ENV_NAME} 2>&1)
+          echo "$OUTPUT"
+          PREVIEW_URL=$(echo "$OUTPUT" | grep -oP 'https://[^\s]+' | head -1)
+          echo "preview_url=${PREVIEW_URL}" >> $GITHUB_OUTPUT
+
+      # Alternative: Vercel deployment
+      # - name: Deploy to Vercel
+      #   id: deploy
+      #   env:
+      #     VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      #   run: |
+      #     PREVIEW_URL=$(npx vercel --token $VERCEL_TOKEN)
+      #     echo "preview_url=${PREVIEW_URL}" >> $GITHUB_OUTPUT
+
+      - name: Update PR body with preview URL
+        if: steps.deploy.outputs.preview_url
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            PR_NUMBER="${{ github.event.number }}"
+          else
+            PR_NUMBER=$(gh pr view --json number -q '.number' 2>/dev/null || echo "")
+          fi
+
+          if [ -z "${PR_NUMBER}" ]; then
+            echo "No PR found. Skipping update."
+            exit 0
+          fi
+
+          PREVIEW_URL="${{ steps.deploy.outputs.preview_url }}"
+
+          PREVIEW_SECTION="<!-- deploy-preview-start -->
+          ## Preview URLs
+
+          - Preview: ${PREVIEW_URL}
+          <!-- deploy-preview-end -->"
+
+          CURRENT_BODY=$(gh pr view ${PR_NUMBER} --json body -q '.body')
+
+          if echo "${CURRENT_BODY}" | grep -q "<!-- deploy-preview-start -->"; then
+            NEW_BODY=$(echo "${CURRENT_BODY}" | awk -v section="${PREVIEW_SECTION}" '
+              /<!-- deploy-preview-start -->/{skip=1; print section; next}
+              /<!-- deploy-preview-end -->/{skip=0; next}
+              !skip{print}
+            ')
+          else
+            NEW_BODY="${CURRENT_BODY}
+
+            ${PREVIEW_SECTION}"
+          fi
+
+          gh pr edit ${PR_NUMBER} --body "${NEW_BODY}"

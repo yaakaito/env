@@ -1,0 +1,35 @@
+name: Dependabot Auto-Merge
+
+on:
+    pull_request_target:
+        types: [opened, synchronize, reopened]
+
+permissions:
+    contents: write
+    pull-requests: write
+    issues: write
+    actions: read
+    id-token: write
+
+jobs:
+    auto-merge-all:
+        runs-on: ubuntu-latest
+        if: github.actor == 'dependabot[bot]'
+        steps:
+            - uses: actions/checkout@v5
+              with:
+                  persist-credentials: false
+            - name: Approve PR
+              env:
+                  GH_TOKEN: ${{ secrets.AI_USER_GH_TOKEN }}
+                  PR_URL: ${{ github.event.pull_request.html_url }}
+              run: |
+                  if [ "$(gh pr view ${{ github.event.pull_request.number }} --json reviewDecision -q .reviewDecision)" != "APPROVED" ]; then
+                    gh pr review --approve "$PR_URL" --body "Dependabot PRを自動承認しました。"
+                  fi
+
+            - name: Enable auto-merge
+              env:
+                  GH_TOKEN: ${{ secrets.AI_USER_GH_TOKEN }}
+              run: |
+                  gh pr merge --auto --squash --delete-branch ${{ github.event.pull_request.number }}

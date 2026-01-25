@@ -1,0 +1,85 @@
+name: Claude Automate with CodeRabbit Plan
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  # Step 1: Check the "Create Plan" checkbox to trigger CodeRabbit plan generation
+  trigger-plan-creation:
+    if: |
+      contains(github.event.issue.labels.*.name, 'ai-automate:claude') &&
+      github.event.comment.user.login == 'coderabbitai[bot]' &&
+      contains(github.event.comment.body, 'CodeRabbit Plan Mode') &&
+      contains(github.event.comment.body, '- [ ]')
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Check Create Plan checkbox
+        env:
+          GH_TOKEN: ${{ secrets.AI_USER_GH_TOKEN }}
+          COMMENT_ID: ${{ github.event.comment.id }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+        run: |
+          # Replace unchecked checkbox with checked
+          NEW_BODY="${COMMENT_BODY//- \[ \]/- [x]}"
+
+          # Update the comment via GitHub API
+          gh api \
+            repos/${{ github.repository }}/issues/comments/${COMMENT_ID} \
+            -X PATCH \
+            -f body="${NEW_BODY}"
+
+  # Step 2: Implement based on the generated plan
+  automate-from-plan:
+    if: |
+      github.event.comment.user.login == 'coderabbitai[bot]' &&
+      contains(github.event.comment.body, '## Coding Plan')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v5
+      - name: Create branch for issue
+        env:
+          GH_TOKEN: ${{ secrets.AI_USER_GH_TOKEN }}
+        run: |
+          BRANCH_NAME="claude/automate-coderabbit-${{ github.event.issue.number }}-$(date +%Y%m%d-%H%M)"
+          git checkout -b "$BRANCH_NAME"
+          git push -u origin "$BRANCH_NAME"
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ secrets.AI_USER_GH_TOKEN }}
+          allowed_bots: coderabbitai[bot]
+          prompt: |
+            Implement based on CodeRabbit's Coding Plan below.
+
+            Note: A branch named "${{ env.BRANCH_NAME }}" has already been created and checked out for this issue.
+
+            ## Language Policy
+
+            Use the same language as the issue for commits, PR title, and PR body.
+
+            ## CodeRabbit Coding Plan
+
+            ${{ github.event.comment.body }}
+
+            ## Workflow
+
+            1. Use mcp__github__get_issue to read the issue content for additional context
+            2. Read and understand the Coding Plan above carefully
+            3. Check CLAUDE.md for repository-specific guidelines
+            4. Implement following the plan's phases and tasks in order
+            5. Commit and push changes to the current branch
+               - Include Co-authored-by: ${{ github.event.issue.user.login }} <${{ github.event.issue.user.id }}+${{ github.event.issue.user.login }}@users.noreply.github.com>
+            6. Read .claude/skills/pr-template/SKILL.md for PR template, then create PR with mcp__github__create_pull_request
+            7. Add "ai-automate:claude" label to the created PR
+            8. Comment the PR URL to the issue using: gh issue comment ${{ github.event.issue.number }} --body "Created PR: [PR_URL]"
+          claude_args: |
+            --allowedTools "Skill(*),Bash,Write,Edit,Read,Glob,Grep,Task,mcp__github__get_issue,mcp__github__list_issue_comments,mcp__github_comment__update_claude_comment,mcp__github__create_branch,mcp__github__create_pull_request,mcp__github__update_issue,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh issue comment:*)"
