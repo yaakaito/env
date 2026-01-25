@@ -1,0 +1,50 @@
+name: AI Automate
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  automate-issue:
+    if: github.event.label.name == 'ai-automate:claude'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v5
+      - name: Create branch for issue
+        env:
+          GH_TOKEN: ${{ secrets.AI_USER_GH_TOKEN }}
+        run: |
+          BRANCH_NAME="claude/automate-${{ github.event.issue.number }}-$(date +%Y%m%d-%H%M)"
+          git checkout -b "$BRANCH_NAME"
+          git push -u origin "$BRANCH_NAME"
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ secrets.AI_USER_GH_TOKEN }}
+          prompt: |
+            Read the issue and implement the requested changes.
+
+            Note: A branch named "${{ env.BRANCH_NAME }}" has already been created and checked out for this issue.
+
+            ## Language Policy
+
+            Use the same language as the issue for commits, PR title, and PR body.
+
+            ## Workflow
+
+            1. Use mcp__github__get_issue to read and understand the issue
+            2. Check CLAUDE.md for repository-specific guidelines
+            3. Implement the changes
+            4. Commit and push changes to the current branch
+               - Include Co-authored-by: ${{ github.event.issue.user.login }} <${{ github.event.issue.user.id }}+${{ github.event.issue.user.login }}@users.noreply.github.com>
+            5. Read .claude/skills/pr-template/SKILL.md for PR template, then create PR with mcp__github__create_pull_request
+            6. Add "ai-automate:claude" label to the created PR
+            7. Comment the PR URL to the issue using: gh issue comment ${{ github.event.issue.number }} --body "Created PR: [PR_URL]"
+          claude_args: |
+            --allowedTools "Skill(*),Bash,Write,Edit,Read,Glob,Grep,Task,mcp__github__get_issue,mcp__github_comment__update_claude_comment,mcp__github__create_branch,mcp__github__create_pull_request,mcp__github__update_issue,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh issue comment:*)"
