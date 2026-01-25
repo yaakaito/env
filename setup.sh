@@ -2,13 +2,12 @@
 
 sudo apt update && sudo apt install peco
 
-cp ./.gitconfig ~/.gitconfig
+cp ./dotfiles/.gitconfig ~/.gitconfig
 mkdir -p ~/.config/git
-cp ./.config/git/ignore ~/.config/git/ignore
-cp -r ./.claude ~/.claude
-cp -r ./.codex ~/.codex
-cp -r ./cc-plugins/dev-plan/skills/adr-writer ~/.codex/skills/adr-writer
-cp -r ./cc-plugins/base/skills/frontend-design ~/.codex/skills/frontend-design
+cp ./dotfiles/.config/git/ignore ~/.config/git/ignore
+cp -r ./dotfiles/.claude ~/.claude
+cp -r ./dotfiles/.codex ~/.codex
+cp -r ./dotfiles/.claude/skills/adr-writer ~/.codex/skills/adr-writer
 
 mkdir -p ~/.zsh
 
@@ -18,21 +17,20 @@ echo "source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ${ZSOTDIR:-$
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
 echo "source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 
-cp ./peco.zsh ~/.zsh/peco.zsh
+cp ./dotfiles/zsh/peco.zsh ~/.zsh/peco.zsh
 echo "source ~/.zsh/peco.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-cp ./git-worktree.zsh ~/.zsh/git-worktree.zsh
+cp ./dotfiles/zsh/git-worktree.zsh ~/.zsh/git-worktree.zsh
 echo "source ~/.zsh/git-worktree.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-cp ./vscode-extensions.zsh ~/.zsh/vscode-extensions.zsh
+cp ./dotfiles/zsh/vscode-extensions.zsh ~/.zsh/vscode-extensions.zsh
 echo "source ~/.zsh/vscode-extensions.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 mkdir -p ~/.zsh/bin
-cp ./bin/git-worktree-add ~/.zsh/bin/git-worktree-add
+cp ./dotfiles/zsh/bin/git-worktree-add ~/.zsh/bin/git-worktree-add
 mkdir -p ~/.cache
 
 curl -fsSL https://claude.ai/install.sh | bash
 
 claude plugin marketplace add yaakaito/env
-claude plugin install dev-plan@yaakaito-env
-claude plugin install base@yaakaito-env
+claude plugin install spec@yaakaito-env
 claude plugin install typescript-lsp@claude-plugins-official
 npm install -g typescript-language-server typescript
 claude plugin install code-simplifier@claude-plugins-official
