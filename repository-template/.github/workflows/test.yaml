@@ -1,0 +1,77 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    # Uncomment if your app is in a subdirectory
+    # defaults:
+    #   run:
+    #     working-directory: packages/app
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Choose your package manager (uncomment one)
+      # Node.js with npm
+      # - uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 22
+      #     cache: npm
+      # - run: npm ci
+      # - run: npm test
+
+      # Bun
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun test
+
+  # Uncomment to add lint job
+  # lint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: oven-sh/setup-bun@v2
+  #       with:
+  #         bun-version: latest
+  #     - run: bun install
+  #     - run: bun run lint
+
+  # Uncomment to add type check job
+  # typecheck:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: oven-sh/setup-bun@v2
+  #       with:
+  #         bun-version: latest
+  #     - run: bun install
+  #     - run: bun run typecheck
+
+  # Uncomment to add E2E test job
+  # e2e:
+  #   timeout-minutes: 60
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: oven-sh/setup-bun@v2
+  #       with:
+  #         bun-version: latest
+  #     - run: bun install
+  #     - run: bun playwright install --with-deps chromium
+  #     - run: bun run build
+  #     - run: bun run e2e
+  #
+  #     - uses: actions/upload-artifact@v4
+  #       if: always()
+  #       with:
+  #         name: playwright-report
+  #         path: playwright-report/
+  #         retention-days: 30
