@@ -1,5 +1,6 @@
 ## General
 
+- Respond in Japanese
 - Follow the system prompt's language setting for code, documentation, and Git Commit/PR messages
 - Do not commit until the user explicitly instructs you to do so
 - Use AskUserQuestion tool proactively when something is unclear

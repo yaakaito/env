@@ -57,7 +57,7 @@ env/
 
 ## Language Policy
 
-- Follow the user's language by default
+- Follow the user's configured language by default, but adapt to match the surrounding code style and git log conventions when applicable
 - The following files must always be written in English:
   - CLAUDE.md, AGENTS.md
   - Files under dotfiles/.claude/
