@@ -14,8 +14,10 @@ git-worktree-add() {
 
 # Interactive remove with peco
 git-worktree-remove() {
+    local main_worktree
+    main_worktree=$(git worktree list --porcelain | grep -m1 '^worktree ' | sed 's/^worktree //')
     local selected
-    selected=$(git worktree list | peco --prompt "DELETE WORKTREE>")
+    selected=$(git worktree list | grep -v "^${main_worktree} " | peco --prompt "DELETE WORKTREE>")
     if [[ -n "$selected" ]]; then
         local worktree_path=$(echo "$selected" | awk '{print $1}')
         git worktree remove "$worktree_path"
