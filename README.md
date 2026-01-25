@@ -4,20 +4,10 @@
 
 ## セットアップ
 
-### Linux/WSL
-
 ```bash
 git clone git@github.com:yaakaito/env.git ~/.env
 cd ~/.env
 ./setup.sh
-```
-
-### macOS
-
-```bash
-git clone git@github.com:yaakaito/env.git ~/.env
-cd ~/.env
-./setup-mac.sh
 ```
 
 ## 機能

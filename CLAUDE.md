@@ -6,16 +6,8 @@ A dotfiles repository automatically executed by GitHub Codespaces and devcontain
 
 ```
 env/
-├── .claude/              # Claude Code settings and commands
-│   ├── commands/         # Custom slash commands (commit, reviews-fix, workflow-fix)
-│   ├── settings.json     # Claude Code settings
-│   └── CLAUDE.md         # Project-specific instructions
-├── .codex/               # OpenAI Codex settings
-│   ├── config.toml       # Codex configuration
-│   └── skills/           # Codex skills directory
-├── .config/git/          # Git ignore patterns
 ├── bin/                  # Executable scripts
-│   └── git-worktree-add  # Git worktree creation with Claude-powered branch naming
+│   └── setup-repository  # Download devcontainer templates via tiged
 ├── cc-plugins/           # Claude Code plugins
 │   ├── dev-plan/         # Spec-driven development workflow (includes adr-writer skill)
 │   ├── devtools/         # Chrome DevTools MCP integration
@@ -26,14 +18,23 @@ env/
 │   ├── node-pnpm/        # Node.js with pnpm
 │   └── bun/              # Bun runtime
 ├── docs/                 # Documentation
+├── dotfiles/             # User home directory configurations
+│   ├── .claude/          # Claude Code settings and commands
+│   │   ├── commands/     # Custom slash commands
+│   │   ├── settings.json # Claude Code settings
+│   │   └── CLAUDE.md     # User-wide instructions
+│   ├── .codex/           # OpenAI Codex settings
+│   ├── .config/git/      # Git ignore patterns
+│   ├── .gitconfig        # Git user settings and aliases
+│   └── zsh/              # Zsh configurations
+│       ├── peco.zsh      # Interactive filtering for history and directory navigation
+│       ├── git-worktree.zsh  # Git worktree management utilities
+│       ├── vscode-extensions.zsh  # Auto-install VS Code extensions
+│       └── bin/          # Zsh bin scripts
+│           └── git-worktree-add  # Git worktree creation with Claude-powered branch naming
 ├── raycast/              # Raycast integrations
 │   └── script-commands/  # Raycast script commands
-├── .gitconfig            # Git user settings and aliases
-├── git-worktree.zsh      # Git worktree management utilities
-├── peco.zsh              # Interactive filtering for history and directory navigation
-├── setup.sh              # Linux/WSL environment setup
-├── setup-mac.sh          # macOS environment setup (with Oh My Zsh)
-└── vscode-extensions.zsh # Auto-install VS Code extensions on first run
+└── setup.sh              # Linux/WSL environment setup
 ```
 
 - Setup scripts are idempotent and safe to run multiple times
@@ -55,6 +56,6 @@ env/
 - Follow the user's language by default
 - The following files must always be written in English:
   - CLAUDE.md, AGENTS.md
-  - Files under .claude/
+  - Files under dotfiles/.claude/
   - Files under docs/agents/
 
