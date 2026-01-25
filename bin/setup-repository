@@ -40,4 +40,9 @@ npx tiged "${REPO}/devcontainers/${TEMPLATE}" "${TARGET_DIR}/.devcontainer" --fo
 npx tiged "${REPO}/repository-template/.github" "${TARGET_DIR}/.github" --force
 npx tiged "${REPO}/repository-template/.vscode" "${TARGET_DIR}/.vscode" --force
 
+# Download README.md (skip if already exists)
+if [[ ! -f "${TARGET_DIR}/README.md" ]]; then
+  curl -fsSL "https://raw.githubusercontent.com/${REPO}/main/repository-template/README.md" -o "${TARGET_DIR}/README.md"
+fi
+
 echo "Done! Rebuild your devcontainer to apply changes."
