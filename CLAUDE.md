@@ -6,13 +6,14 @@ A dotfiles repository automatically executed by GitHub Codespaces and devcontain
 
 ```
 env/
+├── .claude-plugin/       # Plugin marketplace configuration
+│   └── marketplace.json  # Defines plugins available via `claude plugin marketplace add`
 ├── bin/                  # Executable scripts
 │   └── setup-repository  # Download devcontainer templates via tiged
 ├── cc-plugins/           # Claude Code plugins (marketplace)
 │   ├── spec/             # Spec-driven development workflow
 │   ├── devtools/         # Chrome DevTools MCP integration
-│   ├── coderabbit/       # CodeRabbit integration
-│   └── base/             # Base plugin (plugin.json only, commands/skills moved to dotfiles)
+│   └── coderabbit/       # CodeRabbit integration
 ├── devcontainers/        # Pre-configured devcontainer templates
 │   ├── deno/             # Deno runtime
 │   ├── node-pnpm/        # Node.js with pnpm
@@ -20,9 +21,10 @@ env/
 ├── docs/                 # Documentation
 ├── dotfiles/             # User home directory configurations
 │   ├── .claude/          # Claude Code settings and commands
-│   │   ├── commands/     # Custom slash commands
-│   │   ├── skills/       # Custom skills (adr-writer, agents-md, github-workflow, etc.)
+│   │   ├── commands/     # Slash commands (reviews-fix, workflow-fix, worktree-add, etc.)
+│   │   ├── skills/       # Skills (adr-writer, agents-md, github-workflow, github-workflow-fixer, github-pr-unresolved-review-fetcher)
 │   │   ├── settings.json # Claude Code settings
+│   │   ├── status-line.sh # Custom status line script
 │   │   └── CLAUDE.md     # User-wide instructions
 │   ├── .codex/           # OpenAI Codex settings
 │   ├── .config/git/      # Git ignore patterns
@@ -35,6 +37,7 @@ env/
 │           └── git-worktree-add  # Git worktree creation with Claude-powered branch naming
 ├── raycast/              # Raycast integrations
 │   └── script-commands/  # Raycast script commands
+├── repository-template/  # Template files for new repositories (used by bin/setup-repository)
 └── setup.sh              # Linux/WSL environment setup
 ```
 

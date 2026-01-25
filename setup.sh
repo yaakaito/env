@@ -30,8 +30,7 @@ mkdir -p ~/.cache
 curl -fsSL https://claude.ai/install.sh | bash
 
 claude plugin marketplace add yaakaito/env
-claude plugin install dev-plan@yaakaito-env
-claude plugin install base@yaakaito-env
+claude plugin install spec@yaakaito-env
 claude plugin install typescript-lsp@claude-plugins-official
 npm install -g typescript-language-server typescript
 claude plugin install code-simplifier@claude-plugins-official
