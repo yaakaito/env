@@ -119,9 +119,12 @@ parse_arguments() {
     done
 
     if [[ -z "$BRANCH_NAME" && -z "$DESCRIPTION" ]]; then
-        log_error "Either a description or -b/--branch is required"
-        show_help
-        exit 1
+        echo -n "Enter description: " >&2
+        read -r DESCRIPTION
+        if [[ -z "$DESCRIPTION" ]]; then
+            log_error "Description is required"
+            exit 1
+        fi
     fi
 }
 
@@ -168,11 +171,6 @@ find_git_root() {
 
     log_error "Not in a git repository"
     exit 1
-}
-
-find_git_common_dir() {
-    # Get the common git directory (handles worktrees correctly)
-    git rev-parse --git-common-dir 2>/dev/null
 }
 
 parse_worktreerc() {
@@ -284,35 +282,28 @@ run_commands() {
     done
 }
 
+generate_suffix() {
+    head -c 3 /dev/urandom | xxd -p
+}
+
 create_worktree() {
     local repo_root="$1"
     local branch_name="$2"
+    local suffix
+    suffix=$(generate_suffix)
+    local unique_branch="${branch_name}-${suffix}"
+    local worktree_dir="$repo_root/.worktrees/$unique_branch"
 
-    # Get the common git directory (handles worktrees correctly)
-    local git_common_dir
-    git_common_dir=$(find_git_common_dir)
+    # Create the .worktrees directory if it doesn't exist
+    mkdir -p "$repo_root/.worktrees"
 
-    local worktree_dir="$git_common_dir/working-trees/$branch_name"
+    # Prune stale worktree entries
+    git worktree prune
 
-    # Create the working-trees directory if it doesn't exist
-    mkdir -p "$git_common_dir/working-trees"
-
-    # Check if worktree already exists
-    if [[ -d "$worktree_dir" ]]; then
-        log_warning "Worktree already exists at: $worktree_dir"
-        log_info "Changing to existing worktree"
-        echo "$worktree_dir"
-        return 0
-    fi
-
-    # Check if branch exists (local or remote)
-    if git show-ref --verify --quiet "refs/heads/$branch_name" || \
-       git show-ref --verify --quiet "refs/remotes/origin/$branch_name"; then
-        log_info "Branch '$branch_name' exists. Creating worktree..."
-        git worktree add "$worktree_dir" "$branch_name"
-    else
-        log_info "Branch '$branch_name' does not exist. Creating from main..."
-        git worktree add "$worktree_dir" -b "$branch_name" main
+    log_info "Creating worktree for branch: $unique_branch"
+    if ! git worktree add "$worktree_dir" -b "$unique_branch" main; then
+        log_error "Failed to create worktree"
+        exit 1
     fi
 
     echo "$worktree_dir"
