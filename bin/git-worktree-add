@@ -170,11 +170,6 @@ find_git_root() {
     exit 1
 }
 
-find_git_common_dir() {
-    # Get the common git directory (handles worktrees correctly)
-    git rev-parse --git-common-dir 2>/dev/null
-}
-
 parse_worktreerc() {
     local rc_file="$1"
     local current_section=""
@@ -288,14 +283,10 @@ create_worktree() {
     local repo_root="$1"
     local branch_name="$2"
 
-    # Get the common git directory (handles worktrees correctly)
-    local git_common_dir
-    git_common_dir=$(find_git_common_dir)
+    local worktree_dir="$repo_root/.worktrees/$branch_name"
 
-    local worktree_dir="$git_common_dir/working-trees/$branch_name"
-
-    # Create the working-trees directory if it doesn't exist
-    mkdir -p "$git_common_dir/working-trees"
+    # Create the .worktrees directory if it doesn't exist
+    mkdir -p "$repo_root/.worktrees"
 
     # Check if worktree already exists
     if [[ -d "$worktree_dir" ]]; then
