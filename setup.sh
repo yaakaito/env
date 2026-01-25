@@ -31,9 +31,11 @@ curl -fsSL https://claude.ai/install.sh | bash
 
 claude plugin marketplace add yaakaito/env
 claude plugin install spec@yaakaito-env
+
+claude plugin marketplace add anthropics/claude-plugins-official
 claude plugin install typescript-lsp@claude-plugins-official
-npm install -g typescript-language-server typescript
 claude plugin install code-simplifier@claude-plugins-official
 claude plugin install frontend-design@claude-plugins-official
 
+npm install -g typescript-language-server typescript
 npm install -g @openai/codex
