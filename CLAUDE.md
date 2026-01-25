@@ -8,11 +8,11 @@ A dotfiles repository automatically executed by GitHub Codespaces and devcontain
 env/
 ├── bin/                  # Executable scripts
 │   └── setup-repository  # Download devcontainer templates via tiged
-├── cc-plugins/           # Claude Code plugins
-│   ├── dev-plan/         # Spec-driven development workflow (includes adr-writer skill)
+├── cc-plugins/           # Claude Code plugins (marketplace)
+│   ├── spec/             # Spec-driven development workflow
 │   ├── devtools/         # Chrome DevTools MCP integration
 │   ├── coderabbit/       # CodeRabbit integration
-│   └── base/             # Basic skills (frontend-design, agents-md)
+│   └── base/             # Base plugin (plugin.json only, commands/skills moved to dotfiles)
 ├── devcontainers/        # Pre-configured devcontainer templates
 │   ├── deno/             # Deno runtime
 │   ├── node-pnpm/        # Node.js with pnpm
@@ -21,6 +21,7 @@ env/
 ├── dotfiles/             # User home directory configurations
 │   ├── .claude/          # Claude Code settings and commands
 │   │   ├── commands/     # Custom slash commands
+│   │   ├── skills/       # Custom skills (adr-writer, agents-md, github-workflow, etc.)
 │   │   ├── settings.json # Claude Code settings
 │   │   └── CLAUDE.md     # User-wide instructions
 │   ├── .codex/           # OpenAI Codex settings
