@@ -7,8 +7,7 @@ mkdir -p ~/.config/git
 cp ./dotfiles/.config/git/ignore ~/.config/git/ignore
 cp -r ./dotfiles/.claude ~/.claude
 cp -r ./dotfiles/.codex ~/.codex
-cp -r ./cc-plugins/dev-plan/skills/adr-writer ~/.codex/skills/adr-writer
-cp -r ./cc-plugins/base/skills/frontend-design ~/.codex/skills/frontend-design
+cp -r ./dotfiles/.claude/skills/adr-writer ~/.codex/skills/adr-writer
 
 mkdir -p ~/.zsh
 
