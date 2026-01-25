@@ -6,7 +6,7 @@ git-worktree-add() {
     local worktree_path
     worktree_path=$("$WORKTREE_SCRIPT_DIR/bin/git-worktree-add" "$@")
     local exit_code=$?
-    if [[ $exit_code -eq 0 && -n "$worktree_path" ]]; then
+    if [[ $exit_code -eq 0 && -d "$worktree_path" ]]; then
         cd "$worktree_path"
     fi
     return $exit_code
