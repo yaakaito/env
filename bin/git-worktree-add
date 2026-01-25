@@ -301,7 +301,7 @@ create_worktree() {
     git worktree prune
 
     log_info "Creating worktree for branch: $unique_branch"
-    if ! git worktree add "$worktree_dir" -b "$unique_branch" main; then
+    if ! git worktree add "$worktree_dir" -b "$unique_branch" main >&2; then
         log_error "Failed to create worktree"
         exit 1
     fi
