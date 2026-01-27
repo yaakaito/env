@@ -186,10 +186,8 @@ parse_worktreerc() {
         [[ -z "${line// }" ]] && continue
 
         # Parse base-branch configuration
-        if [[ "$line" =~ ^base-branch:[[:space:]]*(.+)$ ]]; then
-            BASE_BRANCH="${BASH_REMATCH[1]}"
-            BASE_BRANCH="${BASE_BRANCH## }"  # Trim leading whitespace
-            BASE_BRANCH="${BASE_BRANCH%% }"  # Trim trailing whitespace
+        if [[ "$line" =~ ^[[:space:]]*base-branch:[[:space:]]*(.+)$ ]]; then
+            BASE_BRANCH="$(printf '%s' "${BASH_REMATCH[1]}" | xargs)"
             continue
         fi
 
