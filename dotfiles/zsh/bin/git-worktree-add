@@ -34,6 +34,7 @@ DESCRIPTION=""
 # Arrays for .worktreerc config
 declare -a COPY_FILES=()
 declare -a RUN_COMMANDS=()
+BASE_BRANCH="main"
 
 show_help() {
     cat << EOF
@@ -63,6 +64,8 @@ Configuration:
     Place a .worktreerc file in the repository root to customize behavior.
 
     Example .worktreerc (YAML format):
+        base-branch: main
+
         copy:
           - .env
           - .env.local
@@ -182,6 +185,14 @@ parse_worktreerc() {
         [[ "$line" =~ ^[[:space:]]*# ]] && continue
         [[ -z "${line// }" ]] && continue
 
+        # Parse base-branch configuration
+        if [[ "$line" =~ ^base-branch:[[:space:]]*(.+)$ ]]; then
+            BASE_BRANCH="${BASH_REMATCH[1]}"
+            BASE_BRANCH="${BASE_BRANCH## }"  # Trim leading whitespace
+            BASE_BRANCH="${BASE_BRANCH%% }"  # Trim trailing whitespace
+            continue
+        fi
+
         # Detect section headers
         if [[ "$line" =~ ^copy:[[:space:]]*$ ]]; then
             current_section="copy"
@@ -300,8 +311,8 @@ create_worktree() {
     # Prune stale worktree entries
     git worktree prune
 
-    log_info "Creating worktree for branch: $unique_branch"
-    if ! git worktree add "$worktree_dir" -b "$unique_branch" main >&2; then
+    log_info "Creating worktree for branch: $unique_branch (base: $BASE_BRANCH)"
+    if ! git worktree add "$worktree_dir" -b "$unique_branch" "$BASE_BRANCH" >&2; then
         log_error "Failed to create worktree"
         exit 1
     fi
