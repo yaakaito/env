@@ -222,18 +222,18 @@ detect_and_install_dependencies() {
 
     if [[ -f "$worktree_dir/bun.lockb" ]]; then
         log_info "Detected Bun, running bun install..."
-        (cd "$worktree_dir" && bun install)
+        (cd "$worktree_dir" && bun install) >&2
     elif [[ -f "$worktree_dir/pnpm-lock.yaml" ]]; then
         log_info "Detected pnpm, running pnpm install..."
-        (cd "$worktree_dir" && pnpm install)
+        (cd "$worktree_dir" && pnpm install) >&2
     elif [[ -f "$worktree_dir/package-lock.json" ]]; then
         log_info "Detected npm, running npm install..."
-        (cd "$worktree_dir" && npm install)
+        (cd "$worktree_dir" && npm install) >&2
     elif [[ -f "$worktree_dir/deno.json" ]] || [[ -f "$worktree_dir/deno.jsonc" ]]; then
         log_info "Detected Deno, skipping install (Deno handles dependencies automatically)"
     elif [[ -f "$worktree_dir/package.json" ]]; then
         log_info "Found package.json, using npm as fallback..."
-        (cd "$worktree_dir" && npm install)
+        (cd "$worktree_dir" && npm install) >&2
     else
         log_warning "No package manager configuration found, skipping dependency installation"
     fi
@@ -287,7 +287,7 @@ run_commands() {
 
     for cmd in "${RUN_COMMANDS[@]}"; do
         log_info "Running: $cmd"
-        (cd "$worktree_dir" && eval "$cmd")
+        (cd "$worktree_dir" && eval "$cmd") >&2
     done
 }
 
