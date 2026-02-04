@@ -1,26 +1,26 @@
 {
-    "build": { "dockerfile": "Dockerfile" },
-    "containerEnv": {
-        "TZ": "Asia/Tokyo"
-    },
-    "features": {
-        "ghcr.io/devcontainers/features/github-cli:1": {}
-    },
-    "customizations": {
-        "vscode": {
-            "settings": {
-                "editor.formatOnSave": true,
-                "editor.defaultFormatter": "denoland.vscode-deno",
-                "deno.enable": true,
-                "javascript.preferences.importModuleSpecifier": "relative",
-                "typescript.preferences.importModuleSpecifier": "relative"
-            },
-            "extensions": [
-                "github.copilot",
-                "github.vscode-github-actions",
-                "denoland.vscode-deno",
-                "streetsidesoftware.code-spell-checker"
-            ]
-        }
+  "build": { "dockerfile": "Dockerfile" },
+  "containerEnv": {
+    "TZ": "Asia/Tokyo"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "denoland.vscode-deno",
+        "deno.enable": true,
+        "javascript.preferences.importModuleSpecifier": "relative",
+        "typescript.preferences.importModuleSpecifier": "relative"
+      },
+      "extensions": [
+        "github.copilot",
+        "github.vscode-github-actions",
+        "denoland.vscode-deno",
+        "streetsidesoftware.code-spell-checker"
+      ]
     }
+  }
 }

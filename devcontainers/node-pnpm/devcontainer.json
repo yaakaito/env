@@ -1,11 +1,17 @@
 {
-    "build": { "dockerfile": "Dockerfile" },
-    "containerEnv": {
-        "TZ": "Asia/Tokyo"
-    },
-    "customizations": {
-        "vscode": {
-            "extensions": ["biomejs.biome", "github.copilot", "github.copilot-chat", "github.vscode-github-actions", "streetsidesoftware.code-spell-checker"]
-        }
+  "build": { "dockerfile": "Dockerfile" },
+  "containerEnv": {
+    "TZ": "Asia/Tokyo"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "biomejs.biome",
+        "github.copilot",
+        "github.copilot-chat",
+        "github.vscode-github-actions",
+        "streetsidesoftware.code-spell-checker"
+      ]
     }
+  }
 }

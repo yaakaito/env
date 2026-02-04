@@ -27,6 +27,7 @@ Claude への指示内容をここに記述します。
 ### 基本的なコマンドの作成
 
 #### 1. ファイル作成
+
 `.claude/commands/example.md` を作成：
 
 ```markdown
@@ -39,6 +40,7 @@ Please check the project structure and display the contents of README.md. Always
 ```
 
 #### 2. コマンド実行
+
 ```bash
 /example
 ```
@@ -67,6 +69,7 @@ Execute tests and generate a report following these steps:
 4. Save test result summary to `reports/test-summary.md`
 
 The report should include:
+
 - Number of tests executed
 - Number of successes/failures
 - Details of failed tests
@@ -130,20 +133,21 @@ Check if the development environment is properly set up:
 
 3. **Results Report**
    Display results in the following format:
-   
+
 Always provide output in English.
-   ```
-   ## 環境確認結果
-   
-   ### ✅ 正常な項目
-   - [項目名]: [状態]
-   
-   ### ⚠️ 要確認項目
-   - [項目名]: [問題内容]
-   
-   ### ❌ エラー項目
-   - [項目名]: [エラー内容]
-   ```
+
+```
+## 環境確認結果
+
+### ✅ 正常な項目
+- [項目名]: [状態]
+
+### ⚠️ 要確認項目
+- [項目名]: [問題内容]
+
+### ❌ エラー項目
+- [項目名]: [エラー内容]
+```
 ````
 
 ## allowed-tools の設定
@@ -175,19 +179,25 @@ allowed-tools: Bash(npm:*), Bash(node:*), Bash(yarn:*)
 このリポジトリには以下の既存コマンドがあります：
 
 ### `commit.md`
+
 Conventional Commits 形式でのコミット作成
+
 ```yaml
 allowed-tools: [Git操作のみ]
 ```
 
 ### `reviews-fix.md`
+
 GitHub PR コメントに基づく自動修正
+
 ```yaml
 allowed-tools: Bash(gh pr view), Bash(gh api:*)
 ```
 
 ### `workflow-fix.md`
+
 GitHub Actions ワークフローの問題修正
+
 ```yaml
 allowed-tools: Bash(gh run list:*), Bash(gh run view:*)
 ```
@@ -195,50 +205,64 @@ allowed-tools: Bash(gh run list:*), Bash(gh run view:*)
 ## ベストプラクティス
 
 ### 1. 明確な指示の記述
+
 - タスクの目的を明確に記述
 - 手順を番号付きリストで整理
 - 期待する出力形式を指定
 
 ### 2. エラーハンドリング
+
 ```markdown
 **エラー処理:**
+
 - ファイルが存在しない場合の対応
 - 権限エラーが発生した場合の代替手段
 - 予期しない結果の場合の報告方法
 ```
 
 ### 3. 出力形式の統一
+
 ```markdown
 **出力形式:**
 ```
+
 ## 実行結果
 
 ### 成功項目
+
 - [項目]: [結果]
 
 ### 警告項目
+
 - [項目]: [警告内容]
 
 ### エラー項目
+
 - [項目]: [エラー詳細]
+
 ```
+
 ```
 
 ### 4. ドキュメント化
+
 - コマンドの目的と使用場面を明記
 - 依存関係や前提条件を記載
 - 使用例を含める
 
 ### 5. 英語出力の徹底
+
 ````markdown
 **重要**: すべてのカスタムコマンドは必ず英語で出力を行う必要があります
 
 **推奨実装:**
+
 - プロンプト内に "Always provide output in English." を明記
 - 出力形式の例も英語で提供
 - エラーメッセージや警告も英語で表示
 
 **例:**
+
 ```
 Check the project status and provide a summary report.
 
@@ -255,16 +279,19 @@ Always provide output in English.
 ## トラブルシューティング
 
 ### コマンドが認識されない
+
 - ファイル名に `.md` 拡張子が付いているか確認
 - YAML フロントマターの形式が正しいか確認
 - `.claude/commands/` ディレクトリに配置されているか確認
 
 ### 権限エラーが発生する
+
 - `allowed-tools` の設定を確認
 - 必要な権限が適切に設定されているか確認
 - `.claude/settings.json` の permissions 設定を確認
 
 ### 期待通りに動作しない
+
 - 指示内容が具体的で明確か確認
 - 手順が論理的な順序で記述されているか確認
 - 出力形式の指定が適切か確認

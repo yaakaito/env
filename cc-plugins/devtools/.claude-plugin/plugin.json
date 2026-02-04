@@ -1,8 +1,8 @@
 {
-    "name": "devtools",
-    "description": "Chrome DevTools MCP 関連",
-    "version": "1.0.0",
-    "author": {
-       "name": "yaakaito"
-    }
+  "name": "devtools",
+  "description": "Chrome DevTools MCP 関連",
+  "version": "1.0.0",
+  "author": {
+    "name": "yaakaito"
+  }
 }

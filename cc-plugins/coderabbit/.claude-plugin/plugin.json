@@ -1,8 +1,8 @@
 {
-    "name": "coderabbit",
-    "description": "Code Rabbit 関連",
-    "version": "1.0.0",
-    "author": {
-       "name": "yaakaito"
-    }
+  "name": "coderabbit",
+  "description": "Code Rabbit 関連",
+  "version": "1.0.0",
+  "author": {
+    "name": "yaakaito"
+  }
 }

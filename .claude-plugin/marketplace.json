@@ -1,23 +1,23 @@
 {
-    "name": "yaakaito-env",
-    "owner": {
-        "name": "yaakaito"
+  "name": "yaakaito-env",
+  "owner": {
+    "name": "yaakaito"
+  },
+  "plugins": [
+    {
+      "name": "coderabbit",
+      "source": "./cc-plugins/coderabbit",
+      "description": "Code Rabbit 関連"
     },
-    "plugins": [
-        {
-            "name": "coderabbit",
-            "source": "./cc-plugins/coderabbit",
-            "description": "Code Rabbit 関連"
-        },
-        {
-            "name": "spec",
-            "source": "./cc-plugins/spec",
-            "description": "オレオレ仕様駆動開発"
-        },
-        {
-            "name": "devtools",
-            "source": "./cc-plugins/devtools",
-            "description": "Chrome DevTools MCP 関連"
-        }
-    ]
+    {
+      "name": "spec",
+      "source": "./cc-plugins/spec",
+      "description": "オレオレ仕様駆動開発"
+    },
+    {
+      "name": "devtools",
+      "source": "./cc-plugins/devtools",
+      "description": "Chrome DevTools MCP 関連"
+    }
+  ]
 }

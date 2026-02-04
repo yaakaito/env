@@ -28,21 +28,27 @@ Plain Markdown with no special syntax. No required fields - flexibility is a cor
 # AGENTS.md
 
 ## Project Overview
+
 [Brief description]
 
 ## Setup Commands
+
 [Dependency installation, dev server startup]
 
 ## Testing
+
 [How to run tests]
 
 ## Code Style
+
 [Coding conventions - though prefer linters]
 
 ## PR/Commit Conventions
+
 [Branch naming, commit message format]
 
 ## Security Considerations
+
 [Sensitive files, forbidden operations]
 ```
 
@@ -62,13 +68,13 @@ monorepo/
 
 ## Key Differences from CLAUDE.md
 
-| Feature | AGENTS.md | CLAUDE.md |
-|---------|-----------|-----------|
-| Import syntax | ❌ | ✅ (`@file`) |
-| Hierarchical memory | ❌ | ✅ (4 levels) |
-| Memory commands | ❌ | ✅ (`#`, `/memory`) |
-| Tool compatibility | 20+ tools | Claude Code only |
-| Adoption | 60,000+ projects | Claude Code users |
+| Feature             | AGENTS.md        | CLAUDE.md           |
+| ------------------- | ---------------- | ------------------- |
+| Import syntax       | ❌               | ✅ (`@file`)        |
+| Hierarchical memory | ❌               | ✅ (4 levels)       |
+| Memory commands     | ❌               | ✅ (`#`, `/memory`) |
+| Tool compatibility  | 20+ tools        | Claude Code only    |
+| Adoption            | 60,000+ projects | Claude Code users   |
 
 ## When to Use AGENTS.md
 

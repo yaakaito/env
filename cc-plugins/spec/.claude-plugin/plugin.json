@@ -1,8 +1,8 @@
 {
-    "name": "spec",
-    "description": "Specification-driven development workflow",
-    "version": "1.0.0",
-    "author": {
-       "name": "yaakaito"
-    }
+  "name": "spec",
+  "description": "Specification-driven development workflow",
+  "version": "1.0.0",
+  "author": {
+    "name": "yaakaito"
+  }
 }

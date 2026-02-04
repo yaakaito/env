@@ -6,19 +6,19 @@
 
 ### 必須
 
-| Secret | 説明 | 用途 |
-|--------|------|------|
-| `CLAUDE_CODE_OAUTH_TOKEN` | Claude Code の OAuth トークン | AI 自動化ワークフロー全般 |
-| `AI_USER_GH_TOKEN` | AI 用 GitHub Personal Access Token (PAT) | PR 作成・マージ、Issue 操作 |
+| Secret                    | 説明                                     | 用途                        |
+| ------------------------- | ---------------------------------------- | --------------------------- |
+| `CLAUDE_CODE_OAUTH_TOKEN` | Claude Code の OAuth トークン            | AI 自動化ワークフロー全般   |
+| `AI_USER_GH_TOKEN`        | AI 用 GitHub Personal Access Token (PAT) | PR 作成・マージ、Issue 操作 |
 
 ### デプロイ用（使用するサービスに応じて設定）
 
-| Secret | 説明 | 用途 |
-|--------|------|------|
+| Secret                 | 説明                    | 用途                            |
+| ---------------------- | ----------------------- | ------------------------------- |
 | `CLOUDFLARE_API_TOKEN` | Cloudflare API トークン | Cloudflare Workers へのデプロイ |
-| `VERCEL_TOKEN` | Vercel トークン | Vercel へのデプロイ |
-| `NETLIFY_AUTH_TOKEN` | Netlify 認証トークン | Netlify へのデプロイ |
-| `NETLIFY_SITE_ID` | Netlify サイト ID | Netlify へのデプロイ |
+| `VERCEL_TOKEN`         | Vercel トークン         | Vercel へのデプロイ             |
+| `NETLIFY_AUTH_TOKEN`   | Netlify 認証トークン    | Netlify へのデプロイ            |
+| `NETLIFY_SITE_ID`      | Netlify サイト ID       | Netlify へのデプロイ            |
 
 ## Secrets の取得方法
 
@@ -60,28 +60,28 @@ Dependabot が使用する secrets は、通常の Actions secrets とは別に�
 
 ### AI 自動化
 
-| ワークフロー | トリガー | 説明 |
-|-------------|---------|------|
-| `claude.yaml` | `@claude` メンション | Issue/PR で Claude に質問・依頼 |
-| `ai-automate.yaml` | `ai-automate:claude` ラベル | Issue から自動実装して PR 作成 |
-| `ai-automate-coderabbit-plan.yaml` | CodeRabbit Plan | CodeRabbit の計画に基づいて実装 |
-| `ai-fix-unresolved-review.yaml` | レビュー / `.fix-reviews` | 未解決のレビューコメントを自動修正 |
+| ワークフロー                       | トリガー                    | 説明                               |
+| ---------------------------------- | --------------------------- | ---------------------------------- |
+| `claude.yaml`                      | `@claude` メンション        | Issue/PR で Claude に質問・依頼    |
+| `ai-automate.yaml`                 | `ai-automate:claude` ラベル | Issue から自動実装して PR 作成     |
+| `ai-automate-coderabbit-plan.yaml` | CodeRabbit Plan             | CodeRabbit の計画に基づいて実装    |
+| `ai-fix-unresolved-review.yaml`    | レビュー / `.fix-reviews`   | 未解決のレビューコメントを自動修正 |
 
 ### CI/CD
 
-| ワークフロー | トリガー | 説明 |
-|-------------|---------|------|
-| `test.yaml` | push/PR to main | テスト実行 |
-| `deploy-preview.yaml` | PR / push (main 以外) | プレビュー環境にデプロイ |
-| `deploy.yaml` | workflow_dispatch | 本番環境にデプロイ |
-| `dependabot-auto-merge.yaml` | Dependabot PR | 依存関係更新の自動マージ |
+| ワークフロー                 | トリガー              | 説明                     |
+| ---------------------------- | --------------------- | ------------------------ |
+| `test.yaml`                  | push/PR to main       | テスト実行               |
+| `deploy-preview.yaml`        | PR / push (main 以外) | プレビュー環境にデプロイ |
+| `deploy.yaml`                | workflow_dispatch     | 本番環境にデプロイ       |
+| `dependabot-auto-merge.yaml` | Dependabot PR         | 依存関係更新の自動マージ |
 
 ## Issue テンプレート
 
-| テンプレート | ラベル | 説明 |
-|-------------|--------|------|
+| テンプレート     | ラベル               | 説明          |
+| ---------------- | -------------------- | ------------- |
 | `ai-automate.md` | `ai-automate:claude` | AI 自動実装用 |
-| `ai-planning.md` | `ai-planning` | AI 実装計画用 |
+| `ai-planning.md` | `ai-planning`        | AI 実装計画用 |
 
 ## カスタマイズ
 

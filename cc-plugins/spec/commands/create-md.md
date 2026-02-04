@@ -5,6 +5,7 @@ Create a specification document from the current context.
 - `$ARGUMENTS`: Target directory (optional)
 
 Examples:
+
 - `/spec:create-md` → Auto-detect directory
 - `/spec:create-md docs/specs` → Use specified directory
 
@@ -15,6 +16,7 @@ Examples:
 If `$ARGUMENTS` specifies a directory, use it.
 
 Otherwise, search in order:
+
 1. `specs/`
 2. `.specs/`
 3. `docs/specs/`
