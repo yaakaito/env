@@ -13,6 +13,7 @@ cd ~/.env
 ## 機能
 
 ### 1. シェル拡張機能
+
 - **peco**: コマンド履歴とディレクトリナビゲーションのインタラクティブフィルタリング
   - `Ctrl+R` - インタラクティブなコマンド履歴検索
   - `Ctrl+S` - 最近のディレクトリからのインタラクティブなディレクトリナビゲーション
@@ -42,11 +43,11 @@ git-worktree-remove
 
 #### オプション
 
-| オプション | 説明 |
-|-----------|------|
+| オプション     | 説明                                         |
+| -------------- | -------------------------------------------- |
 | `-b, --branch` | ブランチ名を直接指定（Claude生成をスキップ） |
-| `--no-deps` | 依存関係インストールをスキップ |
-| `--no-copy` | .envファイルのコピーをスキップ |
+| `--no-deps`    | 依存関係インストールをスキップ               |
+| `--no-copy`    | .envファイルのコピーをスキップ               |
 
 #### 設定ファイル (.worktreerc)
 
@@ -66,46 +67,67 @@ run:
 ```
 
 デフォルト動作（.worktreerc なし）：
+
 - コピー: `.env`, `packages/*/.env`, `apps/*/.env`
 - 実行: パッケージマネージャーを自動検出してインストール
 
 ### 3. VS Code拡張機能
+
 初回ターミナル起動時にVS Code拡張機能が自動インストールされます。
 
 ### 4. Git設定
+
 - Gitユーザー設定とエイリアス
 - 便利なGitエイリアス（`git co`, `git st`, `git sw`, `git ci`, `git push-force`）
+
+### 5. コードフォーマット
+
+[oxfmt](https://oxc.rs/docs/formatter.html)を使用。`.editorconfig`を自動検出するため設定ファイル不要。
+
+```bash
+# フォーマット実行
+bunx oxfmt
+
+# チェックのみ（CI用）
+bunx oxfmt --check
+```
 
 ## Devcontainerテンプレート
 
 以下のコマンドでdevcontainer、GitHub Actions、VS Code設定を一括セットアップできます：
 
 ### Deno
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/yaakaito/env/main/bin/setup-repository | bash -s -- deno
 ```
 
 ### Node.js with pnpm
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/yaakaito/env/main/bin/setup-repository | bash -s -- node-pnpm
 ```
 
 ### Bun
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/yaakaito/env/main/bin/setup-repository | bash -s -- bun
 ```
 
 ### 新規ディレクトリに作成
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/yaakaito/env/main/bin/setup-repository | bash -s -- deno my-project
 ```
 
 ### 対話モード（テンプレート選択）
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/yaakaito/env/main/bin/setup-repository | bash
 ```
 
 ## 注意事項
+
 - セットアップスクリプトは冪等性があり、複数回実行しても安全です
 - VS CodeがGitの可視化、リンティング、AI支援のための拡張機能を含む主要エディタとして設定されます
 - `claude --plugin-dir` でプラグインをテストできます

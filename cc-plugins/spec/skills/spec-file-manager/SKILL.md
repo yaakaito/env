@@ -39,6 +39,7 @@ YYYY-MM-DD-{slug}.md
 - **Extension**: Always `.md`
 
 Examples:
+
 - `2025-01-22-user-auth.md`
 - `2025-01-22-api-pagination.md`
 

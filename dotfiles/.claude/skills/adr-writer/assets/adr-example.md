@@ -14,6 +14,7 @@ Use bullet points when listing facts or issues:
 - [Fact 3]
 
 Issues:
+
 - [Challenge 1]
 - [Challenge 2]
 
@@ -37,14 +38,14 @@ Use pseudocode to illustrate concepts (not implementation-specific code):
 ```js
 // Pseudocode example
 async function handleRequest(request) {
-  const cached = await cache.get(request)
+  const cached = await cache.get(request);
   if (cached) {
-    return cached
+    return cached;
   }
 
-  const response = await fetch(origin)
-  await cache.put(request, response)
-  return response
+  const response = await fetch(origin);
+  await cache.put(request, response);
+  return response;
 }
 ```
 

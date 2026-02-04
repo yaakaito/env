@@ -5,6 +5,7 @@ Research a topic using WebSearch based on the current context.
 - `$ARGUMENTS`: Topic to research (default: "best practices")
 
 Examples:
+
 - `/spec:research` → Research best practices
 - `/spec:research security considerations` → Research security considerations
 - `/spec:research performance optimization` → Research performance optimization
@@ -36,18 +37,21 @@ Use **WebSearch** to research the topic (minimum 3 sources):
 ### Research: ${topic}
 
 | Category | Finding | Rationale | Source |
-|----------|---------|-----------|--------|
-| ... | ... | ... | ... |
+| -------- | ------- | --------- | ------ |
+| ...      | ...     | ...       | ...    |
 
 ### Applicability
 
 **Recommended:**
+
 - Findings that align well with current codebase
 
 **Consider:**
+
 - Findings that need evaluation
 
 **Not Recommended:**
+
 - Findings that don't fit current context
 
 ### Trade-offs

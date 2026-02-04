@@ -1,20 +1,20 @@
 {
-    "image": "mcr.microsoft.com/devcontainers/base:1",
-    "initializeCommand": "mkdir -p ${localEnv:HOME}/.local/share/devcontainer/${devcontainerId} && touch ${localEnv:HOME}/.local/share/devcontainer/${devcontainerId}/.zsh_history",
-    "containerEnv": {
-        "TZ": "Asia/Tokyo"
-    },
-    "features": {
-        "ghcr.io/devcontainers/features/node:1": {},
-        "ghcr.io/shyim/devcontainers-features/bun:0": {},
-        "ghcr.io/devcontainers/features/github-cli:1": {}
-    },
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "github.copilot"
-            ]
-        }
-    },
-    "mounts": ["source=${localEnv:HOME}/.local/share/devcontainer/${devcontainerId}/.zsh_history,target=/home/vscode/.zsh_history,type=bind"]
+  "image": "mcr.microsoft.com/devcontainers/base:1",
+  "initializeCommand": "mkdir -p ${localEnv:HOME}/.local/share/devcontainer/${devcontainerId} && touch ${localEnv:HOME}/.local/share/devcontainer/${devcontainerId}/.zsh_history",
+  "containerEnv": {
+    "TZ": "Asia/Tokyo"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/shyim/devcontainers-features/bun:0": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["github.copilot"]
+    }
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/.local/share/devcontainer/${devcontainerId}/.zsh_history,target=/home/vscode/.zsh_history,type=bind"
+  ]
 }

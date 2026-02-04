@@ -25,7 +25,7 @@ docs/adr/
 
 ### Structure
 
-````markdown
+```markdown
 # Title (in English)
 
 ## Status
@@ -68,7 +68,7 @@ However, avoid creating too many sub-sections unnecessarily. Use tables or Merma
 ### References
 
 - Related ADRs and external resources
-````
+```
 
 ## Creation Steps
 

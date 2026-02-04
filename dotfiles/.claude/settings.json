@@ -1,51 +1,51 @@
 {
-    "language": "japanese",
-    "env": {
-        "MAX_THINKING_TOKENS": "31999",
-        "ENABLE_LSP_TOOL": "1"
-    },
-    "permissions": {
-        "allow": [
-            "Bash(cat:*)",
-            "Bash(cp:*)",
-            "Bash(find:*)",
-            "Bash(head:*)",
-            "Bash(gh api:*)",
-            "Bash(gh issue create:*)",
-            "Bash(gh issue edit:*)",
-            "Bash(gh pr diff:*)",
-            "Bash(gh pr list:*)",
-            "Bash(gh pr view:*)",
-            "Bash(git add:*)",
-            "Bash(git branch:*)",
-            "Bash(git fetch:*)",
-            "Bash(git log:*)",
-            "Bash(git pull)",
-            "Bash(git pull --rebase origin main)",
-            "Bash(git push)",
-            "Bash(git rebase origin/main)",
-            "Bash(git rm:*)",
-            "Bash(git stash:*)",
-            "Bash(grep:*)",
-            "Bash(ls:*)",
-            "Bash(mkdir:*)",
-            "Bash(mv:*)",
-            "Bash(rg:*)",
-            "Bash(tail:*)",
-            "Bash(xargs grep:*)",
-            "Read(~/.claude/commands/commit.md)",
-            "WebFetch(domain:github.com)",
-            "WebFetch(domain:docs.github.com)",
-            "WebFetch(domain:raw.githubusercontent.com)",
-            "WebFetch(domain:gist.github.com)",
-            "WebFetch(domain:gist.githubusercontent.com)"
-        ]
-    },
-    "statusLine": {
-        "type": "command",
-        "command": "~/.claude/status-line.sh",
-        "padding": 0
-    },
-    "respectGitignore": false,
-    "alwaysThinkingEnabled": true
+  "language": "japanese",
+  "env": {
+    "MAX_THINKING_TOKENS": "31999",
+    "ENABLE_LSP_TOOL": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(cp:*)",
+      "Bash(find:*)",
+      "Bash(head:*)",
+      "Bash(gh api:*)",
+      "Bash(gh issue create:*)",
+      "Bash(gh issue edit:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr view:*)",
+      "Bash(git add:*)",
+      "Bash(git branch:*)",
+      "Bash(git fetch:*)",
+      "Bash(git log:*)",
+      "Bash(git pull)",
+      "Bash(git pull --rebase origin main)",
+      "Bash(git push)",
+      "Bash(git rebase origin/main)",
+      "Bash(git rm:*)",
+      "Bash(git stash:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(rg:*)",
+      "Bash(tail:*)",
+      "Bash(xargs grep:*)",
+      "Read(~/.claude/commands/commit.md)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:docs.github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:gist.github.com)",
+      "WebFetch(domain:gist.githubusercontent.com)"
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/status-line.sh",
+    "padding": 0
+  },
+  "respectGitignore": false,
+  "alwaysThinkingEnabled": true
 }

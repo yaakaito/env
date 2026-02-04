@@ -50,15 +50,17 @@ After each round, update and display:
 ### Decisions Made
 
 | Category | Decision | Rationale |
-|----------|----------|-----------|
-| ... | ... | ... |
+| -------- | -------- | --------- |
+| ...      | ...      | ...       |
 
 ### Requirements
 
 **Functional:**
+
 - Requirement + acceptance criteria
 
 **Non-Functional:**
+
 - Requirement + metrics
 
 ### Open Questions
