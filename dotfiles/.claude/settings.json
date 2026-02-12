@@ -2,7 +2,8 @@
   "language": "japanese",
   "env": {
     "MAX_THINKING_TOKENS": "31999",
-    "ENABLE_LSP_TOOL": "1"
+    "ENABLE_LSP_TOOL": "1",
+    "ENABLE_TOOL_SEARCH": "true"
   },
   "permissions": {
     "allow": [
