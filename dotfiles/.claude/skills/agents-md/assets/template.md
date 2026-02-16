@@ -26,6 +26,7 @@ project/
 
 ## Core Principles
 
+- Do NOT maintain backward compatibility unless explicitly requested; break things boldly
 - Prefer existing patterns and terminology over general best practices
 - Avoid adding new dependencies unless necessary; remove when possible
 - Follow Conventional Commits for commit messages
