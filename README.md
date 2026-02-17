@@ -71,6 +71,27 @@ run:
 - コピー: `.env`, `packages/*/.env`, `apps/*/.env`
 - 実行: パッケージマネージャーを自動検出してインストール
 
+#### Claude Code ネイティブ機能との共存
+
+Claude Code Web/Desktop がワークツリーを自動作成する際は、カスタムスクリプトとは別に Claude Code ネイティブ機能が使用されます。
+
+**`.worktreeinclude`**: リポジトリルートに配置し、gitignore されたファイルを新しいワークツリーへコピーするパターンを指定します（gitignore 形式）。`.worktreerc` の `copy:` セクションと同等の機能を Claude Code ネイティブで実現します。
+
+```
+.env
+.env.local
+packages/*/.env
+apps/*/.env
+.claude/settings.local.json
+```
+
+**SessionStart フック**: `.claude/settings.json` の `SessionStart` フックにより、新規セッション開始時にパッケージマネージャーを自動検出して依存関係をインストールします。検出順序は `bun.lockb` → `pnpm-lock.yaml` → `package-lock.json` → `deno.json` → `package.json` です。
+
+**使い分けガイドライン**:
+
+- ターミナルから手動で worktree を作成する場合: `git-worktree-add` スクリプトを使用（AI ブランチ名生成、peco 連携あり）
+- Claude Code が自動的に worktree を作成する場合: `.worktreeinclude` と SessionStart フックが使用される
+
 ### 3. VS Code拡張機能
 
 初回ターミナル起動時にVS Code拡張機能が自動インストールされます。

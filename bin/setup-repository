@@ -41,7 +41,7 @@ npx tiged "${REPO}/repository-template/.github" "${TARGET_DIR}/.github" --force
 npx tiged "${REPO}/repository-template/.vscode" "${TARGET_DIR}/.vscode" --force
 
 # Download individual files from repository-template (skip if already exists)
-ROOT_FILES=("README.md" "CLAUDE.md" ".editorconfig" ".gitignore" ".env.example" "package.json" "bunfig.toml")
+ROOT_FILES=("README.md" "CLAUDE.md" ".editorconfig" ".gitignore" ".env.example" "package.json" "bunfig.toml" ".worktreeinclude")
 for FILE in "${ROOT_FILES[@]}"; do
   if [[ ! -f "${TARGET_DIR}/${FILE}" ]]; then
     echo "Downloading ${FILE}..."
