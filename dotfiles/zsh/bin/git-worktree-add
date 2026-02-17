@@ -5,7 +5,6 @@ set -euo pipefail
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
@@ -17,23 +16,13 @@ log_success() {
     echo -e "${GREEN}[SUCCESS]${NC} $1" >&2
 }
 
-log_warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1" >&2
-}
-
 log_error() {
     echo -e "${RED}[ERROR]${NC} $1" >&2
 }
 
 # Global variables
-NO_DEPS=false
-NO_COPY=false
 BRANCH_NAME=""
 DESCRIPTION=""
-
-# Arrays for .worktreerc config
-declare -a COPY_FILES=()
-declare -a RUN_COMMANDS=()
 BASE_BRANCH="main"
 
 show_help() {
@@ -41,7 +30,7 @@ show_help() {
 Usage: git-worktree-add <description> [options]
        git-worktree-add -b <branch_name> [options]
 
-Create a new git worktree with environment setup.
+Create a new git worktree.
 
 By default, Claude Code generates a branch name from the description.
 Use -b/--branch to specify a branch name directly.
@@ -51,29 +40,16 @@ Arguments:
 
 Options:
     -b, --branch   Specify branch name directly (skip Claude)
-    --no-deps      Skip running post-creation commands
-    --no-copy      Skip copying files
     -h, --help     Show this help message
 
 Examples:
     git-worktree-add "Add login feature"
     git-worktree-add "Fix typo in README"
-    git-worktree-add -b feature/login --no-deps
+    git-worktree-add -b feature/login
 
-Configuration:
-    Place a .worktreerc file in the repository root to customize behavior.
-
-    Example .worktreerc (YAML format):
-        base-branch: main
-
-        copy:
-          - .env
-          - .env.local
-          - packages/*/.env
-
-        run:
-          - npm install
-          - npm run build
+Notes:
+    - Dependency installation is handled automatically by Claude Code's SessionStart hook
+    - Gitignored files are copied via .worktreeinclude in the repository root
 
 Exit codes:
     0: Success (stdout contains worktree path)
@@ -91,14 +67,6 @@ parse_arguments() {
                 fi
                 BRANCH_NAME="$2"
                 shift 2
-                ;;
-            --no-deps)
-                NO_DEPS=true
-                shift
-                ;;
-            --no-copy)
-                NO_COPY=true
-                shift
                 ;;
             -h|--help)
                 show_help
@@ -176,121 +144,6 @@ find_git_root() {
     exit 1
 }
 
-parse_worktreerc() {
-    local rc_file="$1"
-    local current_section=""
-
-    while IFS= read -r line || [[ -n "$line" ]]; do
-        # Skip comments and empty lines
-        [[ "$line" =~ ^[[:space:]]*# ]] && continue
-        [[ -z "${line// }" ]] && continue
-
-        # Parse base-branch configuration
-        if [[ "$line" =~ ^[[:space:]]*base-branch:[[:space:]]*(.+)$ ]]; then
-            BASE_BRANCH="$(printf '%s' "${BASH_REMATCH[1]}" | xargs)"
-            continue
-        fi
-
-        # Detect section headers
-        if [[ "$line" =~ ^copy:[[:space:]]*$ ]]; then
-            current_section="copy"
-        elif [[ "$line" =~ ^run:[[:space:]]*$ ]]; then
-            current_section="run"
-        # Parse list items (  - value)
-        elif [[ "$line" =~ ^[[:space:]]+-[[:space:]]+(.*) ]]; then
-            local value="${BASH_REMATCH[1]}"
-            case "$current_section" in
-                copy) COPY_FILES+=("$value") ;;
-                run)  RUN_COMMANDS+=("$value") ;;
-            esac
-        fi
-    done < "$rc_file"
-}
-
-set_defaults() {
-    # Default copy patterns
-    COPY_FILES=(".env" "packages/*/.env" "apps/*/.env")
-
-    # Default run command: auto-detect package manager
-    RUN_COMMANDS=()
-}
-
-detect_and_install_dependencies() {
-    local worktree_dir="$1"
-
-    log_info "Detecting package manager and installing dependencies..."
-
-    if [[ -f "$worktree_dir/bun.lockb" ]]; then
-        log_info "Detected Bun, running bun install..."
-        (cd "$worktree_dir" && bun install) >&2
-    elif [[ -f "$worktree_dir/pnpm-lock.yaml" ]]; then
-        log_info "Detected pnpm, running pnpm install..."
-        (cd "$worktree_dir" && pnpm install) >&2
-    elif [[ -f "$worktree_dir/package-lock.json" ]]; then
-        log_info "Detected npm, running npm install..."
-        (cd "$worktree_dir" && npm install) >&2
-    elif [[ -f "$worktree_dir/deno.json" ]] || [[ -f "$worktree_dir/deno.jsonc" ]]; then
-        log_info "Detected Deno, skipping install (Deno handles dependencies automatically)"
-    elif [[ -f "$worktree_dir/package.json" ]]; then
-        log_info "Found package.json, using npm as fallback..."
-        (cd "$worktree_dir" && npm install) >&2
-    else
-        log_warning "No package manager configuration found, skipping dependency installation"
-    fi
-}
-
-copy_files() {
-    local repo_root="$1"
-    local worktree_dir="$2"
-
-    log_info "Copying files..."
-
-    for pattern in "${COPY_FILES[@]}"; do
-        # Use nullglob to handle no matches
-        shopt -s nullglob
-
-        local matched_files=("$repo_root"/$pattern)
-
-        if [[ ${#matched_files[@]} -eq 0 ]]; then
-            continue
-        fi
-
-        for src_file in "${matched_files[@]}"; do
-            if [[ -f "$src_file" ]]; then
-                # Calculate relative path from repo root
-                local rel_path="${src_file#$repo_root/}"
-                local dest_file="$worktree_dir/$rel_path"
-                local dest_dir="$(dirname "$dest_file")"
-
-                # Create destination directory if needed
-                if [[ -d "$dest_dir" ]]; then
-                    cp "$src_file" "$dest_file"
-                    log_success "Copied: $rel_path"
-                fi
-            fi
-        done
-
-        shopt -u nullglob
-    done
-}
-
-run_commands() {
-    local worktree_dir="$1"
-
-    if [[ ${#RUN_COMMANDS[@]} -eq 0 ]]; then
-        # No custom commands, use auto-detection
-        detect_and_install_dependencies "$worktree_dir"
-        return
-    fi
-
-    log_info "Running post-creation commands..."
-
-    for cmd in "${RUN_COMMANDS[@]}"; do
-        log_info "Running: $cmd"
-        (cd "$worktree_dir" && eval "$cmd") >&2
-    done
-}
-
 generate_suffix() {
     tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 6
 }
@@ -335,33 +188,9 @@ main() {
     repo_root=$(find_git_root)
     log_success "Found git repository at: $repo_root"
 
-    # Parse .worktreerc or set defaults
-    local rc_file="$repo_root/.worktreerc"
-    if [[ -f "$rc_file" ]]; then
-        log_info "Found .worktreerc, parsing configuration..."
-        parse_worktreerc "$rc_file"
-    else
-        log_info "No .worktreerc found, using defaults"
-        set_defaults
-    fi
-
     # Create worktree
     local worktree_dir
     worktree_dir=$(create_worktree "$repo_root" "$BRANCH_NAME")
-
-    # Copy files
-    if [[ "$NO_COPY" != true ]]; then
-        copy_files "$repo_root" "$worktree_dir"
-    else
-        log_info "Skipping file copy (--no-copy)"
-    fi
-
-    # Run commands
-    if [[ "$NO_DEPS" != true ]]; then
-        run_commands "$worktree_dir"
-    else
-        log_info "Skipping post-creation commands (--no-deps)"
-    fi
 
     log_success "Worktree created successfully!"
 
