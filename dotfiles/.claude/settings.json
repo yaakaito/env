@@ -42,6 +42,18 @@
       "WebFetch(domain:gist.githubusercontent.com)"
     ]
   },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -f bun.lockb ]; then bun install; elif [ -f pnpm-lock.yaml ]; then pnpm install; elif [ -f package-lock.json ]; then npm install; fi"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "~/.claude/status-line.sh",
