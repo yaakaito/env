@@ -45,20 +45,6 @@ env/
 - Biome is the default formatter for JavaScript/TypeScript
 - Devcontainers include GitHub CLI and Asia/Tokyo timezone
 
-## Claude Code Worktree Integration
-
-Claude Code Web/Desktop uses native features for worktree management, which coexist with the custom `git-worktree-add` script.
-
-**`.worktreeinclude`**: Located at the repository root, specifies which gitignored files to copy into new worktrees (gitignore pattern syntax). When Claude Code creates a worktree, it copies matching files automatically.
-
-**SessionStart hook** (`dotfiles/.claude/settings.json`): Triggers on new session start to auto-install dependencies. Detection order: `bun.lockb` → `pnpm-lock.yaml` → `package-lock.json` → `deno.json`/`deno.jsonc` → `package.json` (fallback).
-
-Workflow when Claude Code creates a worktree:
-
-1. Claude Code creates the worktree
-2. Files matching `.worktreeinclude` patterns are copied from the main worktree
-3. On session start, the SessionStart hook detects the package manager and runs install
-
 ## Core Principles
 
 - Correspond to the current codebase, data, and terminology over theory or general practices; always review thoroughly
