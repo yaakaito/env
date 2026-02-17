@@ -1,0 +1,5 @@
+.env
+.env.local
+packages/*/.env
+apps/*/.env
+.claude/settings.local.json
