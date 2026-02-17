@@ -24,3 +24,19 @@ git-worktree-remove() {
         echo "Removed: $worktree_path"
     fi
 }
+
+# Checkout a branch from worktree into the current workspace
+# Removes the worktree and switches to its branch
+git-worktree-checkout() {
+    local main_worktree
+    main_worktree=$(git worktree list --porcelain | grep -m1 '^worktree ' | sed 's/^worktree //')
+    local selected
+    selected=$(git worktree list | grep -v "^${main_worktree} " | peco --prompt "CHECKOUT WORKTREE BRANCH>")
+    if [[ -n "$selected" ]]; then
+        local worktree_path=$(echo "$selected" | awk '{print $1}')
+        local branch=$(echo "$selected" | sed 's/.*\[//' | sed 's/\]//')
+        git worktree remove "$worktree_path" && \
+        git switch "$branch" && \
+        echo "Switched to branch: $branch"
+    fi
+}
