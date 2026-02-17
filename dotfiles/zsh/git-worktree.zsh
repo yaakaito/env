@@ -54,8 +54,8 @@ git-worktree-checkout() {
         # Use tab as delimiter to handle paths with spaces
         local worktree_path=${selected%%$'\t'*}
         local branch_field=${selected#*$'\t'}
-        local branch=${branch_field#[}
-        branch=${branch%]}
+        local branch=${branch_field#\[}
+        branch=${branch%\]}
         if [[ -z "$branch" || "$branch" == "(detached HEAD)" ]]; then
             echo "Error: Selected worktree is in detached HEAD state"
             return 1
