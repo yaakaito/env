@@ -77,7 +77,7 @@ Claude Code Web/Desktop がワークツリーを自動作成する際は、カ�
 
 **`.worktreeinclude`**: リポジトリルートに配置し、gitignore されたファイルを新しいワークツリーへコピーするパターンを指定します（gitignore 形式）。`.worktreerc` の `copy:` セクションと同等の機能を Claude Code ネイティブで実現します。
 
-```
+```text
 .env
 .env.local
 packages/*/.env
