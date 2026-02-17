@@ -17,7 +17,7 @@ _git-worktree-select() {
     local prompt="${1:-SELECT WORKTREE>}"
     local main_worktree
     main_worktree=$(git worktree list --porcelain | grep -m1 '^worktree ' | sed 's/^worktree //')
-    git worktree list | grep -v "^${main_worktree} " | peco --prompt "$prompt"
+    git worktree list | awk -v mw="$main_worktree" '$1 != mw' | peco --prompt "$prompt"
 }
 
 # Interactive remove with peco
@@ -26,8 +26,12 @@ git-worktree-remove() {
     selected=$(_git-worktree-select "DELETE WORKTREE>")
     if [[ -n "$selected" ]]; then
         local worktree_path=$(echo "$selected" | awk '{print $1}')
-        git worktree remove "$worktree_path"
-        echo "Removed: $worktree_path"
+        if git worktree remove "$worktree_path"; then
+            echo "Removed: $worktree_path"
+        else
+            echo "Failed to remove: $worktree_path" >&2
+            return 1
+        fi
     fi
 }
 
@@ -38,7 +42,7 @@ git-worktree-checkout() {
     selected=$(_git-worktree-select "CHECKOUT WORKTREE BRANCH>")
     if [[ -n "$selected" ]]; then
         local worktree_path=$(echo "$selected" | awk '{print $1}')
-        local branch=$(echo "$selected" | sed 's/.*\[//' | sed 's/\]//')
+        local branch=$(echo "$selected" | sed -nE 's/.*\[([^]]+)\].*/\1/p')
         if [[ -z "$branch" || "$selected" == *"(detached"* ]]; then
             echo "Error: Selected worktree is in detached HEAD state"
             return 1
