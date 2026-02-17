@@ -26,6 +26,7 @@ project/
 
 ## Core Principles
 
+- Do NOT maintain backward compatibility for internal code unless explicitly requested; prefer clean refactors over compatibility shims
 - Prefer existing patterns and terminology over general best practices
 - Avoid adding new dependencies unless necessary; remove when possible
 - Follow Conventional Commits for commit messages
