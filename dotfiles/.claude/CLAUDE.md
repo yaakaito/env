@@ -14,6 +14,10 @@
 - Practice TDD as advocated by Kent Beck and t_wada
 - Write tests first when building new features
 
+## Planning
+
+- After completing all steps in a planned task, run `/code-simplifier` as the final step
+
 ## Git
 
 - Follow Conventional Commits unless otherwise specified
