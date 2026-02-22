@@ -6,10 +6,10 @@ Research a topic using WebSearch based on the current context.
 
 Examples:
 
-- `/user:search-best-practices` → Research best practices
-- `/user:search-best-practices security considerations` → Research security considerations
-- `/user:search-best-practices performance optimization` → Research performance optimization
-- `/user:search-best-practices similar implementations` → Research similar implementations
+- `/user:research` → Research best practices
+- `/user:research security considerations` → Research security considerations
+- `/user:research performance optimization` → Research performance optimization
+- `/user:research similar implementations` → Research similar implementations
 
 ## Phase 1: Context Analysis (Silent)
 

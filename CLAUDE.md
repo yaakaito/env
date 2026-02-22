@@ -21,7 +21,7 @@ env/
 ├── docs/                 # Documentation
 ├── dotfiles/             # User home directory configurations
 │   ├── .claude/          # Claude Code settings and commands
-│   │   ├── commands/     # Slash commands (dig, discuss, search-best-practices, reviews-fix, workflow-fix, worktree-add, etc.)
+│   │   ├── commands/     # Slash commands (dig, discuss, research, reviews-fix, workflow-fix, worktree-add, etc.)
 │   │   ├── skills/       # Skills (adr-writer, agents-md, github-workflow, github-workflow-fixer, github-pr-unresolved-review-fetcher)
 │   │   ├── settings.json # Claude Code settings
 │   │   ├── status-line.sh # Custom status line script
