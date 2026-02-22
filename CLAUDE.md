@@ -21,8 +21,8 @@ env/
 ├── docs/                 # Documentation
 ├── dotfiles/             # User home directory configurations
 │   ├── .claude/          # Claude Code settings and commands
-│   │   ├── commands/     # Slash commands (dig, discuss, research, reviews-fix, workflow-fix, worktree-add, etc.)
-│   │   ├── skills/       # Skills (adr-writer, agents-md, github-workflow, github-workflow-fixer, github-pr-unresolved-review-fetcher)
+│   │   ├── commands/     # Slash commands (reviews-fix, workflow-fix, worktree-add, etc.)
+│   │   ├── skills/       # Skills (adr-writer, agents-md, dig, discuss, research, github-workflow, github-workflow-fixer, github-pr-unresolved-review-fetcher)
 │   │   ├── settings.json # Claude Code settings
 │   │   ├── status-line.sh # Custom status line script
 │   │   └── CLAUDE.md     # User-wide instructions

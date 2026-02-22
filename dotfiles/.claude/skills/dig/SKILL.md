@@ -1,3 +1,12 @@
+---
+name: dig
+description: Clarify ambiguous points through structured questioning. Use when requirements are unclear, context needs investigation, or decisions need to be made. Triggers on "dig into", "clarify requirements", "investigate options".
+user-invocable: true
+disable-model-invocation: true
+---
+
+# Dig
+
 Clarify ambiguous points in the current context through structured questioning.
 
 ## Core Behavior

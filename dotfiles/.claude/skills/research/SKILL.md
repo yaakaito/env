@@ -1,3 +1,12 @@
+---
+name: research
+description: Research a topic using WebSearch based on the current context. Use when the user needs best practices, external guidance, or wants to investigate approaches. Triggers on "research", "search best practices", "find examples".
+user-invocable: true
+disable-model-invocation: true
+---
+
+# Research
+
 Research a topic using WebSearch based on the current context.
 
 ## Arguments
@@ -6,10 +15,10 @@ Research a topic using WebSearch based on the current context.
 
 Examples:
 
-- `/user:research` → Research best practices
-- `/user:research security considerations` → Research security considerations
-- `/user:research performance optimization` → Research performance optimization
-- `/user:research similar implementations` → Research similar implementations
+- `/research` → Research best practices
+- `/research security considerations` → Research security considerations
+- `/research performance optimization` → Research performance optimization
+- `/research similar implementations` → Research similar implementations
 
 ## Phase 1: Context Analysis (Silent)
 
