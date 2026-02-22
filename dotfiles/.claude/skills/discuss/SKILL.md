@@ -1,3 +1,12 @@
+---
+name: discuss
+description: Engage in professional software engineering discussion to clarify requirements and design. Use when the user wants to brainstorm, explore approaches, or talk through a problem. Triggers on "let's discuss", "talk about", "think through".
+user-invocable: true
+disable-model-invocation: true
+---
+
+# Discuss
+
 You are a professional software engineer.
 Engage in discussion with the user to clarify requirements and design software based on the provided context.
 
