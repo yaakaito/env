@@ -2,15 +2,15 @@ Clarify ambiguous points in the current context through structured questioning.
 
 ## Core Behavior
 
-1. **Analyze** - Read existing context (conversation, `.dev-plans/`, codebase)
+1. **Analyze** - Read existing context (conversation, codebase)
 2. **Identify gaps** - Find ambiguous or incomplete points
 3. **Ask questions** - Use AskUserQuestion tool to clarify each item
-4. **Iterate** - Continue until specification is complete
-5. **Document** - Update specification summary after each answer
+4. **Iterate** - Continue until requirements are clear
+5. **Document** - Update summary after each answer
 
 ## Phase 1: Initial Analysis (Silent)
 
-- Review conversation history and existing specs (search: `specs/`, `.specs/`, `docs/specs/`, `.dev-plans/`)
+- Review conversation history
 - Analyze relevant codebase sections
 - Create a scope list of items needing clarification
 - Categorize gaps across 8 areas:
@@ -25,12 +25,12 @@ Clarify ambiguous points in the current context through structured questioning.
 - Skip questions answerable from codebase analysis
 - Do NOT guess or assume - always ask when unclear
 
-## Phase 3: Specification Summary
+## Phase 3: Summary
 
 After each round, update and display:
 
 ```
-## Specification Summary
+## Summary
 
 ### Confirmed
 - [Item]: [Decision] - [Rationale]
@@ -69,7 +69,6 @@ After each round, update and display:
 
 ### Next Steps
 
-- `/spec:create-md` - Create specification document
 - Plan mode - Break down into implementation tasks
 
 ## Important
@@ -77,4 +76,4 @@ After each round, update and display:
 - **Do NOT guess** - Always ask when something is unclear
 - **Be thorough** - Cover all relevant categories
 - **Stay focused** - Only ask about the current context
-- **Track progress** - Update specification summary after each round
+- **Track progress** - Update summary after each round

@@ -6,16 +6,15 @@ Research a topic using WebSearch based on the current context.
 
 Examples:
 
-- `/spec:research` → Research best practices
-- `/spec:research security considerations` → Research security considerations
-- `/spec:research performance optimization` → Research performance optimization
-- `/spec:research similar implementations` → Research similar implementations
+- `/user:search-best-practices` → Research best practices
+- `/user:search-best-practices security considerations` → Research security considerations
+- `/user:search-best-practices performance optimization` → Research performance optimization
+- `/user:search-best-practices similar implementations` → Research similar implementations
 
 ## Phase 1: Context Analysis (Silent)
 
 - Analyze tech stack
 - Review existing architectural decisions in `docs/adr/`
-- Check active specs (search: `specs/`, `.specs/`, `docs/specs/`, `.dev-plans/`)
 - Identify the research topic from `$ARGUMENTS` (default: best practices)
 
 ## Phase 2: Web Research (Silent)
