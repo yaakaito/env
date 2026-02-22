@@ -16,7 +16,7 @@
 
 ## Planning
 
-- After completing all steps in a planned task, run `/code-simplifier` as the final step
+- When creating a plan, add running `/code-simplifier` as the final step
 
 ## Git
 
