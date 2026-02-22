@@ -16,7 +16,7 @@
 
 ## Planning
 
-- When creating a plan, add running `/code-simplifier` as the final step
+- When creating a plan, add running the `code-simplifier` agent as the final step
 
 ## Git
 
