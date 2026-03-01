@@ -23,7 +23,7 @@ Examples:
 ## Phase 1: Context Analysis (Silent)
 
 - Analyze tech stack
-- Review existing architectural decisions in `docs/adr/`
+- Search for existing documentation and architectural decisions in the repository
 - Identify the research topic from `$ARGUMENTS` (default: best practices)
 
 ## Phase 2: Web Research (Silent)
