@@ -25,7 +25,7 @@ During the conversation, use the following approaches as needed:
 1. **Explore** - When technical context is needed:
    - Analyze the codebase (tech stack, existing patterns, related code)
    - Search the web for similar implementations and best practices
-   - Check `docs/adr/` for existing architectural decisions
+   - Search for existing documentation and architectural decisions in the repository
 
 2. **Clarify** - When requirements are ambiguous:
    - Use **AskUserQuestion tool** with 2-4 options per question
