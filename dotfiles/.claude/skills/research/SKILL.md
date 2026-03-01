@@ -1,3 +1,12 @@
+---
+name: research
+description: Research a topic using WebSearch based on the current context. Use when the user needs best practices, external guidance, or wants to investigate approaches. Triggers on "research", "search best practices", "find examples".
+user-invocable: true
+disable-model-invocation: true
+---
+
+# Research
+
 Research a topic using WebSearch based on the current context.
 
 ## Arguments
@@ -6,16 +15,15 @@ Research a topic using WebSearch based on the current context.
 
 Examples:
 
-- `/spec:research` → Research best practices
-- `/spec:research security considerations` → Research security considerations
-- `/spec:research performance optimization` → Research performance optimization
-- `/spec:research similar implementations` → Research similar implementations
+- `/research` → Research best practices
+- `/research security considerations` → Research security considerations
+- `/research performance optimization` → Research performance optimization
+- `/research similar implementations` → Research similar implementations
 
 ## Phase 1: Context Analysis (Silent)
 
 - Analyze tech stack
-- Review existing architectural decisions in `docs/adr/`
-- Check active specs (search: `specs/`, `.specs/`, `docs/specs/`, `.dev-plans/`)
+- Search for existing documentation and architectural decisions in the repository
 - Identify the research topic from `$ARGUMENTS` (default: best practices)
 
 ## Phase 2: Web Research (Silent)
