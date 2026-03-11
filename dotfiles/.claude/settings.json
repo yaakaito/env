@@ -42,7 +42,8 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:gist.github.com)",
       "WebFetch(domain:gist.githubusercontent.com)"
-    ]
+    ],
+    "defaultMode": "auto"
   },
   "statusLine": {
     "type": "command",
