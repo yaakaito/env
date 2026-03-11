@@ -4,6 +4,7 @@
 - Do not commit until the user explicitly instructs you to do so
 - Use AskUserQuestion tool proactively when something is unclear
 - Avoid obvious comments; only add comments to explain the why behind complex logic
+- Work on only one feature at a time; complete it before moving to the next
 
 ## TypeScript
 
@@ -17,6 +18,7 @@
 ## Planning
 
 - When creating a plan, add running the `/simplify` agent as the final step
+- When creating a plan, add running `/codex-review` to get a Codex review before finishing
 
 ## Git
 
