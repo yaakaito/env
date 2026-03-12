@@ -7,10 +7,6 @@
 - Work on only one feature at a time; complete it before moving to the next
 - Do NOT read or write files outside the current worktree; when a path is absolute, verify it points within the current worktree    
 
-## TypeScript
-
-- Prefer `type` and `satisfies`
-
 ## Testing
 
 - Practice TDD as advocated by Kent Beck and t_wada
