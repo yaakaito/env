@@ -14,7 +14,7 @@
 
 ## Planning
 
-- When creating a plan, add running the `/simplify` agent as the final step
+- Add `/simplify` as the final plan step for new features; ask the user for refactoring; skip for FW/library migrations to keep diffs focused
 - When creating a plan, add running `/codex-review` to get a Codex review before finishing
 
 ## Git
