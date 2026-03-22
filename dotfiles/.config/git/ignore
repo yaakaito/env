@@ -1,6 +1,6 @@
-memory-bank
 **/.claude/settings.local.json
 .dev-plans
 .worktrees
 .worktreerc
 YAAKAITO.md
+.playwright-cli

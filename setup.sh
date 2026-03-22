@@ -39,3 +39,5 @@ claude plugin install frontend-design@claude-plugins-official
 
 npm install -g typescript-language-server typescript
 npm install -g @openai/codex
+npm install -g @playwright/cli@latest
+playwright-cli install
