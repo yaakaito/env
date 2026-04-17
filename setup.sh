@@ -42,3 +42,5 @@ npm install -g @openai/codex
 npm install -g @playwright/cli@latest
 playwright-cli install
 npx playwright install-deps
+
+git config --global credential.helper '!gh auth git-credential'
