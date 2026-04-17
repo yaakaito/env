@@ -58,6 +58,5 @@
   "alwaysThinkingEnabled": true,
   "autoMemoryEnabled": false,
   "skipDangerousModePermissionPrompt": true,
-  "skipAutoPermissionPrompt": true,
-  "effortLevel": "high"
+  "skipAutoPermissionPrompt": true
 }
