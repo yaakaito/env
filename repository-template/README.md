@@ -47,14 +47,13 @@ AI 自動化用の GitHub Personal Access Token を作成します。
 
 ### Dependabot 用の Secrets
 
-Dependabot が使用する secrets は、通常の Actions secrets とは別に設定が必要です。
+`dependabot-auto-merge.yaml` は `pull_request` イベントを使用するため、
+Dependabot が作成した PR では Dependabot secrets が参照されます。
+通常の Actions secrets とは別に設定が必要です。
 
 1. リポジトリの Settings > Secrets and variables > Dependabot
 2. 「New repository secret」をクリック
 3. `AI_USER_GH_TOKEN` を追加
-
-> **Important:** `dependabot-auto-merge.yaml` は `pull_request_target` イベントを使用するため、
-> Dependabot secrets ではなく通常の Actions secrets から `AI_USER_GH_TOKEN` を読み取ります。
 
 ## ワークフロー一覧
 
