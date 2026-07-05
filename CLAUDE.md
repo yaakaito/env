@@ -41,6 +41,10 @@ env/
 └── setup.sh              # Linux/WSL environment setup
 ```
 
+- Setup scripts are idempotent and safe to run multiple times
+- Biome is the default formatter for JavaScript/TypeScript
+- Devcontainers include GitHub CLI and Asia/Tokyo timezone
+
 ## Skills
 
 Skills in `skills/` follow the Agent Skills specification (`skills/*/SKILL.md`) so they can be managed with `gh skill` (https://cli.github.com/manual/gh_skill):
@@ -48,10 +52,6 @@ Skills in `skills/` follow the Agent Skills specification (`skills/*/SKILL.md`) 
 - Install: `gh skill install yaakaito/env <skill-name>` (or `--all`); `setup.sh` installs them from the local clone via `--from-local`
 - Validate before publishing: `gh skill publish --dry-run`
 - Each skill directory name must match the `name` field in its SKILL.md frontmatter, and `allowed-tools` must be a comma-separated string (not a YAML list)
-
-- Setup scripts are idempotent and safe to run multiple times
-- Biome is the default formatter for JavaScript/TypeScript
-- Devcontainers include GitHub CLI and Asia/Tokyo timezone
 
 ## Core Principles
 
