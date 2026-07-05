@@ -64,7 +64,6 @@ claude_marketplaces:
 
 # Installed with `claude plugin install`.
 claude_plugins:
-  - spec@yaakaito-env
   - typescript-lsp@claude-plugins-official
   - code-simplifier@claude-plugins-official
   - frontend-design@claude-plugins-official
