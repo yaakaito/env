@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:gist.github.com)",
+      "WebFetch(domain:gist.githubusercontent.com)",
+      "Bash(tree:*)",
+      "WebSearch",
+      "Bash(git worktree:*)",
+      "WebFetch(domain:oxc.rs)"
+    ]
+  }
+}
