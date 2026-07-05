@@ -31,7 +31,8 @@ env/
 │   └── zsh/              # Zsh configurations
 │       ├── peco.zsh      # Interactive filtering for history and directory navigation
 │       ├── git-worktree.zsh  # Git worktree management utilities
-│       └── vscode-extensions.zsh  # Auto-install VS Code extensions
+│       ├── vscode-extensions.zsh  # Auto-install VS Code extensions
+│       └── prompt.zsh    # Prompt without oh-my-zsh (pwd, git status, duration, clock)
 ├── raycast/              # Raycast integrations
 │   └── script-commands/  # Raycast script commands
 ├── repository-template/  # Template files for new repositories (used by bin/setup-repository)
