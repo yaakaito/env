@@ -73,7 +73,9 @@ check_manifest() {
 install_apt_packages() {
   [ -n "$(manifest apt_packages)" ] || return 0
   sudo apt-get update
-  manifest apt_packages | xargs -r sudo apt-get install -y
+  # DEBIAN_FRONTEND: -y alone does not suppress debconf prompts, which would
+  # hang unattended provisioning on a fresh machine.
+  manifest apt_packages | xargs -r sudo DEBIAN_FRONTEND=noninteractive apt-get install -y
 }
 
 copy_files() {
@@ -133,6 +135,9 @@ install_skills() {
 
 add_claude_plugins() {
   local entry
+  # The claude installer places the binary in ~/.local/bin, which is not on
+  # PATH yet in this non-interactive shell (only future shells pick it up).
+  export PATH="$HOME/.local/bin:$PATH"
   while IFS= read -r entry; do
     claude plugin marketplace add "$entry"
   done < <(manifest claude_marketplaces)
