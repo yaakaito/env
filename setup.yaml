@@ -66,7 +66,7 @@ remote_skills:
 # Commands that install CLIs needed by the phases below.
 installers:
   - mkdir -p ~/.cache
-  - curl -fsSL https://claude.ai/install.sh | bash
+  - command -v claude >/dev/null 2>&1 || [ -x "$HOME/.local/bin/claude" ] || curl -fsSL https://claude.ai/install.sh | bash
 
 # Added with `claude plugin marketplace add`.
 claude_marketplaces:
@@ -84,10 +84,3 @@ npm_globals:
   - typescript-language-server
   - typescript
   - "@openai/codex"
-  - "@playwright/cli@latest"
-
-# Final commands, run after everything above.
-run:
-  - playwright-cli install
-  - npx playwright install-deps
-  - git config --global credential.helper '!gh auth git-credential'

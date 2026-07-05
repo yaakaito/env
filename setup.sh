@@ -37,6 +37,7 @@ manifest() {
 arrow_src() { printf '%s\n' "${1%% -> *}"; }
 arrow_dest() { printf '%s\n' "${1##* -> }"; }
 expand_home() { printf '%s\n' "${1/#\~/$HOME}"; }
+command_exists() { command -v "$1" >/dev/null 2>&1 || [ -x "$HOME/.local/bin/$1" ]; }
 
 check_manifest() {
   local section entry src ok=0
@@ -130,14 +131,18 @@ append_zshrc_sources() {
 }
 
 install_skills() {
-  local entry name agent
+  local entry name agent skill_dir skill_name
   while IFS= read -r entry; do
     name=$(arrow_src "$entry")
     agent=$(arrow_dest "$entry")
     # Point at ./skills, not the repo root: gh skill discovers nested
     # skills/ directories too, which would pull in cc-plugins/*/skills.
     if [ "$name" = all ]; then
-      gh skill install ./skills --from-local --all --agent "$agent" --scope user --force
+      for skill_dir in skills/*; do
+        [ -f "$skill_dir/SKILL.md" ] || continue
+        skill_name=$(basename "$skill_dir")
+        gh skill install ./skills "$skill_name" --from-local --agent "$agent" --scope user --force
+      done
     else
       gh skill install ./skills "$name" --from-local --agent "$agent" --scope user --force
     fi
@@ -167,7 +172,16 @@ add_claude_plugins() {
 }
 
 install_npm_globals() {
-  manifest npm_globals | xargs -r npm install -g
+  local package packages=()
+  while IFS= read -r package; do
+    case "$package" in
+      "@openai/codex")
+        command_exists codex && continue
+        ;;
+    esac
+    packages+=("$package")
+  done < <(manifest npm_globals)
+  [ "${#packages[@]}" -eq 0 ] || npm install -g "${packages[@]}"
 }
 
 run_commands() {

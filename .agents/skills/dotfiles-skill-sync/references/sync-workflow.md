@@ -96,7 +96,8 @@ skills を端末へ反映する場合は、`setup.yaml` の `skills` セクシ�
 
 ```bash
 # 例(実際のエントリは setup.yaml の skills セクションから導出する)
-gh skill install ./skills --from-local --all --agent claude-code --scope user --force
+# `all` は `skills/*/SKILL.md` を列挙して個別 install する。
+gh skill install ./skills adr-writer --from-local --agent claude-code --scope user --force
 gh skill install ./skills adr-writer --from-local --agent codex --scope user --force
 ```
 
