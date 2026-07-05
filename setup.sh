@@ -7,7 +7,10 @@ mkdir -p ~/.config/git
 cp ./dotfiles/.config/git/ignore ~/.config/git/ignore
 cp -r ./dotfiles/.claude ~/.claude
 cp -r ./dotfiles/.codex ~/.codex
-cp -r ./dotfiles/.claude/skills/adr-writer ~/.codex/skills/adr-writer
+
+# Skills live in ./skills and are managed with gh skill (https://cli.github.com/manual/gh_skill)
+gh skill install . --from-local --all --agent claude-code --scope user --force
+gh skill install . adr-writer --from-local --agent codex --scope user --force
 
 mkdir -p ~/.zsh
 

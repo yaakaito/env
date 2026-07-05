@@ -92,6 +92,24 @@ bunx oxfmt
 bunx oxfmt --check
 ```
 
+## Agent Skills
+
+`skills/` 以下のスキルは [Agent Skills 仕様](https://agentskills.io)（`skills/*/SKILL.md`）に従っていて、[`gh skill`](https://cli.github.com/manual/gh_skill) で管理できます。`setup.sh` 実行時は clone 済みのローカルリポジトリから全スキルがインストールされます。
+
+```bash
+# 個別にインストール（プロジェクトスコープ）
+gh skill install yaakaito/env dig
+
+# 全スキルを Claude Code のユーザースコープにインストール
+gh skill install yaakaito/env --all --agent claude-code --scope user
+
+# インストール前に内容を確認
+gh skill preview yaakaito/env dig
+
+# 公開前のバリデーション
+gh skill publish --dry-run
+```
+
 ## Devcontainerテンプレート
 
 以下のコマンドでdevcontainer、GitHub Actions、VS Code設定を一括セットアップできます：
