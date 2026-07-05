@@ -1,0 +1,81 @@
+# setup.yaml is the single source of truth for what this repository provisions
+# on a terminal. setup.sh only interprets this file: add or remove targets
+# here, not in setup.sh. `./setup.sh --check` validates entries against the
+# repository without touching the terminal.
+#
+# Format: a constrained YAML subset so a fresh machine can parse it with the
+# awk reader in setup.sh (no yq / Python required).
+#   - Two levels only: a top-level key holding a block list of plain strings.
+#   - "A -> B" entries map a repository path, URL, or skill name to a target.
+#   - Quote values YAML cannot express as plain scalars (e.g. "@scope/pkg").
+#   - Full-line comments only; no inline comments after values.
+
+# apt packages installed with `sudo apt-get install -y`.
+apt_packages:
+  - peco
+
+# Single files copied from the repository to the terminal.
+files:
+  - dotfiles/.gitconfig -> ~/.gitconfig
+  - dotfiles/.config/git/ignore -> ~/.config/git/ignore
+  - dotfiles/zsh/peco.zsh -> ~/.zsh/peco.zsh
+  - dotfiles/zsh/git-worktree.zsh -> ~/.zsh/git-worktree.zsh
+  - dotfiles/zsh/vscode-extensions.zsh -> ~/.zsh/vscode-extensions.zsh
+
+# Directories merge-copied into the terminal. Files the terminal added on its
+# own are kept; files that exist on both sides are overwritten by the repo.
+dirs:
+  - dotfiles/.claude -> ~/.claude
+  - dotfiles/.codex -> ~/.codex
+
+# Repositories cloned only when the target directory does not exist yet.
+git_clones:
+  - https://github.com/zsh-users/zsh-autosuggestions -> ~/.zsh/zsh-autosuggestions
+  - https://github.com/zsh-users/zsh-syntax-highlighting.git -> ~/.zsh/zsh-syntax-highlighting
+
+# Appended to ${ZDOTDIR:-$HOME}/.zshrc as `source <entry>` unless the exact
+# line is already present. `~` is kept literal so zsh expands it at run time.
+zshrc_source:
+  - ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+  - ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  - ~/.zsh/peco.zsh
+  - ~/.zsh/git-worktree.zsh
+  - ~/.zsh/vscode-extensions.zsh
+
+# Skills from ./skills installed for an agent with
+# `gh skill install . --from-local --scope user --force`.
+# "all" installs every skill for that agent (a skill literally named "all"
+# is not supported).
+skills:
+  - all -> claude-code
+  - adr-writer -> codex
+
+# Commands that install CLIs needed by the phases below.
+installers:
+  - mkdir -p ~/.cache
+  - curl -fsSL https://claude.ai/install.sh | bash
+
+# Added with `claude plugin marketplace add`.
+claude_marketplaces:
+  - yaakaito/env
+  - anthropics/claude-plugins-official
+
+# Installed with `claude plugin install`.
+claude_plugins:
+  - spec@yaakaito-env
+  - typescript-lsp@claude-plugins-official
+  - code-simplifier@claude-plugins-official
+  - frontend-design@claude-plugins-official
+
+# Installed with `npm install -g`.
+npm_globals:
+  - typescript-language-server
+  - typescript
+  - "@openai/codex"
+  - "@playwright/cli@latest"
+
+# Final commands, run after everything above.
+run:
+  - playwright-cli install
+  - npx playwright install-deps
+  - git config --global credential.helper '!gh auth git-credential'

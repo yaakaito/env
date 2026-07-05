@@ -7,41 +7,32 @@
 作業前に読み取り中心で状態を集める。
 
 ```bash
-test -f setup.sh && test -d dotfiles && test -d skills
+test -f setup.yaml && test -f setup.sh && test -d dotfiles && test -d skills
 git status --short
-git log --oneline --decorate --max-count=20 -- setup.sh dotfiles skills .claude/skills/dotfiles-skill-sync
+git log --oneline --decorate --max-count=20 -- setup.yaml setup.sh dotfiles skills .claude/skills/dotfiles-skill-sync
+./setup.sh --check
 find dotfiles skills -maxdepth 5 -type f | sort
 ```
 
-端末側のファイルが存在するか確認する。秘密情報を含む可能性があるため、内容表示は必要最小限にする。
+端末側の棚卸し対象は `setup.yaml` から導出する。`files` / `dirs` / `git_clones` の各エントリの端末側パス(`-> ` の右側、`~` は `$HOME` に読み替える)と `${ZDOTDIR:-$HOME}/.zshrc` について存在を確認する。秘密情報を含む可能性があるため、内容表示は必要最小限にする。
 
 ```bash
-for p in \
-  "$HOME/.gitconfig" \
-  "$HOME/.config/git/ignore" \
-  "$HOME/.claude" \
-  "$HOME/.codex" \
-  "${ZDOTDIR:-$HOME}/.zshrc" \
-  "$HOME/.zsh/peco.zsh" \
-  "$HOME/.zsh/git-worktree.zsh" \
-  "$HOME/.zsh/vscode-extensions.zsh" \
-  "$HOME/.zsh/bin/git-worktree-add"
-do
+# パス一覧は setup.yaml から導出して埋める
+for p in <setup.yaml から導出した端末側パス> "${ZDOTDIR:-$HOME}/.zshrc"; do
   [ -e "$p" ] && printf 'exists %s\n' "$p" || printf 'missing %s\n' "$p"
 done
 ```
 
-必要なら作業用ディレクトリを `/tmp/dotfiles-skill-sync-YYYYMMDD-HHMMSS/` に作り、差分ログや退避コピーを置く。秘密情報を repo の `references/` に保存しない。
+必要なら作業用ディレクトリを `umask 077` の上で `mktemp -d` で作り、差分ログや退避コピーを置く。退避コピーには秘密情報が入り得るため、固定名の `/tmp` パスや repo 配下には置かない。秘密情報を repo の `references/` に保存しない。
 
 ## 2. Diff policy
 
-repo 版と端末版を比較する。ファイル単位で足りなければ directory diff を使う。
+repo 版と端末版を比較する。比較ペアは `setup.yaml` の `files` / `dirs` エントリそのもの。ファイル単位で足りなければ directory diff を使う。
 
 ```bash
+# 例(実際のペアは setup.yaml から導出する)
 diff -u dotfiles/.gitconfig "$HOME/.gitconfig"
-diff -u dotfiles/.config/git/ignore "$HOME/.config/git/ignore"
 diff -ru dotfiles/.claude "$HOME/.claude"
-diff -ru dotfiles/.codex "$HOME/.codex"
 diff -ru skills "$HOME/.claude/skills"
 ```
 
@@ -73,6 +64,7 @@ repo へ取り込む前に、次の兆候があれば停止して確認する。
 - `.claude/settings.json` / `.codex/config.toml`: 権限、sandbox、モデル、MCP、approval は端末依存が混ざりやすい。既存値を尊重し、一般化できるデフォルトだけ取り込む。
 - skills: 本文・reference・script の改善は repo root `skills/` への repository update 候補。ユーザー固有ワークフローや社内情報は local keep。取り込み時は Agent Skills 仕様（ディレクトリ名 = frontmatter `name`、`allowed-tools` は文字列）を保つ。
 - `.zshrc`: source 行は idempotent に追加する。既存の手書き構成を並べ替えない。
+- 配布対象の増減（新しい dotfile を配る、配布をやめる）は `setup.yaml` の該当セクションを編集し、`./setup.sh --check` で検証する。`setup.sh` 本体は挙動を変えるときだけ触る。
 
 ## 5. Cleanup rules
 
@@ -81,9 +73,10 @@ repo へ取り込む前に、次の兆候があれば停止して確認する。
 削除候補にしてよい例:
 
 - repo から削除済みで、端末側にも参照が残っていない skill
-- `setup.sh` がもう使わず、`.zshrc` からも source されていない zsh helper
+- `setup.yaml` から外れ、`.zshrc` からも source されていない zsh helper
 - cache、生成物、インストール途中の一時ファイル
 - 同じ source 行の重複
+- `~/.claude/.claude` や `~/.codex/.codex` のようなネスト（旧 setup.sh の `cp -r` 再実行で生じた生成物）
 
 削除前に提示する情報:
 
@@ -97,6 +90,7 @@ repo へ取り込む前に、次の兆候があれば停止して確認する。
 repo 変更を加えたら以下を実行する。
 
 ```bash
+./setup.sh --check
 git diff --check
 git status --short
 ```
@@ -104,6 +98,7 @@ git status --short
 変更種別に応じて軽量検証を追加する。
 
 ```bash
+bash -n setup.sh
 zsh -n dotfiles/zsh/*.zsh
 jq empty dotfiles/.claude/settings.json
 git config --file dotfiles/.gitconfig --list
