@@ -16,10 +16,12 @@
 関連する履歴を狭く見る。
 
 ```bash
-git log --oneline --decorate -- setup.sh dotfiles .claude/skills/dotfiles-skill-sync
-git log --oneline --decorate -- dotfiles/.claude/skills dotfiles/.codex/skills .claude/skills
-git log --name-status -- setup.sh dotfiles .claude/skills
+git log --oneline --decorate -- setup.sh dotfiles skills .claude/skills/dotfiles-skill-sync
+git log --oneline --decorate -- skills dotfiles/.codex .claude/skills
+git log --name-status -- setup.sh dotfiles skills .claude/skills
 ```
+
+端末へ配る skill は過去 `dotfiles/.claude/skills` に置かれていた。repo root `skills/` への移動より前の履歴は旧 path か `git log --follow` で辿る。
 
 特定ファイルの過去内容を見る。
 
@@ -33,14 +35,14 @@ git show <commit>:.claude/skills/dotfiles-skill-sync/SKILL.md
 削除・リネームを追う。
 
 ```bash
-git log --diff-filter=D --summary -- dotfiles .claude/skills
+git log --diff-filter=D --summary -- dotfiles skills .claude/skills
 git log --follow -- dotfiles/path/to/file
 ```
 
 コミット間で setup 対象の変化を見る。
 
 ```bash
-git diff <old>..<new> -- setup.sh dotfiles .claude/skills
+git diff <old>..<new> -- setup.sh dotfiles skills .claude/skills
 ```
 
 ## Recording findings

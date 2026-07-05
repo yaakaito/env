@@ -7,10 +7,10 @@
 作業前に読み取り中心で状態を集める。
 
 ```bash
-test -f setup.sh && test -d dotfiles
+test -f setup.sh && test -d dotfiles && test -d skills
 git status --short
-git log --oneline --decorate --max-count=20 -- setup.sh dotfiles .claude/skills/dotfiles-skill-sync
-find dotfiles -maxdepth 5 -type f | sort
+git log --oneline --decorate --max-count=20 -- setup.sh dotfiles skills .claude/skills/dotfiles-skill-sync
+find dotfiles skills -maxdepth 5 -type f | sort
 ```
 
 端末側のファイルが存在するか確認する。秘密情報を含む可能性があるため、内容表示は必要最小限にする。
@@ -42,16 +42,17 @@ diff -u dotfiles/.gitconfig "$HOME/.gitconfig"
 diff -u dotfiles/.config/git/ignore "$HOME/.config/git/ignore"
 diff -ru dotfiles/.claude "$HOME/.claude"
 diff -ru dotfiles/.codex "$HOME/.codex"
+diff -ru skills "$HOME/.claude/skills"
 ```
 
 差分は以下に分類する。
 
-| Classification | Meaning | Action |
-| --- | --- | --- |
-| Repository update | 一般化でき、他端末にも有用 | repo の `dotfiles/`、`setup.sh`、または skill に取り込む |
-| Local keep | 端末固有、秘密値、個人設定 | 端末側に残し、repo には入れない |
-| Merge needed | 両方の変更に意味がある | 手動マージ案を提示する |
-| Remove candidate | 古い設定、現行 setup から外れたもの | 削除確認を取る |
+| Classification    | Meaning                             | Action                                                              |
+| ----------------- | ----------------------------------- | ------------------------------------------------------------------- |
+| Repository update | 一般化でき、他端末にも有用          | repo の `dotfiles/`、`skills/`、`setup.sh`、または skill に取り込む |
+| Local keep        | 端末固有、秘密値、個人設定          | 端末側に残し、repo には入れない                                     |
+| Merge needed      | 両方の変更に意味がある              | 手動マージ案を提示する                                              |
+| Remove candidate  | 古い設定、現行 setup から外れたもの | 削除確認を取る                                                      |
 
 ## 3. Secret and local-only checks
 
@@ -70,7 +71,7 @@ repo へ取り込む前に、次の兆候があれば停止して確認する。
 - `.gitconfig`: `[user]` は基本的に local keep。alias、credential helper、diff/merge 設定は一般化できるか判断する。
 - `.config/git/ignore`: OS・エディタ・言語ツールの一般 ignore は repository update 候補。個人プロジェクト名は local keep。
 - `.claude/settings.json` / `.codex/config.toml`: 権限、sandbox、モデル、MCP、approval は端末依存が混ざりやすい。既存値を尊重し、一般化できるデフォルトだけ取り込む。
-- skills: 本文・reference・script の改善は repository update 候補。ユーザー固有ワークフローや社内情報は local keep。
+- skills: 本文・reference・script の改善は repo root `skills/` への repository update 候補。ユーザー固有ワークフローや社内情報は local keep。取り込み時は Agent Skills 仕様（ディレクトリ名 = frontmatter `name`、`allowed-tools` は文字列）を保つ。
 - `.zshrc`: source 行は idempotent に追加する。既存の手書き構成を並べ替えない。
 
 ## 5. Cleanup rules
