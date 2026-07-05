@@ -31,16 +31,16 @@ env/
 │   └── zsh/              # Zsh configurations
 │       ├── peco.zsh      # Interactive filtering for history and directory navigation
 │       ├── git-worktree.zsh  # Git worktree management utilities
-│       ├── vscode-extensions.zsh  # Auto-install VS Code extensions
-│       └── bin/          # Zsh bin scripts
-│           └── git-worktree-add  # Git worktree creation with Claude-powered branch naming
+│       └── vscode-extensions.zsh  # Auto-install VS Code extensions
 ├── raycast/              # Raycast integrations
 │   └── script-commands/  # Raycast script commands
 ├── repository-template/  # Template files for new repositories (used by bin/setup-repository)
 ├── skills/               # Agent skills (adr-writer, codex-review, create-pr, dig, discuss, research, ...), one directory per skill with SKILL.md
-└── setup.sh              # Linux/WSL environment setup
+├── setup.sh              # Linux/WSL environment setup; applies setup.yaml
+└── setup.yaml            # Manifest of everything setup.sh provisions (single source of truth)
 ```
 
+- `setup.yaml` is the single source of truth for what gets provisioned on a terminal; `setup.sh` only interprets it. Add or remove sync targets in `setup.yaml`, and validate with `./setup.sh --check`
 - Setup scripts are idempotent and safe to run multiple times
 - Biome is the default formatter for JavaScript/TypeScript
 - Devcontainers include GitHub CLI and Asia/Tokyo timezone

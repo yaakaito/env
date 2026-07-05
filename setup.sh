@@ -1,49 +1,170 @@
-#!/bin/zsh
+#!/usr/bin/env bash
+# Applies setup.yaml to this terminal. setup.yaml is the single source of
+# truth: change what gets provisioned there, not here.
+#
+# Usage:
+#   ./setup.sh          validate setup.yaml, then provision the terminal
+#   ./setup.sh --check  only validate setup.yaml against the repository
+set -euo pipefail
 
-sudo apt update && sudo apt install peco
+cd "$(dirname "$0")"
 
-cp ./dotfiles/.gitconfig ~/.gitconfig
-mkdir -p ~/.config/git
-cp ./dotfiles/.config/git/ignore ~/.config/git/ignore
-cp -r ./dotfiles/.claude ~/.claude
-cp -r ./dotfiles/.codex ~/.codex
+MANIFEST=setup.yaml
+ZSHRC="${ZDOTDIR:-$HOME}/.zshrc"
 
-# Skills live in ./skills and are managed with gh skill (https://cli.github.com/manual/gh_skill)
-gh skill install . --from-local --all --agent claude-code --scope user --force
-gh skill install . adr-writer --from-local --agent codex --scope user --force
+[ -f "$MANIFEST" ] || {
+  echo "$MANIFEST not found next to setup.sh" >&2
+  exit 1
+}
 
-mkdir -p ~/.zsh
+# setup.yaml is a constrained YAML subset (top-level key holding a block list
+# of plain strings) so a fresh machine can read it without yq or Python.
+manifest() {
+  awk -v section="$1" '
+    /^[[:space:]]*#/ { next }
+    /^[A-Za-z0-9_]+:/ { current = $0; sub(/:.*/, "", current); next }
+    /^[[:space:]]*-[[:space:]]+/ {
+      if (current == section) {
+        sub(/^[[:space:]]*-[[:space:]]+/, "")
+        sub(/[[:space:]]+$/, "")
+        gsub(/^"|"$/, "")
+        print
+      }
+    }
+  ' "$MANIFEST"
+}
 
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-echo "source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ${ZSOTDIR:-$HOME}/.zshrc
+arrow_src() { printf '%s\n' "${1%% -> *}"; }
+arrow_dest() { printf '%s\n' "${1##* -> }"; }
+expand_home() { printf '%s\n' "${1/#\~/$HOME}"; }
 
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
-echo "source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+check_manifest() {
+  local section entry src ok=0
+  for section in files dirs git_clones skills; do
+    while IFS= read -r entry; do
+      case "$entry" in
+        *" -> "*) ;;
+        *)
+          echo "$MANIFEST: '$entry' in '$section' is not a 'SRC -> DEST' entry" >&2
+          ok=1
+          continue
+          ;;
+      esac
+      src=$(arrow_src "$entry")
+      case "$section" in
+        files | dirs)
+          [ -e "$src" ] || {
+            echo "$MANIFEST: $section entry '$src' does not exist in the repository" >&2
+            ok=1
+          }
+          ;;
+        skills)
+          [ "$src" = all ] || [ -f "skills/$src/SKILL.md" ] || {
+            echo "$MANIFEST: skills entry '$src' has no skills/$src/SKILL.md" >&2
+            ok=1
+          }
+          ;;
+      esac
+    done < <(manifest "$section")
+  done
+  return "$ok"
+}
 
-cp ./dotfiles/zsh/peco.zsh ~/.zsh/peco.zsh
-echo "source ~/.zsh/peco.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-cp ./dotfiles/zsh/git-worktree.zsh ~/.zsh/git-worktree.zsh
-echo "source ~/.zsh/git-worktree.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-cp ./dotfiles/zsh/vscode-extensions.zsh ~/.zsh/vscode-extensions.zsh
-echo "source ~/.zsh/vscode-extensions.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-mkdir -p ~/.zsh/bin
-cp ./dotfiles/zsh/bin/git-worktree-add ~/.zsh/bin/git-worktree-add
-mkdir -p ~/.cache
+install_apt_packages() {
+  [ -n "$(manifest apt_packages)" ] || return 0
+  sudo apt-get update
+  manifest apt_packages | xargs -r sudo apt-get install -y
+}
 
-curl -fsSL https://claude.ai/install.sh | bash
+copy_files() {
+  local entry src dest
+  while IFS= read -r entry; do
+    src=$(arrow_src "$entry")
+    dest=$(expand_home "$(arrow_dest "$entry")")
+    mkdir -p "$(dirname "$dest")"
+    cp "$src" "$dest"
+  done < <(manifest files)
+}
 
-claude plugin marketplace add yaakaito/env
-claude plugin install spec@yaakaito-env
+copy_dirs() {
+  local entry src dest
+  while IFS= read -r entry; do
+    src=$(arrow_src "$entry")
+    dest=$(expand_home "$(arrow_dest "$entry")")
+    # Merge into the destination; `cp -r SRC DEST` would nest SRC inside an
+    # already-existing DEST on re-runs.
+    mkdir -p "$dest"
+    cp -r "$src/." "$dest/"
+  done < <(manifest dirs)
+}
 
-claude plugin marketplace add anthropics/claude-plugins-official
-claude plugin install typescript-lsp@claude-plugins-official
-claude plugin install code-simplifier@claude-plugins-official
-claude plugin install frontend-design@claude-plugins-official
+clone_repos() {
+  local entry url dest
+  while IFS= read -r entry; do
+    url=$(arrow_src "$entry")
+    dest=$(expand_home "$(arrow_dest "$entry")")
+    [ -d "$dest" ] || git clone "$url" "$dest"
+  done < <(manifest git_clones)
+}
 
-npm install -g typescript-language-server typescript
-npm install -g @openai/codex
-npm install -g @playwright/cli@latest
-playwright-cli install
-npx playwright install-deps
+append_zshrc_sources() {
+  local target line
+  [ -n "$(manifest zshrc_source)" ] || return 0
+  mkdir -p "$(dirname "$ZSHRC")"
+  touch "$ZSHRC"
+  while IFS= read -r target; do
+    line="source $target"
+    grep -qxF "$line" "$ZSHRC" || printf '%s\n' "$line" >>"$ZSHRC"
+  done < <(manifest zshrc_source)
+}
 
-git config --global credential.helper '!gh auth git-credential'
+install_skills() {
+  local entry name agent
+  while IFS= read -r entry; do
+    name=$(arrow_src "$entry")
+    agent=$(arrow_dest "$entry")
+    if [ "$name" = all ]; then
+      gh skill install . --from-local --all --agent "$agent" --scope user --force
+    else
+      gh skill install . "$name" --from-local --agent "$agent" --scope user --force
+    fi
+  done < <(manifest skills)
+}
+
+add_claude_plugins() {
+  local entry
+  while IFS= read -r entry; do
+    claude plugin marketplace add "$entry"
+  done < <(manifest claude_marketplaces)
+  while IFS= read -r entry; do
+    claude plugin install "$entry"
+  done < <(manifest claude_plugins)
+}
+
+install_npm_globals() {
+  manifest npm_globals | xargs -r npm install -g
+}
+
+run_commands() {
+  local cmd
+  while IFS= read -r cmd; do
+    bash -c "$cmd"
+  done < <(manifest "$1")
+}
+
+check_manifest
+if [ "${1:-}" = --check ]; then
+  echo "$MANIFEST: OK"
+  exit 0
+fi
+
+install_apt_packages
+copy_files
+copy_dirs
+clone_repos
+append_zshrc_sources
+install_skills
+run_commands installers
+add_claude_plugins
+install_npm_globals
+run_commands run
