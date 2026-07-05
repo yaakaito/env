@@ -36,6 +36,8 @@ diff -ru dotfiles/.claude "$HOME/.claude"
 diff -ru skills "$HOME/.claude/skills"
 ```
 
+`skills` の diff は端末側の変更を repo に取り込むかどうかの分類にだけ使う。repo → 端末方向の反映はファイルコピーではなく `gh skill install` で行う(6. Apply and verify を参照)。
+
 差分は以下に分類する。
 
 | Classification    | Meaning                             | Action                                                              |
@@ -62,7 +64,7 @@ repo へ取り込む前に、次の兆候があれば停止して確認する。
 - `.gitconfig`: `[user]` は基本的に local keep。alias、credential helper、diff/merge 設定は一般化できるか判断する。
 - `.config/git/ignore`: OS・エディタ・言語ツールの一般 ignore は repository update 候補。個人プロジェクト名は local keep。
 - `.claude/settings.json` / `.codex/config.toml`: 権限、sandbox、モデル、MCP、approval は端末依存が混ざりやすい。既存値を尊重し、一般化できるデフォルトだけ取り込む。
-- skills: 本文・reference・script の改善は repo root `skills/` への repository update 候補。ユーザー固有ワークフローや社内情報は local keep。取り込み時は Agent Skills 仕様（ディレクトリ名 = frontmatter `name`、`allowed-tools` は文字列）を保つ。
+- skills: 本文・reference・script の改善は repo root `skills/` への repository update 候補。ユーザー固有ワークフローや社内情報は local keep。取り込み時は Agent Skills 仕様（ディレクトリ名 = frontmatter `name`、`allowed-tools` は文字列）を保つ。repo → 端末の反映は `gh skill install`（`--from-local`）で行い、`~/.claude/skills` を直接編集・コピーしない。
 - `.zshrc`: source 行は idempotent に追加する。既存の手書き構成を並べ替えない。
 - 配布対象の増減（新しい dotfile を配る、配布をやめる）は `setup.yaml` の該当セクションを編集し、`./setup.sh --check` で検証する。`setup.sh` 本体は挙動を変えるときだけ触る。
 
@@ -86,6 +88,14 @@ repo へ取り込む前に、次の兆候があれば停止して確認する。
 - バックアップを作るか、そのまま残すか
 
 ## 6. Apply and verify
+
+skills を端末へ反映する場合は、`setup.yaml` の `skills` セクションから対象と agent を導出し、setup.sh と同じ形の `gh skill install` を repo root で実行する。
+
+```bash
+# 例(実際のエントリは setup.yaml の skills セクションから導出する)
+gh skill install . --from-local --all --agent claude-code --scope user --force
+gh skill install . adr-writer --from-local --agent codex --scope user --force
+```
 
 repo 変更を加えたら以下を実行する。
 
