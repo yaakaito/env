@@ -22,7 +22,6 @@ env/
 ├── dotfiles/             # User home directory configurations
 │   ├── .claude/          # Claude Code settings and commands
 │   │   ├── commands/     # Slash commands (reviews-fix, workflow-fix, worktree-add, etc.)
-│   │   ├── skills/       # Skills (adr-writer, agents-md, dig, discuss, research, github-workflow, github-workflow-fixer, github-pr-unresolved-review-fetcher)
 │   │   ├── settings.json # Claude Code settings
 │   │   ├── status-line.sh # Custom status line script
 │   │   └── CLAUDE.md     # User-wide instructions
@@ -38,12 +37,21 @@ env/
 ├── raycast/              # Raycast integrations
 │   └── script-commands/  # Raycast script commands
 ├── repository-template/  # Template files for new repositories (used by bin/setup-repository)
+├── skills/               # Agent skills (adr-writer, codex-review, create-pr, dig, discuss, research, ...), one directory per skill with SKILL.md
 └── setup.sh              # Linux/WSL environment setup
 ```
 
 - Setup scripts are idempotent and safe to run multiple times
 - Biome is the default formatter for JavaScript/TypeScript
 - Devcontainers include GitHub CLI and Asia/Tokyo timezone
+
+## Skills
+
+Skills in `skills/` follow the Agent Skills specification (`skills/*/SKILL.md`) so they can be managed with `gh skill` (https://cli.github.com/manual/gh_skill):
+
+- Install: `gh skill install yaakaito/env <skill-name>` (or `--all`); `setup.sh` installs them from the local clone via `--from-local`
+- Validate before publishing: `gh skill publish --dry-run`
+- Each skill directory name must match the `name` field in its SKILL.md frontmatter, and `allowed-tools` must be a comma-separated string (not a YAML list)
 
 ## Core Principles
 
@@ -62,3 +70,4 @@ env/
   - CLAUDE.md, AGENTS.md
   - Files under dotfiles/.claude/
   - Files under docs/agents/
+  - SKILL.md frontmatter `name` under skills/ (body language follows each skill's existing language)
