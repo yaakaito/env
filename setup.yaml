@@ -21,6 +21,7 @@ files:
   - dotfiles/zsh/peco.zsh -> ~/.zsh/peco.zsh
   - dotfiles/zsh/git-worktree.zsh -> ~/.zsh/git-worktree.zsh
   - dotfiles/zsh/vscode-extensions.zsh -> ~/.zsh/vscode-extensions.zsh
+  - dotfiles/zsh/prompt.zsh -> ~/.zsh/prompt.zsh
 
 # Directories merge-copied into the terminal. Files the terminal added on its
 # own are kept; files that exist on both sides are overwritten by the repo.
@@ -41,6 +42,7 @@ zshrc_source:
   - ~/.zsh/peco.zsh
   - ~/.zsh/git-worktree.zsh
   - ~/.zsh/vscode-extensions.zsh
+  - ~/.zsh/prompt.zsh
 
 # Skills from ./skills installed for an agent with
 # `gh skill install . --from-local --scope user --force`.
