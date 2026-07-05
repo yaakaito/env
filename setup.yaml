@@ -22,6 +22,7 @@ files:
   - dotfiles/zsh/git-worktree.zsh -> ~/.zsh/git-worktree.zsh
   - dotfiles/zsh/vscode-extensions.zsh -> ~/.zsh/vscode-extensions.zsh
   - dotfiles/zsh/completion.zsh -> ~/.zsh/completion.zsh
+  - dotfiles/zsh/direnv.zsh -> ~/.zsh/direnv.zsh
   - dotfiles/zsh/prompt.zsh -> ~/.zsh/prompt.zsh
 
 # Directories merge-copied into the terminal. Files the terminal added on its
@@ -44,6 +45,7 @@ zshrc_source:
   - ~/.zsh/git-worktree.zsh
   - ~/.zsh/vscode-extensions.zsh
   - ~/.zsh/completion.zsh
+  - ~/.zsh/direnv.zsh
   - ~/.zsh/prompt.zsh
 
 # Skills from ./skills installed for an agent with
