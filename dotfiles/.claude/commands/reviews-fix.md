@@ -19,13 +19,15 @@ Fetch unresolved review comments for the current branch's PR, then apply fixes b
        repository(owner: $owner, name: $repo) {
            pullRequest(number: $number) {
                reviewThreads(first: 100) {
+                   pageInfo { hasNextPage endCursor }
                    nodes {
+                       id
                        isResolved
                        isOutdated
                        path
                        line
                        comments(first: 100) {
-                           pageInfo { hasNextPage }
+                           pageInfo { hasNextPage endCursor }
                            nodes {
                                author { login }
                                body
@@ -36,13 +38,16 @@ Fetch unresolved review comments for the current branch's PR, then apply fixes b
            }
        }
    }' -f owner="$OWNER" -f repo="$REPO" -F number="$PR_NUMBER" \
-   | jq '[.data.repository.pullRequest.reviewThreads.nodes[]
+   | jq '{more_threads: .data.repository.pullRequest.reviewThreads.pageInfo,
+       threads: [.data.repository.pullRequest.reviewThreads.nodes[]
        | select(.isResolved == false and .isOutdated == false)
-       | {path, line, truncated: .comments.pageInfo.hasNextPage,
-          comments: [.comments.nodes[] | {author: .author.login, body}]}]'
+       | {id, path, line, more_comments: .comments.pageInfo,
+          comments: [.comments.nodes[] | {author: .author.login, body}]}]}'
    ```
 
-   Each entry is one unresolved review thread. Read all comments in a thread — replies may narrow, change, or withdraw the original request. If `truncated` is true, the thread has more than 100 comments; fetch the rest with a follow-up query (`comments(first: 100, after: <endCursor>)`) before acting on it.
+   Each entry in `threads` is one unresolved review thread. Read all comments in a thread — replies may narrow, change, or withdraw the original request. Both levels are capped at 100, so before acting check the pagination flags:
+   - If `more_threads.hasNextPage` is true, re-run the query with `reviewThreads(first: 100, after: <more_threads.endCursor>)`
+   - If a thread's `more_comments.hasNextPage` is true, fetch its remaining comments with `node(id: "<thread id>") { ... on PullRequestReviewThread { comments(first: 100, after: <more_comments.endCursor>) { nodes { author { login } body } } } }`
 
 2. **Analyze and apply fixes:**
    - For each thread, read the file at `path`
