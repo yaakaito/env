@@ -1,20 +1,51 @@
 ---
-allowed-tools: Bash(gh pr view:*), Bash(gh repo view:*)
+allowed-tools: Bash(gh pr view:*), Bash(gh repo view:*), Bash(gh api graphql:*)
 description: Fetch and apply fixes based on GitHub PR comments.
 ---
 
-Use the github-pr-unresolved-review-fetcher skill to fetch unresolved review comments, then apply fixes based on those comments.
+Fetch unresolved review comments for the current branch's PR, then apply fixes based on those comments.
 
 ## Steps
 
 1. **Fetch unresolved comments:**
-   - Follow the "Auto-detect from Current Branch" section in the github-pr-unresolved-review-fetcher skill
-   - Run the skill's script to get XML-formatted review comments
+
+   ```bash
+   OWNER=$(gh repo view --json owner -q '.owner.login')
+   REPO=$(gh repo view --json name -q '.name')
+   PR_NUMBER=$(gh pr view --json number -q '.number')
+
+   gh api graphql -f query='
+   query($owner: String!, $repo: String!, $number: Int!) {
+       repository(owner: $owner, name: $repo) {
+           pullRequest(number: $number) {
+               reviewThreads(first: 100) {
+                   nodes {
+                       isResolved
+                       isOutdated
+                       path
+                       line
+                       comments(first: 10) {
+                           nodes {
+                               author { login }
+                               body
+                           }
+                       }
+                   }
+               }
+           }
+       }
+   }' -f owner="$OWNER" -f repo="$REPO" -F number="$PR_NUMBER" \
+   | jq '[.data.repository.pullRequest.reviewThreads.nodes[]
+       | select(.isResolved == false and .isOutdated == false)
+       | {path, line, comments: [.comments.nodes[] | {author: .author.login, body}]}]'
+   ```
+
+   Each entry is one unresolved review thread. Read all comments in a thread — replies may narrow, change, or withdraw the original request.
 
 2. **Analyze and apply fixes:**
-   - For each `<review-comment>`, read the file at `<file>` path
-   - Identify the section around `<line>` that needs modification
-   - Apply the fix based on the `<body>` content
+   - For each thread, read the file at `path`
+   - Identify the section around `line` that needs modification
+   - Apply the fix based on the thread's comments
    - Only apply fixes for clear, actionable comments (ignore general discussions or ambiguous feedback)
 
 3. **Stage changes:**
