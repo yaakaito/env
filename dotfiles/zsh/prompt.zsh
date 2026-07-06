@@ -1,6 +1,6 @@
 # oh-my-zsh を使わないプロンプト。表示するのは以下だけ:
-#   [992 ms]                        <- 直前コマンドの実行時間
-#   /workspaces/aiblio (main*?) $   <- pwd と git ステータス(右端に現在時刻)
+#   [992 ms]                     <- 直前コマンドの実行時間
+#   /w/aiblio (main*?) $         <- pwd(fish 風に短縮)と git ステータス(右端に現在時刻)
 # git ステータスの記号: + staged / * unstaged / ? untracked
 
 zmodload zsh/datetime
@@ -23,6 +23,23 @@ zstyle ':vcs_info:git+set-message:*' hooks git-untracked
   fi
 }
 
+# 深い worktree などでプロンプトが横に伸びないよう、fish 風に最後の要素以外を
+# 頭文字 1 文字へ短縮する。隠しディレクトリは . だけでは区別できないので .g の
+# ように 2 文字残し、~ と名前付きディレクトリ(~editor など)はそのまま残す
+__prompt_abbrev_pwd() {
+  local -a parts=("${(@s:/:)1}")
+  local out='' seg
+  for seg in "${(@)parts[1,-2]}"; do
+    case $seg in
+      (''|'~'*) out+=$seg ;;
+      (.*)      out+=${seg[1,2]} ;;
+      (*)       out+=${seg[1]} ;;
+    esac
+    out+='/'
+  done
+  print -r -- "${out}${parts[-1]}"
+}
+
 __prompt_command_start=
 __prompt_duration_line=
 
@@ -34,6 +51,8 @@ __prompt_refresh() {
   # vcs_info より先に経過時間を確定させ、git の処理時間を表示に混ぜない
   local -F now=$EPOCHREALTIME
   vcs_info
+  # psvar 経由(%1v)ならパスに % が含まれてもプロンプト展開されない
+  psvar[1]=$(__prompt_abbrev_pwd ${(%):-%~})
   __prompt_duration_line=
   # 空 Enter では preexec が走らない = 計測開始がないので時間表示を出さない
   [[ -n $__prompt_command_start ]] || return 0
@@ -51,5 +70,5 @@ __prompt_refresh() {
 add-zsh-hook preexec __prompt_start_timer
 add-zsh-hook precmd __prompt_refresh
 
-PROMPT='${__prompt_duration_line}%F{cyan}%~%f ${vcs_info_msg_0_}$ '
+PROMPT='${__prompt_duration_line}%F{cyan}%1v%f ${vcs_info_msg_0_}$ '
 RPROMPT='%F{244}%*%f'
