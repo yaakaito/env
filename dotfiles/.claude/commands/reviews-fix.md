@@ -48,6 +48,7 @@ Fetch unresolved review comments for the current branch's PR, then apply fixes b
    Each entry in `threads` is one unresolved review thread. Read all comments in a thread — replies may narrow, change, or withdraw the original request. Both levels are capped at 100, so before acting check the pagination flags:
    - If `more_threads.hasNextPage` is true, re-run the query with `reviewThreads(first: 100, after: <more_threads.endCursor>)`
    - If a thread's `more_comments.hasNextPage` is true, fetch its remaining comments with `node(id: "<thread id>") { ... on PullRequestReviewThread { comments(first: 100, after: <more_comments.endCursor>) { nodes { author { login } body } } } }`
+   - Repeat either follow-up with the new `endCursor` until its `hasNextPage` is false
 
 2. **Analyze and apply fixes:**
    - For each thread, read the file at `path`
