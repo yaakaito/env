@@ -6,8 +6,9 @@ source ${0:a:h}/prompt.zsh
 typeset -i failures=0
 
 assert_abbrev() {
-  local input=$1 expected=$2
-  local actual=$(__prompt_abbrev_pwd $input)
+  local input=$1 expected=$2 REPLY
+  __prompt_abbrev_pwd $input
+  local actual=$REPLY
   if [[ $actual == $expected ]]; then
     print -r -- "ok:   $input -> $actual"
   else
