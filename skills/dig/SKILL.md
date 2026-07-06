@@ -1,88 +1,16 @@
 ---
 name: dig
-description: Clarify ambiguous points through structured questioning. Use when requirements are unclear, context needs investigation, or decisions need to be made. Triggers on "dig into", "clarify requirements", "investigate options".
+description: Relentlessly interview the user to clarify requirements and stress-test decisions, one question at a time.
 user-invocable: true
 disable-model-invocation: true
 ---
 
 # Dig
 
-Clarify ambiguous points in the current context through structured questioning.
+Interview the user relentlessly about the current topic until you reach a shared understanding. Walk down each branch of the problem — scope, behavior, data, edge cases, constraints — resolving decisions one by one, in dependency order.
 
-## Core Behavior
-
-1. **Analyze** - Read existing context (conversation, codebase)
-2. **Identify gaps** - Find ambiguous or incomplete points
-3. **Ask questions** - Use AskUserQuestion tool to clarify each item
-4. **Iterate** - Continue until requirements are clear
-5. **Document** - Update summary after each answer
-
-## Phase 1: Initial Analysis (Silent)
-
-- Review conversation history
-- Analyze relevant codebase sections
-- Create a scope list of items needing clarification
-- Categorize gaps across 8 areas:
-  - Scope, Behavior, Data, Users, Integration, Constraints, Priority, Edge cases
-
-## Phase 2: Iterative Questioning
-
-**MUST use AskUserQuestion tool** (conversational questions are not allowed)
-
-- 2-4 questions per round
-- Each question has 2-4 options with pros/cons in descriptions
-- Skip questions answerable from codebase analysis
-- Do NOT guess or assume - always ask when unclear
-
-## Phase 3: Summary
-
-After each round, update and display:
-
-```
-## Summary
-
-### Confirmed
-- [Item]: [Decision] - [Rationale]
-
-### Pending
-- [Item]: [Why it needs clarification]
-```
-
-## Phase 4: Completeness Check
-
-- Review all 8 categories for remaining gaps
-- If gaps remain → Return to Phase 2
-- If complete → Proceed to output
-
-## Output
-
-### Decisions Made
-
-| Category | Decision | Rationale |
-| -------- | -------- | --------- |
-| ...      | ...      | ...       |
-
-### Requirements
-
-**Functional:**
-
-- Requirement + acceptance criteria
-
-**Non-Functional:**
-
-- Requirement + metrics
-
-### Open Questions
-
-- Items that still need resolution (if any)
-
-### Next Steps
-
-- Plan mode - Break down into implementation tasks
-
-## Important
-
-- **Do NOT guess** - Always ask when something is unclear
-- **Be thorough** - Cover all relevant categories
-- **Stay focused** - Only ask about the current context
-- **Track progress** - Update summary after each round
+- Ask one small round at a time, and include your recommended answer with each question (use a structured question tool such as AskUserQuestion when available; otherwise ask in plain text)
+- If a question can be answered by exploring the codebase, explore instead of asking
+- Do not accept vague answers — "it depends", "probably", "later" are branches to dig into, not answers
+- Do not start implementing until the user confirms the understanding is shared
+- When done, summarize what was decided (with rationale) and what remains open
