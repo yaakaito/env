@@ -25,7 +25,8 @@ zstyle ':vcs_info:git+set-message:*' hooks git-untracked
 
 # 深い worktree などでプロンプトが横に伸びないよう、fish 風に最後の要素以外を
 # 頭文字 1 文字へ短縮する。隠しディレクトリは . だけでは区別できないので .g の
-# ように 2 文字残し、~ と名前付きディレクトリ(~editor など)はそのまま残す
+# ように 2 文字残し、~ と名前付きディレクトリ(~editor など)はそのまま残す。
+# プロンプト描画ごとのサブシェル fork を避けるため、結果は REPLY で返す
 __prompt_abbrev_pwd() {
   local -a parts=("${(@s:/:)1}")
   local out='' seg
@@ -37,7 +38,7 @@ __prompt_abbrev_pwd() {
     esac
     out+='/'
   done
-  print -r -- "${out}${parts[-1]}"
+  REPLY="${out}${parts[-1]}"
 }
 
 __prompt_command_start=
@@ -52,7 +53,9 @@ __prompt_refresh() {
   local -F now=$EPOCHREALTIME
   vcs_info
   # psvar 経由(%1v)ならパスに % が含まれてもプロンプト展開されない
-  psvar[1]=$(__prompt_abbrev_pwd ${(%):-%~})
+  local REPLY
+  __prompt_abbrev_pwd ${(%):-%~}
+  psvar[1]=$REPLY
   __prompt_duration_line=
   # 空 Enter では preexec が走らない = 計測開始がないので時間表示を出さない
   [[ -n $__prompt_command_start ]] || return 0
