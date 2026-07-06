@@ -24,7 +24,8 @@ Fetch unresolved review comments for the current branch's PR, then apply fixes b
                        isOutdated
                        path
                        line
-                       comments(first: 10) {
+                       comments(first: 100) {
+                           pageInfo { hasNextPage }
                            nodes {
                                author { login }
                                body
@@ -37,10 +38,11 @@ Fetch unresolved review comments for the current branch's PR, then apply fixes b
    }' -f owner="$OWNER" -f repo="$REPO" -F number="$PR_NUMBER" \
    | jq '[.data.repository.pullRequest.reviewThreads.nodes[]
        | select(.isResolved == false and .isOutdated == false)
-       | {path, line, comments: [.comments.nodes[] | {author: .author.login, body}]}]'
+       | {path, line, truncated: .comments.pageInfo.hasNextPage,
+          comments: [.comments.nodes[] | {author: .author.login, body}]}]'
    ```
 
-   Each entry is one unresolved review thread. Read all comments in a thread — replies may narrow, change, or withdraw the original request.
+   Each entry is one unresolved review thread. Read all comments in a thread — replies may narrow, change, or withdraw the original request. If `truncated` is true, the thread has more than 100 comments; fetch the rest with a follow-up query (`comments(first: 100, after: <endCursor>)`) before acting on it.
 
 2. **Analyze and apply fixes:**
    - For each thread, read the file at `path`
