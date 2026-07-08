@@ -16,11 +16,13 @@ if git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null >/dev/null || g
     if [ -n "$branch" ]; then
         # ahead/behind の計算
         ahead_behind=""
-        if [ "$branch" != "main" ] && [ "$branch" != "master" ]; then
+        if [ "$branch" != "main" ] && [ "$branch" != "master" ] && [ "$branch" != "development" ]; then
             # 親ブランチを特定（origin/main または origin/master）
             parent_branch=""
             if git --no-optional-locks rev-parse --verify origin/main >/dev/null 2>&1; then
                 parent_branch="origin/main"
+            elif git --no-optional-locks rev-parse --verify origin/development >/dev/null 2>&1; then
+                parent_branch="origin/development"
             elif git --no-optional-locks rev-parse --verify origin/master >/dev/null 2>&1; then
                 parent_branch="origin/master"
             fi
