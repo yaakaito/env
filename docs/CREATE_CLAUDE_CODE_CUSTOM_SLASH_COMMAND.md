@@ -186,14 +186,6 @@ Conventional Commits 形式でのコミット作成
 allowed-tools: [Git操作のみ]
 ```
 
-### `reviews-fix.md`
-
-GitHub PR コメントに基づく自動修正
-
-```yaml
-allowed-tools: Bash(gh pr view), Bash(gh api:*)
-```
-
 ### `workflow-fix.md`
 
 GitHub Actions ワークフローの問題修正
