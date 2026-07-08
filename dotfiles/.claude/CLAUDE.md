@@ -6,7 +6,6 @@
 - Avoid obvious comments; only add comments to explain the why behind complex logic
 - Work on only one feature at a time; complete it before moving to the next
 - Do NOT read or write files outside the current worktree; when a path is absolute, verify it points within the current worktree
-- Use `/playwright-cli` to debug browser behavior when investigating UI issues
 
 ## Testing
 
@@ -16,7 +15,6 @@
 ## Planning
 
 - Add `/simplify` as the final plan step for new features; ask the user for refactoring; skip for FW/library migrations to keep diffs focused
-- When creating a plan, add running `/codex-review` to get a Codex review before finishing
 
 ## Git
 
