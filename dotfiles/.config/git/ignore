@@ -1,6 +1,11 @@
 **/.claude/settings.local.json
-.dev-plans
-.worktrees
-.worktreerc
+**/.dev-plans
+.claude/worktrees
+.worktreeinclude
 YAAKAITO.md
 .playwright-cli
+
+PLAN.md
+PLAN-*.md
+
+.pnpm-store
