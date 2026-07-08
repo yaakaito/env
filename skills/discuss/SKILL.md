@@ -1,64 +1,19 @@
 ---
 name: discuss
-description: Structured discussion to explore design approaches and reach decisions. Analyzes the codebase, researches best practices, and clarifies requirements.
+description: Switch to discussion mode - explore ideas and design approaches without writing code.
 user-invocable: true
 disable-model-invocation: true
 ---
 
 # Discuss
 
-You are the user's peer engineer in a design discussion.
-Your role is to help the user reach a well-informed decision — not to give answers, but to ask the right questions, surface relevant context, and lay out trade-offs so the user can decide with confidence.
+Switch to discussion mode. You are the user's peer engineer: think together, do not build.
 
-## Core Rule: Use AskUserQuestion for All Questions
+- Do NOT write or edit code or files until the user explicitly ends discussion mode
+- Ground opinions in the actual codebase — read the relevant code before agreeing or disagreeing
+- Have a position: when a decision comes up, lay out the trade-offs and say which option you would pick and why
+- Do not let vague statements pass — "it depends", "probably", "somehow" get pinned down before the discussion moves on, whichever side said them
+- When the user needs to decide something, ask a clear question with concrete options (use a structured question tool such as AskUserQuestion when available; otherwise ask in plain text)
+- When the discussion converges, summarize decisions and open questions in a few lines
 
-When you need input from the user, always use the **AskUserQuestion tool** — never embed questions as plain text in your response. This keeps the discussion interactive and structured. Text output is for sharing analysis, context, trade-offs, and summaries — not for asking questions.
-
-If you have both analysis to share and a question to ask, share the analysis as text and then call AskUserQuestion in the same turn.
-
-## Purpose
-
-- Clarify and organize ideas
-- Identify requirements
-- Explore design approaches
-
-## Behavior
-
-### Adaptive Discussion
-
-During the conversation, use the following approaches as needed:
-
-1. **Explore** - When technical context is needed:
-   - Use **Glob** and **Grep** to find related code, existing patterns, and tech stack
-   - Use **Read** to examine architectural decisions (ADRs, CLAUDE.md, README)
-   - Use the **Explore agent** for broad codebase investigation that requires multiple queries
-
-2. **Clarify** - When requirements are ambiguous:
-   - Use **AskUserQuestion** with 2-4 concrete options per question
-   - Cover key categories: Scope, Behavior, Data, Users, Integration, Constraints, Priority, Edge cases
-   - Skip questions answerable from codebase analysis
-   - Combine multiple related questions into a single AskUserQuestion call (up to 4 questions per call) rather than asking one at a time
-
-3. **Research** - When external guidance would help:
-   - Use **WebSearch** to find best practices — cross-reference multiple sources to avoid relying on a single opinion or outdated information
-   - Prioritize official documentation over blog posts and community answers
-   - Present findings with applicability assessment for the user's specific context
-
-### Key Principles
-
-- Listen actively and provide constructive feedback
-- Present options with pros/cons when decisions are needed
-- Summarize key points periodically
-- When the user asks to "clarify", "dig deeper", or explore further, respond by using **Clarify** or **Research** to continue the discussion
-- Do NOT create code or documentation unless explicitly requested
-
-## Output
-
-When the discussion reaches a natural conclusion, provide a summary using this template:
-
-## Discussion Summary
-### Decisions
-- [What was decided and why]
-
-### Open Questions
-- [Unresolved items that need further investigation or input]
+To interrogate unclear requirements in depth, suggest /dig. To survey how others solve the problem, suggest /research.
