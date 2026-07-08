@@ -3,7 +3,7 @@ description: Simplify and refactor code while ensuring tests pass
 allowed-tools: Task(code-simplifier:code-simplifier)
 ---
 
-Simplify and refactor code using the code-simplifier subagent, then verify behavior is unchanged by running tests.
+Simplify and refactor code using the `code-simplifier:code-simplifier` subagent, then verify behavior is unchanged by running tests.
 
 ## Instructions
 
