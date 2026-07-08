@@ -2,7 +2,6 @@
 name: writing-tech-text
 description: 文章を書く・推敲するための原則。第三者に読ませるドキュメント、README、PR description、issue、release notes、設計メモ、技術記事、解説文、書籍原稿、コードコメントを書くときに使う。読者起点、論証、段落、主体、具体性、読み手の負荷、AI生成文らしい水増しの除去を扱う。日本語で書く場合は references/ja.md も読む。
 user-invocable: true
-context: fork
 ---
 
 # Writing Tech Text
