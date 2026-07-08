@@ -1,6 +1,6 @@
 ---
-name: create-pr
-description: プロジェクトの PR テンプレートに従って、構造化された PR を作成する。"/create-pr" や "create pr"、"create a pull request"、"open a pr"、"make a pr" のような依頼で使う。
+name: github-create-pr
+description: プロジェクトの PR テンプレートに従って、構造化された PR を作成する。"/github-create-pr" や "create pr"、"create a pull request"、"open a pr"、"make a pr" のような依頼で使う。
 context: fork
 ---
 
