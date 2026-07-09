@@ -29,6 +29,17 @@ _git-worktree-select() {
     ' | peco --prompt "$prompt"
 }
 
+# Helper: remove a single worktree and report the result
+_git-worktree-remove-one() {
+    local worktree_path="$1"
+    if git worktree remove "$worktree_path"; then
+        echo "Removed: $worktree_path"
+    else
+        echo "Failed to remove: $worktree_path" >&2
+        return 1
+    fi
+}
+
 # Interactive remove with peco
 git-worktree-remove() {
     local selected
@@ -36,12 +47,7 @@ git-worktree-remove() {
     if [[ -n "$selected" ]]; then
         # Use tab as delimiter to handle paths with spaces
         local worktree_path=${selected%%$'\t'*}
-        if git worktree remove "$worktree_path"; then
-            echo "Removed: $worktree_path"
-        else
-            echo "Failed to remove: $worktree_path" >&2
-            return 1
-        fi
+        _git-worktree-remove-one "$worktree_path"
     fi
 }
 
@@ -65,12 +71,7 @@ git-worktree-remove-multiple() {
 
     local path failed=0
     for path in "${paths[@]}"; do
-        if git worktree remove "$path"; then
-            echo "Removed: $path"
-        else
-            echo "Failed to remove: $path" >&2
-            failed=1
-        fi
+        _git-worktree-remove-one "$path" || failed=1
     done
     return $failed
 }
