@@ -45,6 +45,36 @@ git-worktree-remove() {
     fi
 }
 
+# Interactively select multiple worktrees (Ctrl+Space in peco) and remove them at once
+git-worktree-remove-multiple() {
+    local selected
+    selected=$(_git-worktree-select "DELETE WORKTREES (Ctrl+Space to multi-select)>")
+    if [[ -z "$selected" ]]; then
+        return 0
+    fi
+
+    local -a paths=()
+    local line
+    # Split peco's multi-line output; keep only the path before the tab
+    while IFS= read -r line; do
+        [[ -n "$line" ]] && paths+=("${line%%$'\t'*}")
+    done <<< "$selected"
+
+    printf 'Removing %d worktree(s):\n' "${#paths[@]}"
+    printf '  %s\n' "${paths[@]}"
+
+    local path failed=0
+    for path in "${paths[@]}"; do
+        if git worktree remove "$path"; then
+            echo "Removed: $path"
+        else
+            echo "Failed to remove: $path" >&2
+            failed=1
+        fi
+    done
+    return $failed
+}
+
 # Checkout a branch from worktree into the current workspace
 # Removes the worktree and switches to its branch
 git-worktree-checkout() {
