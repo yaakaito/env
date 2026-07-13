@@ -39,9 +39,10 @@ command_str="$(printf '%s' "$input" | jq -r '.tool_input.command // empty' 2>/de
 normalized="${command_str//\\/}"
 
 # Match a .aws path segment followed by a separator (path, whitespace, quote,
-# command chaining) or end of string, in either the raw or normalized command.
+# command chaining, redirection) or the end of the line, in either the raw or
+# normalized command. Single quotes keep $ as a real end-of-line anchor.
 if printf '%s\n%s' "$command_str" "$normalized" \
-  | grep -Eq "\.aws(/|[[:space:]]|[\"';&|)]|\$)"; then
+  | grep -Eq '\.aws(/|[[:space:]]|["'\'';&|()<>]|$)'; then
   echo "Blocked: access to AWS credentials under .aws is not permitted." >&2
   exit 2
 fi
