@@ -52,6 +52,19 @@
     "deny": ["Read(~/.aws/**)", "Read(//**/.aws/**)"],
     "defaultMode": "auto"
   },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/pretooluse-deny-aws.sh"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "~/.claude/status-line.sh",
