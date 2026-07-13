@@ -49,6 +49,7 @@
       "WebFetch(domain:gist.github.com)",
       "WebFetch(domain:gist.githubusercontent.com)"
     ],
+    "deny": ["Read(~/.aws/**)", "Read(//**/.aws/**)"],
     "defaultMode": "auto"
   },
   "statusLine": {
