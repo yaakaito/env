@@ -41,6 +41,9 @@ git-worktree-add -b fix/typo --no-deps --no-copy
 
 # worktree削除（pecoでインタラクティブに選択）
 git-worktree-remove
+
+# 複数worktreeをまとめて削除（pecoでCtrl+Spaceで複数選択）
+git-worktree-remove-multiple
 ```
 
 #### オプション

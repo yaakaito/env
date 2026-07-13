@@ -69,6 +69,15 @@ git-worktree-remove-multiple() {
     printf 'Removing %d worktree(s):\n' "${#paths[@]}"
     printf '  %s\n' "${paths[@]}"
 
+    # Guard against fat-fingered multi-select toggles before an irreversible batch delete
+    local confirm
+    if ! read -q "confirm?Proceed? [y/N] "; then
+        echo
+        echo "Aborted."
+        return 1
+    fi
+    echo
+
     local path failed=0
     for path in "${paths[@]}"; do
         _git-worktree-remove-one "$path" || failed=1
