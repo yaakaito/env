@@ -29,6 +29,17 @@ _git-worktree-select() {
     ' | peco --prompt "$prompt"
 }
 
+# Helper: remove a single worktree and report the result
+_git-worktree-remove-one() {
+    local worktree_path="$1"
+    if git worktree remove "$worktree_path"; then
+        echo "Removed: $worktree_path"
+    else
+        echo "Failed to remove: $worktree_path" >&2
+        return 1
+    fi
+}
+
 # Interactive remove with peco
 git-worktree-remove() {
     local selected
@@ -36,13 +47,42 @@ git-worktree-remove() {
     if [[ -n "$selected" ]]; then
         # Use tab as delimiter to handle paths with spaces
         local worktree_path=${selected%%$'\t'*}
-        if git worktree remove "$worktree_path"; then
-            echo "Removed: $worktree_path"
-        else
-            echo "Failed to remove: $worktree_path" >&2
-            return 1
-        fi
+        _git-worktree-remove-one "$worktree_path"
     fi
+}
+
+# Interactively select multiple worktrees (Ctrl+Space in peco) and remove them at once
+git-worktree-remove-multiple() {
+    local selected
+    selected=$(_git-worktree-select "DELETE WORKTREES (Ctrl+Space to multi-select)>")
+    if [[ -z "$selected" ]]; then
+        return 0
+    fi
+
+    local -a paths=()
+    local line
+    # Split peco's multi-line output; keep only the path before the tab
+    while IFS= read -r line; do
+        [[ -n "$line" ]] && paths+=("${line%%$'\t'*}")
+    done <<< "$selected"
+
+    printf 'Removing %d worktree(s):\n' "${#paths[@]}"
+    printf '  %s\n' "${paths[@]}"
+
+    # Guard against fat-fingered multi-select toggles before an irreversible batch delete
+    local confirm
+    if ! read -q "confirm?Proceed? [y/N] "; then
+        echo
+        echo "Aborted."
+        return 1
+    fi
+    echo
+
+    local path failed=0
+    for path in "${paths[@]}"; do
+        _git-worktree-remove-one "$path" || failed=1
+    done
+    return $failed
 }
 
 # Checkout a branch from worktree into the current workspace
