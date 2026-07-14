@@ -3,6 +3,20 @@
 # stdinからJSONデータを読み取る
 input=$(cat)
 
+# モデル名とeffortを取得
+model_name=$(echo "$input" | jq -r '.model.display_name // empty')
+effort_level=$(echo "$input" | jq -r '.effort.level // empty')
+
+# モデル名を表示（effortがある場合は括弧で併記）
+modelpart=""
+if [ -n "$model_name" ]; then
+    if [ -n "$effort_level" ]; then
+        modelpart=$(printf "\033[0;35m%s\033[0;90m(%s)\033[0m " "$model_name" "$effort_level")
+    else
+        modelpart=$(printf "\033[0;35m%s\033[0m " "$model_name")
+    fi
+fi
+
 # 現在のディレクトリとGitブランチ情報を取得
 current_dir=$(echo "$input" | jq -r '.workspace.current_dir')
 
@@ -85,4 +99,4 @@ fi
 resetcolor="\033[0m"
 
 # 最終出力（プロンプト記号は除外）
-printf "%b%b%b" "$dirpart" "$gitbranch" "$resetcolor"
+printf "%b%b%b%b" "$modelpart" "$dirpart" "$gitbranch" "$resetcolor"
