@@ -36,7 +36,7 @@ env/
 ├── raycast/              # Raycast integrations
 │   └── script-commands/  # Raycast script commands
 ├── repository-template/  # Template files for new repositories (used by bin/setup-repository)
-├── skills/               # Agent skills (adr-writer, codex-review, create-pr, dig, discuss, research, ...), one directory per skill with SKILL.md
+├── skills/               # Agent skills (adr-writer, codex-review, github-create-pr, dig, discuss, research, ...), one directory per skill with SKILL.md
 ├── setup.sh              # Linux/WSL environment setup; applies setup.yaml
 └── setup.yaml            # Manifest of everything setup.sh provisions (single source of truth)
 ```
