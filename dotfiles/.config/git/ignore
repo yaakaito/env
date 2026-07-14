@@ -9,3 +9,5 @@ PLAN.md
 PLAN-*.md
 
 .pnpm-store
+
+.aws/
