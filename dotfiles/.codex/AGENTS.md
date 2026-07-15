@@ -16,7 +16,6 @@ Each artifact answers a different question. Write it there, and only there:
 - Follow repository language conventions; otherwise, follow the user's language for prose and ecosystem conventions for code
 - Distinguish facts, inferences, and opinions; spending time to obtain a fact is worth more than the time saved by guessing
 - Ask the user when the remaining ambiguity affects the result; state the question before listing options
-- Do NOT read or write files outside the current worktree without explicit user authorization
 
 ## Testing
 
