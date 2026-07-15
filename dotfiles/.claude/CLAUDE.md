@@ -1,35 +1,36 @@
 ## Writing Principles
 
-Each artifact answers a different question. Write it there, and only there:
+Each artifact has a primary question:
 
 - Code explains **How**
-- Test code explains **What**
-- Commit logs explain **Why**
-- Code comments explain **Why not**
+- Tests explain **What behavior is expected**
+- Commit messages explain **What changed and Why**
+- Code comments explain non-obvious **Why** and **Why not**
+
+Avoid unnecessary duplication.
 
 ## Coding
 
-- Inline a single-use value when doing so is clearer; name it when the name communicates intent or reduces complexity
-- Prefer existing project patterns and terminology over general best practices
+- Inline a single-use value when clearer; name it when the name communicates intent or reduces complexity
+- Prefer existing project patterns and terminology
 
 ## General
 
 - Follow repository language conventions; otherwise, follow the user's language for prose and ecosystem conventions for code
-- Distinguish facts, inferences, and opinions; spending time to obtain a fact is worth more than the time saved by guessing
-- Inspect the available context first; use AskUserQuestion proactively when the remaining ambiguity affects the result
-- State the question before listing options or candidates; do not stack another question after the list
-- Do NOT read or write files outside the current worktree without explicit user authorization; verify that resolved absolute and symlinked paths point within it
+- Distinguish facts, inferences, and opinions; verify material facts instead of guessing
+- Inspect available context first; use AskUserQuestion when remaining ambiguity materially affects the result
+- State the question before listing options
+- Do not modify files outside the current worktree without explicit user authorization; verify resolved paths before writing
 
 ## Testing
 
-- Practice TDD as advocated by Kent Beck and t_wada
-- Write tests first when building new features
-- Write only tests that earn their value: integration tests matter more than unit tests, and avoid mocks whenever possible
-- Test observable behavior and contracts, not implementation details restated as assertions (e.g. that a value was passed through, or that a declarative value is defined as written)
+- Use red-green-refactor for new behavior and regression fixes, as advocated by Kent Beck and t_wada
+- Prefer integration tests at meaningful boundaries; avoid mocks
+- Test observable behavior and contracts, not implementation details
 
 ## Git
 
 - Follow repository conventions; otherwise, use Conventional Commits
-- Describe the outcome and motivation, not development phases or internal task numbers
+- Describe outcomes and motivation, not development phases or internal task numbers
 - Include GitHub Issue numbers only when relevant
-- Use `chore` instead of `refactor` when editing files under `.github/`
+- For maintenance-only changes under `.github/`, prefer `chore` over `refactor`
