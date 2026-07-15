@@ -26,7 +26,6 @@ files:
 # Directories merge-copied into the terminal. Files the terminal added on its
 # own are kept; files that exist on both sides are overwritten by the repo.
 dirs:
-  - dotfiles/.agents -> ~/.agents
   - dotfiles/.claude -> ~/.claude
   - dotfiles/.codex -> ~/.codex
 
