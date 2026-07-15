@@ -18,10 +18,6 @@ Each artifact answers a different question. Write it there, and only there:
 - Practice TDD as advocated by Kent Beck and t_wada
 - Write tests first when building new features
 
-## Planning
-
-- Add a simplification pass as the final plan step for new features; ask the user before refactoring; skip for FW/library migrations to keep diffs focused
-
 ## Git
 
 - Follow Conventional Commits unless otherwise specified
