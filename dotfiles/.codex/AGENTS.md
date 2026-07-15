@@ -14,11 +14,11 @@ Each artifact answers a different question. Write it there, and only there:
 
 ## General
 
-- Follow the user's language for code, documentation, and Git commit/PR messages
+- Follow repository language conventions; otherwise, follow the user's language for prose and ecosystem conventions for code
 - Distinguish facts, inferences, and opinions; spending time to obtain a fact is worth more than the time saved by guessing
-- Ask the user proactively when something is unclear instead of guessing
+- Inspect the available context first; ask the user proactively when the remaining ambiguity affects the result
 - State the question before listing options or candidates; do not stack another question after the list
-- Do NOT read or write files outside the current worktree; verify that resolved absolute and symlinked paths point within it
+- Do NOT read or write files outside the current worktree without explicit user authorization; verify that resolved absolute and symlinked paths point within it
 
 ## Testing
 
@@ -29,6 +29,7 @@ Each artifact answers a different question. Write it there, and only there:
 
 ## Git
 
-- Follow Conventional Commits unless otherwise specified
-- Commit messages must not include development phases or task numbers; only GitHub Issue numbers are allowed
+- Follow repository conventions; otherwise, use Conventional Commits
+- Describe the outcome and motivation, not development phases or internal task numbers
+- Include GitHub Issue numbers only when relevant
 - Use `chore` instead of `refactor` when editing files under `.github/`
