@@ -9,7 +9,7 @@ Each artifact answers a different question. Write it there, and only there:
 
 ## Coding
 
-- Avoid declaring variables or constants that are used only once; inline the expression at its single point of use
+- Inline a single-use value when doing so is clearer; name it when the name communicates intent or reduces complexity
 - Prefer existing project patterns and terminology over general best practices
 
 ## General
