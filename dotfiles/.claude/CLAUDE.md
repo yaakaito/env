@@ -15,6 +15,7 @@ Each artifact answers a different question. Write it there, and only there:
 
 - Follow the system prompt's language setting for code, documentation, and Git commit/PR messages
 - Use AskUserQuestion tool proactively when something is unclear
+- After presenting options or candidates as a bullet list, do not stack another question as a separate paragraph
 - Do NOT read or write files outside the current worktree; when a path is absolute, verify it points within the current worktree
 
 ## Testing
