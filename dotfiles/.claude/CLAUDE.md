@@ -21,6 +21,8 @@ Each artifact answers a different question. Write it there, and only there:
 
 - Practice TDD as advocated by Kent Beck and t_wada
 - Write tests first when building new features
+- Write only tests that earn their value: integration tests matter more than unit tests, and avoid mocks whenever possible
+- Do not test that a value was passed to a function, or that a declarative value is defined as written; such tests merely restate the implementation
 
 ## Git
 
