@@ -9,8 +9,8 @@ Each artifact answers a different question. Write it there, and only there:
 
 ## General
 
-- Follow the system prompt's language setting for code, documentation, and Git commit/PR messages
-- Use AskUserQuestion tool proactively when something is unclear
+- Follow the user's language for code, documentation, and Git commit/PR messages
+- Ask the user proactively when something is unclear instead of guessing
 - Do NOT read or write files outside the current worktree; when a path is absolute, verify it points within the current worktree
 
 ## Testing
@@ -20,7 +20,7 @@ Each artifact answers a different question. Write it there, and only there:
 
 ## Planning
 
-- Add `/simplify` as the final plan step for new features; ask the user for refactoring; skip for FW/library migrations to keep diffs focused
+- Add a simplification pass as the final plan step for new features; ask the user before refactoring; skip for FW/library migrations to keep diffs focused
 
 ## Git
 
