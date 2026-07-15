@@ -1,36 +1,30 @@
 ## Writing Principles
 
-Each artifact has a primary question:
+Each artifact answers a different question. Write it there, and only there:
 
 - Code explains **How**
-- Tests explain **What behavior is expected**
-- Commit messages explain **What changed and Why**
-- Code comments explain non-obvious **Why** and **Why not**
-
-Avoid unnecessary duplication.
+- Test code explains **What**
+- Commit logs explain **Why**
+- Code comments explain **Why not**
 
 ## Coding
 
-- Inline a single-use value when clearer; name it when the name communicates intent or reduces complexity
-- Prefer existing project patterns and terminology
+- Inline a single-use value when doing so is clearer; name it when the name communicates intent or reduces complexity
 
 ## General
 
 - Follow repository language conventions; otherwise, follow the user's language for prose and ecosystem conventions for code
-- Distinguish facts, inferences, and opinions; verify material facts instead of guessing
-- Inspect available context first; use AskUserQuestion when remaining ambiguity materially affects the result
-- State the question before listing options
-- Do not modify files outside the current worktree without explicit user authorization; verify resolved paths before writing
+- Distinguish facts, inferences, and opinions; spending time to obtain a fact is worth more than the time saved by guessing
+- Use AskUserQuestion when the remaining ambiguity affects the result; state the question before listing options
+- Do NOT read or write files outside the current worktree without explicit user authorization
 
 ## Testing
 
-- Use red-green-refactor for new behavior and regression fixes, as advocated by Kent Beck and t_wada
-- Prefer integration tests at meaningful boundaries; avoid mocks
-- Test observable behavior and contracts, not implementation details
+- Practice TDD as advocated by Kent Beck and t_wada
+- Prefer integration tests over unit tests; avoid mocks; test observable behavior and contracts, not implementation details
 
 ## Git
 
 - Follow repository conventions; otherwise, use Conventional Commits
-- Describe outcomes and motivation, not development phases or internal task numbers
-- Include GitHub Issue numbers only when relevant
-- For maintenance-only changes under `.github/`, prefer `chore` over `refactor`
+- No development phases or internal task numbers in commit messages; include GitHub Issue numbers only when relevant
+- Use `chore` instead of `refactor` when editing files under `.github/`
