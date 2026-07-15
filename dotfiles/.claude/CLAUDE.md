@@ -10,21 +10,22 @@ Each artifact answers a different question. Write it there, and only there:
 ## Coding
 
 - Avoid declaring variables or constants that are used only once; inline the expression at its single point of use
+- Prefer existing project patterns and terminology over general best practices
 
 ## General
 
 - Follow the system prompt's language setting for code, documentation, and Git commit/PR messages
-- Distinguish your opinions from facts; spending time to obtain a fact is worth more than the time saved by guessing
+- Distinguish facts, inferences, and opinions; spending time to obtain a fact is worth more than the time saved by guessing
 - Use AskUserQuestion tool proactively when something is unclear
-- After presenting options or candidates as a bullet list, do not stack another question as a separate paragraph
-- Do NOT read or write files outside the current worktree; when a path is absolute, verify it points within the current worktree
+- State the question before listing options or candidates; do not stack another question after the list
+- Do NOT read or write files outside the current worktree; verify that resolved absolute and symlinked paths point within it
 
 ## Testing
 
 - Practice TDD as advocated by Kent Beck and t_wada
 - Write tests first when building new features
 - Write only tests that earn their value: integration tests matter more than unit tests, and avoid mocks whenever possible
-- Do not test that a value was passed to a function, or that a declarative value is defined as written; such tests merely restate the implementation
+- Test observable behavior and contracts, not implementation details restated as assertions (e.g. that a value was passed through, or that a declarative value is defined as written)
 
 ## Git
 
