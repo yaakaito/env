@@ -7,6 +7,10 @@ Each artifact answers a different question. Write it there, and only there:
 - Commit logs explain **Why**
 - Code comments explain **Why not**
 
+## Coding
+
+- Avoid declaring variables or constants that are used only once; inline the expression at its single point of use
+
 ## General
 
 - Follow the system prompt's language setting for code, documentation, and Git commit/PR messages
