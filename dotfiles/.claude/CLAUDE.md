@@ -1,24 +1,28 @@
+## Writing Principles
+
+Each artifact answers a different question. Write it there, and only there:
+
+- Code explains **How**
+- Test code explains **What**
+- Commit logs explain **Why**
+- Code comments explain **Why not**
+
+## Coding
+
+- Inline a single-use value when doing so is clearer; name it when the name communicates intent or reduces complexity
+
 ## General
 
-- Follow the system prompt's language setting for code, documentation, and Git Commit/PR messages
-- Do not commit until the user explicitly instructs you to do so
-- Use AskUserQuestion tool proactively when something is unclear
-- Avoid obvious comments; only add comments to explain the why behind complex logic
-- Work on only one feature at a time; complete it before moving to the next
-- Do NOT read or write files outside the current worktree; when a path is absolute, verify it points within the current worktree
+- Follow repository language conventions; otherwise, follow the user's language for prose and ecosystem conventions for code
+- Distinguish facts, inferences, and opinions; spending time to obtain a fact is worth more than the time saved by guessing
 
 ## Testing
 
 - Practice TDD as advocated by Kent Beck and t_wada
-- Write tests first when building new features
-
-## Planning
-
-- Add `/simplify` as the final plan step for new features; ask the user for refactoring; skip for FW/library migrations to keep diffs focused
+- Prefer integration tests over unit tests; avoid mocks; test observable behavior and contracts, not implementation details
 
 ## Git
 
-- Follow Conventional Commits unless otherwise specified
-- Focus commit messages on why the change was made
-- Commit messages must not include development phases or task numbers; only GitHub Issue numbers are allowed
+- Follow repository conventions; otherwise, use Conventional Commits
+- No development phases or internal task numbers in commit messages; include GitHub Issue numbers only when relevant
 - Use `chore` instead of `refactor` when editing files under `.github/`
