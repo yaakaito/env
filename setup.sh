@@ -125,10 +125,12 @@ install_skills() {
   while IFS= read -r entry; do
     name=$(arrow_src "$entry")
     agent=$(arrow_dest "$entry")
+    # Point at ./skills, not the repo root: gh skill discovers nested
+    # skills/ directories too, which would pull in cc-plugins/*/skills.
     if [ "$name" = all ]; then
-      gh skill install . --from-local --all --agent "$agent" --scope user --force
+      gh skill install ./skills --from-local --all --agent "$agent" --scope user --force
     else
-      gh skill install . "$name" --from-local --agent "$agent" --scope user --force
+      gh skill install ./skills "$name" --from-local --agent "$agent" --scope user --force
     fi
   done < <(manifest skills)
 }
