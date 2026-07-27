@@ -50,7 +50,7 @@ zshrc_source:
 # is not supported).
 skills:
   - all -> claude-code
-  - adr-writer -> codex
+  - all -> universal
 
 # Commands that install CLIs needed by the phases below.
 installers:
