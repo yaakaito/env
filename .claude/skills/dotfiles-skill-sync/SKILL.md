@@ -20,6 +20,7 @@ description: Clone 済みのこの環境リポジトリのルートで実行し�
    - `git status --short`
    - ユーザーの未コミット変更を上書きしない。
 3. `setup.yaml` を読み、同期対象の全体像を把握する。`./setup.sh --check` で repo との整合性を検証する。
+4. repo root の `MEMORY.md`(git 管理外の判断メモ)を読む。存在しなければ `references/sync-memory.md` のテンプレートで作成する。
 
 ## Read First
 
@@ -28,6 +29,7 @@ description: Clone 済みのこの環境リポジトリのルートで実行し�
 - `references/repository-map.md`: `setup.yaml` の構造、skill 配置、注意が必要な対象を確認する。
 - `references/sync-workflow.md`: 調査、分類、マージ、削除確認、検証の具体的な手順を確認する。
 - `references/history.md`: 過去バージョンを辿る場面と `git log` / `git show` の使い方を確認する。
+- `references/sync-memory.md`: `MEMORY.md` の形式、記録・参照・整理のルールを確認する。
 
 ## Workflow
 
@@ -41,20 +43,24 @@ description: Clone 済みのこの環境リポジトリのルートで実行し�
    - **Local keep**: 端末固有、秘密情報、個人パス、業務固有値など、外に持ち出さず維持する変更。
    - **Merge needed**: repo 版と local 版の両方に意味がある変更。
    - **Remove candidate**: `setup.yaml` や現行 dotfiles から外れ、古くなった可能性があるファイルや設定。
-4. 同期計画を短く提示する。
+4. `MEMORY.md` と突き合わせ、記録済みの判断を適用する。
+   - 記録があり、差分の内容も記録時から変わっていない対象は、再確認せず記録どおりに扱う。計画には「記録済み」として載せる。
+   - 差分が記録時から変わっている対象は、記録があっても再確認する。
+5. 同期計画を短く提示する。
    - 取り込むもの、ローカルに残すもの、マージするもの、削除候補を分ける。
    - 削除候補は必ずユーザー確認を得る。
    - 秘匿情報の可能性がある差分は内容をそのまま表示しすぎず、キー名や構造だけで確認する。
-5. 合意済みの変更だけ実施する。
+6. 合意済みの変更だけ実施する。
    - repo に入れる変更は `dotfiles/`、`skills/`、`setup.yaml`、または関連 skill に反映する。配布対象の追加・削除は `setup.yaml` だけを編集し、engine である `setup.sh` は挙動変更が必要なときだけ触る。
    - 端末へ反映する変更はバックアップまたは一時退避を作ってから適用する。
    - `skills/` 配下の端末反映は手動コピーではなく `gh skill install . --from-local --agent <agent> --scope user --force` で行う。対象と agent は `setup.yaml` の `skills` セクションから導出し、エントリが `all` なら `--all`、個別 skill なら skill 名を指定する(setup.sh の `install_skills` と同じ形)。
    - `.zshrc` への追記は重複しないように検査してから行う。
-6. 検証する。
+7. 検証する。
    - `./setup.sh --check`
    - `git diff --check`
    - 変更した Markdown / shell / YAML / TOML / JSON の構文確認
    - 必要なら `bash -n setup.sh`、`zsh -n`、`jq`、`git config --get` などの軽量検証
+8. 今回ユーザーが確定した判断のうち、次回も再確認になり得るもの(Local keep、削除見送りなど)を `MEMORY.md` に記録する。書式と記録対象は `references/sync-memory.md` に従う。
 
 ## Confirmation Rules
 
