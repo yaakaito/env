@@ -17,6 +17,7 @@
       "Bash(cp:*)",
       "Bash(echo:*)",
       "Bash(find:*)",
+      "Bash(for:*)",
       "Bash(head:*)",
       "Bash(gh api:*)",
       "Bash(gh issue create:*)",
@@ -43,6 +44,7 @@
       "Bash(rg:*)",
       "Bash(tail:*)",
       "Bash(xargs grep:*)",
+      "Search",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:docs.github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
@@ -60,9 +62,28 @@
     "command": "~/.claude/status-line.sh",
     "padding": 0
   },
+  "model": "fable",
+  "effortLevel": "high",
+  "theme": "dark",
+  "enabledPlugins": {
+    "typescript-lsp@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "claude-security@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
+    }
+  },
   "respectGitignore": false,
   "alwaysThinkingEnabled": true,
   "autoMemoryEnabled": false,
   "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "agentPushNotifEnabled": false,
   "skipAutoPermissionPrompt": true
 }
