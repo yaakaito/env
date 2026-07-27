@@ -12,6 +12,7 @@ git status --short
 git log --oneline --decorate --max-count=20 -- setup.yaml setup.sh dotfiles skills .claude/skills/dotfiles-skill-sync
 ./setup.sh --check
 find dotfiles skills -maxdepth 5 -type f | sort
+cat MEMORY.md 2>/dev/null || echo "MEMORY.md なし(references/sync-memory.md のテンプレートで作成する)"
 ```
 
 端末側の棚卸し対象は `setup.yaml` から導出する。`files` / `dirs` / `git_clones` の各エントリの端末側パス(`-> ` の右側、`~` は `$HOME` に読み替える)と `${ZDOTDIR:-$HOME}/.zshrc` について存在を確認する。秘密情報を含む可能性があるため、内容表示は必要最小限にする。
@@ -46,6 +47,8 @@ diff -ru skills "$HOME/.claude/skills"
 | Local keep        | 端末固有、秘密値、個人設定          | 端末側に残し、repo には入れない                                     |
 | Merge needed      | 両方の変更に意味がある              | 手動マージ案を提示する                                              |
 | Remove candidate  | 古い設定、現行 setup から外れたもの | 削除確認を取る                                                      |
+
+分類したら `MEMORY.md` と突き合わせる。記録があり差分の内容も変わっていない対象は再確認せず記録どおりに扱い、確認が必要なのは記録がない差分と内容が変わった差分だけにする(`references/sync-memory.md` を参照)。
 
 ## 3. Secret and local-only checks
 
@@ -115,3 +118,5 @@ git config --file dotfiles/.gitconfig --list
 ```
 
 端末側へ反映した場合は、適用後に対象ファイルの存在、重複 source 行、必要な CLI の存在を確認する。
+
+最後に、今回ユーザーが確定した判断のうち次回も再確認になり得るものを `MEMORY.md` に記録する(`references/sync-memory.md` を参照)。
