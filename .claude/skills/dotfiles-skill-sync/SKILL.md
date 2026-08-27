@@ -53,7 +53,7 @@ description: Clone 済みのこの環境リポジトリのルートで実行し�
 6. 合意済みの変更だけ実施する。
    - repo に入れる変更は `dotfiles/`、`skills/`、`setup.yaml`、または関連 skill に反映する。配布対象の追加・削除は `setup.yaml` だけを編集し、engine である `setup.sh` は挙動変更が必要なときだけ触る。
    - 端末へ反映する変更はバックアップまたは一時退避を作ってから適用する。
-   - `skills/` 配下の端末反映は手動コピーではなく `gh skill install . --from-local --agent <agent> --scope user --force` で行う。対象と agent は `setup.yaml` の `skills` セクションから導出し、エントリが `all` なら `--all`、個別 skill なら skill 名を指定する(setup.sh の `install_skills` と同じ形)。
+   - `skills/` 配下の端末反映は手動コピーではなく `gh skill install . --from-local --agent <agent> --scope user --force` で行う。対象と agent は `setup.yaml` の `skills` セクションから導出し、エントリが `all` なら `--all`、個別 skill なら skill 名を指定する(setup.sh の `install_skills` と同じ形)。他 repo 由来の skill は `remote_skills` セクションから導出し、`gh skill install <owner/repo> <skill> --agent <agent> --scope user --force` で行う(`install_remote_skills` と同じ形)。
    - `.zshrc` への追記は重複しないように検査してから行う。
 7. 検証する。
    - `./setup.sh --check`
