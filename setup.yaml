@@ -52,6 +52,13 @@ skills:
   - all -> claude-code
   - all -> universal
 
+# Skills from other GitHub repositories, installed for an agent with
+# `gh skill install <repository> <skill> --scope user --force`.
+# Entries are "<owner/repo> <skill> -> <agent>".
+remote_skills:
+  - github/gh-stack gh-stack -> claude-code
+  - github/gh-stack gh-stack -> universal
+
 # Commands that install CLIs needed by the phases below.
 installers:
   - mkdir -p ~/.cache

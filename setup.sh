@@ -40,7 +40,7 @@ expand_home() { printf '%s\n' "${1/#\~/$HOME}"; }
 
 check_manifest() {
   local section entry src ok=0
-  for section in files dirs git_clones skills; do
+  for section in files dirs git_clones skills remote_skills; do
     while IFS= read -r entry; do
       case "$entry" in
         *" -> "*) ;;
@@ -63,6 +63,15 @@ check_manifest() {
             echo "$MANIFEST: skills entry '$src' has no skills/$src/SKILL.md" >&2
             ok=1
           }
+          ;;
+        remote_skills)
+          case "$src" in
+            */*" "*) ;;
+            *)
+              echo "$MANIFEST: remote_skills entry '$src' is not '<owner/repo> <skill>'" >&2
+              ok=1
+              ;;
+          esac
           ;;
       esac
     done < <(manifest "$section")
@@ -135,6 +144,15 @@ install_skills() {
   done < <(manifest skills)
 }
 
+install_remote_skills() {
+  local entry repo name agent
+  while IFS= read -r entry; do
+    read -r repo name <<<"$(arrow_src "$entry")"
+    agent=$(arrow_dest "$entry")
+    gh skill install "$repo" "$name" --agent "$agent" --scope user --force
+  done < <(manifest remote_skills)
+}
+
 add_claude_plugins() {
   local entry
   # The claude installer places the binary in ~/.local/bin, which is not on
@@ -171,6 +189,7 @@ copy_dirs
 clone_repos
 append_zshrc_sources
 install_skills
+install_remote_skills
 run_commands installers
 add_claude_plugins
 install_npm_globals
