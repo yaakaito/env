@@ -6,6 +6,9 @@ Each artifact answers a different question. Write it there, and only there:
 - Test code explains **What**
 - Commit logs explain **Why**
 - Code comments explain **Why not**
+- Please remove all mannered prose.
+- Choose words that do not exaggerate or obscure the point.
+- Avoid the Japanese word `効く` wherever possible. It often hides the actual mechanism or outcome. Use it only when it is the precise, idiomatic term for a specific effect, as in `キャッシュが効き、レスポンスが速くなった`. Never write `A には XX が効く`; state what XX changes and why.
 
 ## Coding
 
