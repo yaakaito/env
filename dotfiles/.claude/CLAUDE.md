@@ -26,3 +26,4 @@ Each artifact answers a different question. Write it there, and only there:
 - Follow repository conventions; otherwise, use Conventional Commits
 - No development phases or internal task numbers in commit messages; include GitHub Issue numbers only when relevant
 - Use `chore` instead of `refactor` when editing files under `.github/`
+- When a review comment from a bot (e.g. Copilot) is valid and you have applied the fix, resolve the thread silently; do not write a reply
