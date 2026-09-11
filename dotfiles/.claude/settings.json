@@ -61,7 +61,7 @@
     "command": "~/.claude/status-line.sh",
     "padding": 0
   },
-  "model": "fable",
+  "model": "claude-fable-5-1[1m]",
   "effortLevel": "high",
   "theme": "dark",
   "enabledPlugins": {
@@ -84,5 +84,13 @@
   "skipDangerousModePermissionPrompt": true,
   "skipWorkflowUsageWarning": true,
   "agentPushNotifEnabled": false,
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "modelSettings": {
+    "claude-haiku-4-5": {
+      "effortLevel": "low"
+    },
+    "claude-fable-5-1": {
+      "effortLevel": "high"
+    }
+  }
 }
