@@ -25,7 +25,7 @@
 | `dirs`                                   | repo → 端末へのディレクトリのマージコピー(端末側にだけあるファイルは残る)                  |
 | `git_clones`                             | 端末に存在しない場合だけ clone するリポジトリ                                              |
 | `zshrc_source`                           | `${ZDOTDIR:-$HOME}/.zshrc` に idempotent に追記する `source` 行                            |
-| `skills`                                 | `gh skill install . --from-local --scope user` で配る skill と対象 agent(`all` は全 skill) |
+| `skills`                                 | `gh skill install ./skills --from-local --scope user` で配る skill と対象 agent(`all` は全 skill) |
 | `remote_skills`                          | 他の GitHub repo から `gh skill install <owner/repo> <skill>` で配る skill と対象 agent      |
 | `installers` / `run`                     | 順序どおり実行するコマンド(CLI インストール、事後設定)                                     |
 | `claude_marketplaces` / `claude_plugins` | `claude plugin marketplace add` / `claude plugin install` の対象                           |
