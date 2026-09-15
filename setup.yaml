@@ -45,7 +45,7 @@ zshrc_source:
   - ~/.zsh/prompt.zsh
 
 # Skills from ./skills installed for an agent with
-# `gh skill install . --from-local --scope user --force`.
+# `gh skill install ./skills --from-local --scope user --force`.
 # "all" installs every skill for that agent (a skill literally named "all"
 # is not supported).
 skills:

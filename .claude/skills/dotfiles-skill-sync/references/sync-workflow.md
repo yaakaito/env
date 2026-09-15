@@ -24,7 +24,7 @@ for p in <setup.yaml から導出した端末側パス> "${ZDOTDIR:-$HOME}/.zshr
 done
 ```
 
-必要なら作業用ディレクトリを `umask 077` の上で `mktemp -d` で作り、差分ログや退避コピーを置く。退避コピーには秘密情報が入り得るため、固定名の `/tmp` パスや repo 配下には置かない。秘密情報を repo の `references/` に保存しない。
+必要なら作業用ディレクトリを `umask 077` の上で `mktemp -d` で作り、差分ログを置く。端末版の退避コピーは、端末版に repo 版と衝突する独自の変更がある(Merge needed)ときだけ作る。端末版が repo 版と同一か古いだけなら退避しない。退避コピーには秘密情報が入り得るため、固定名の `/tmp` パスや repo 配下には置かない。秘密情報を repo の `references/` に保存しない。
 
 ## 2. Diff policy
 
@@ -88,7 +88,7 @@ repo へ取り込む前に、次の兆候があれば停止して確認する。
 - 対象パス
 - なぜ古いと判断したか
 - 参照元の有無
-- バックアップを作るか、そのまま残すか
+- 端末側にしかない内容を含むなら退避してから消すか、そのまま消すか
 
 ## 6. Apply and verify
 
@@ -96,8 +96,8 @@ skills を端末へ反映する場合は、`setup.yaml` の `skills` セクシ�
 
 ```bash
 # 例(実際のエントリは setup.yaml の skills セクションから導出する)
-gh skill install . --from-local --all --agent claude-code --scope user --force
-gh skill install . adr-writer --from-local --agent codex --scope user --force
+gh skill install ./skills --from-local --all --agent claude-code --scope user --force
+gh skill install ./skills adr-writer --from-local --agent codex --scope user --force
 ```
 
 repo 変更を加えたら以下を実行する。
