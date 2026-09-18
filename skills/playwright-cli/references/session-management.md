@@ -77,8 +77,10 @@ playwright-cli -s=site1 snapshot
 playwright-cli -s=site2 snapshot
 playwright-cli -s=site3 snapshot
 
-# Cleanup
-playwright-cli close-all
+# Close only the sessions created above
+playwright-cli -s=site1 close
+playwright-cli -s=site2 close
+playwright-cli -s=site3 close
 ```
 
 ### A/B Testing Sessions
@@ -124,6 +126,9 @@ Configure a browser session with specific settings when opening:
 # Open with config file
 playwright-cli open https://example.com --config=.playwright/my-cli.json
 
+# Connect through the browser extension
+playwright-cli open --extension
+
 # Open with specific browser
 playwright-cli open https://example.com --browser=firefox
 
@@ -134,36 +139,15 @@ playwright-cli open https://example.com --headed
 playwright-cli open https://example.com --persistent
 ```
 
-## Best Practices
+## Cleanup scope
 
-### 1. Name Browser Sessions Semantically
-
-```bash
-# GOOD: Clear purpose
-playwright-cli -s=github-auth open https://github.com
-playwright-cli -s=docs-scrape open https://docs.example.com
-
-# AVOID: Generic names
-playwright-cli -s=s1 open https://github.com
-```
-
-### 2. Always Clean Up
+Close sessions created for the task unless the user needs to keep them open. Use the same session name as the preceding actions:
 
 ```bash
-# Stop browsers when done
 playwright-cli -s=auth close
-playwright-cli -s=scrape close
-
-# Or stop all at once
-playwright-cli close-all
-
-# If browsers become unresponsive or zombie processes remain
-playwright-cli kill-all
+playwright-cli -s=public close
 ```
 
-### 3. Delete Stale Browser Data
+`close-all` and `kill-all` affect other sessions too. Use them only when the task covers those sessions. `delete-data` removes the profile directory; use it only when deleting that session's saved data is intended.
 
-```bash
-# Remove old browser data to free disk space
-playwright-cli -s=oldsession delete-data
-```
+Use a custom `--profile` directory only when explicitly requested.
