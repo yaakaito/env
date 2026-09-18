@@ -1,134 +1,31 @@
-# Best Practices for Agent Documentation
+# Reviewing Agent Instructions
 
-## Length Guidelines
+Use this reference for a broad structure or content review. A targeted command or wording fix rarely needs it.
 
-| Metric       | Limit               | Reason                                             |
-| ------------ | ------------------- | -------------------------------------------------- |
-| Total lines  | < 300 (ideal < 100) | LLMs can follow ~150-200 instructions consistently |
-| Instructions | < 100-150           | System prompt already uses ~50 instructions        |
+## Choose What Belongs Here
 
-## Writing Principles
+Keep information that changes an agent's decisions in this repository: an unexpected build prerequisite, an architectural boundary, a compatibility contract, or a required check that is easy to miss. Remove generic advice and facts agents can readily derive when they need them.
 
-### Be Specific, Not Generic
+A concise document is a result of selecting useful instructions, not meeting a line or instruction count. Do not remove a necessary operational constraint to reach a size target.
 
-❌ Bad:
+## Preserve Project Decisions
 
-```markdown
-- Format code properly
-- Write good tests
-```
+For each proposed rule, identify its source: an explicit user decision, an existing applicable instruction, or repository evidence. Distinguish established policy from an inferred convention. Do not turn one example into a universal requirement.
 
-✅ Good:
+When editing, compare against parent and nested instructions. Preserve the scope and exceptions of existing rules. Resolve stale or contradictory guidance only with evidence or the user's direction.
 
-```markdown
-- Use 2-space indentation
-- Prefer integration tests over unit tests for API endpoints
-```
+## Keep Detail Near Its Use
 
-### Use Pointers, Not Copies
+Link to existing documentation instead of copying code, schemas, or full procedures. Explain when an agent should read each linked document. Prefer stable file paths and named sections over line numbers that drift after edits.
 
-❌ Bad:
+Move substantial task-specific guidance into a relevant existing document or scoped instruction file when that improves discovery. Small documents do not need splitting. Verify the target tool's loading behavior before treating a link or import as deferred reading.
 
-```markdown
-Here's how the User model looks:
-class User {
-id: string
-name: string
-...
-}
-```
+For example, a database guide can be linked with “Before changing migrations, read `docs/database.md`.” Use the actual repository path, not this example verbatim.
 
-✅ Good:
+## Check the Result
 
-```markdown
-See `src/models/User.ts:10-25` for the User model definition.
-```
-
-Code snippets become outdated quickly. Reference file:line instead.
-
-### Let Linters Handle Style
-
-Do NOT include in agent docs:
-
-- Indentation rules
-- Semicolon preferences
-- Quote style
-- Import ordering
-
-These belong in `.eslintrc`, `.prettierrc`, `biome.json`, etc.
-
-## Progressive Disclosure
-
-Keep the main document lean. Link to detailed docs:
-
-```markdown
-## Additional Resources
-
-- `docs/DATABASE.md`: Database schema and relationships
-- `docs/API.md`: API endpoints and authentication
-```
-
-### When to Split
-
-Split content into separate files when:
-
-- A section exceeds 50 lines
-- Content is only relevant to specific tasks
-- Information changes frequently
-
-## Anti-Patterns
-
-### Avoid `/init` Over-Reliance
-
-`/init` generates a starting point, not a finished product. Always:
-
-1. Review generated content
-2. Remove generic/obvious information
-3. Add project-specific nuances
-
-### Avoid Duplication
-
-If the same instruction exists in multiple places (CLAUDE.md, README, etc.), keep it in ONE place and reference it.
-
-### Avoid Vague Instructions
-
-❌ "Follow best practices"
-❌ "Write clean code"
-❌ "Be careful with..."
-
-✅ Specific, actionable instructions
-
-## Structure Tips
-
-### Use Clear Headings
-
-```markdown
-## Development Commands ← Clear category
-
-- `npm test` - Run tests ← Command + description
-```
-
-### Group Related Items
-
-```markdown
-## Development Commands
-
-### Building
-
-- `npm run build` - Production build
-- `npm run build:dev` - Development build
-
-### Testing
-
-- `npm test` - Run all tests
-- `npm test:watch` - Watch mode
-```
-
-## Maintenance
-
-Review and update agent docs when:
-
-- Adding new features or packages
-- Changing build/test commands
-- Modifying project structure
-- Onboarding reveals missing information
+- Commands exist, include required working directories or prerequisites, and match the project's tooling.
+- References resolve and describe when their contents are needed.
+- Templates leave no placeholder policies or invented directories.
+- Required checks, compatibility contracts, and authorization boundaries retain their meaning.
+- A narrow request stays narrow; structural changes have a reason tied to the request.
