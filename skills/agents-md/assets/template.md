@@ -1,61 +1,23 @@
 # [Project Name]
 
-[Brief description of the project's purpose and goals. 1-3 sentences explaining WHY this project exists.]
+[Brief context needed to work in this repository.]
 
-- [Key feature 1]
-- [Key feature 2]
-- [Key feature 3]
+## Architecture
 
-## Architecture Overview
-
-- [Key architectural point 1]
-- [Key architectural point 2]
-- [Key architectural point 3]
-
-For detailed architecture, see `docs/ARCHITECTURE.md`.
-
-## Directory Structure
-
-```
-project/
-├── src/           # [Description]
-├── tests/         # [Description]
-├── docs/          # [Description]
-└── ...
-```
-
-## Core Principles
-
-- Do NOT maintain backward compatibility for internal code unless explicitly requested; prefer clean refactors over compatibility shims
-- Prefer existing patterns and terminology over general best practices
-- Avoid adding new dependencies unless necessary; remove when possible
-- Follow Conventional Commits for commit messages
-- [Add project-specific items as needed]
+[Non-obvious components, boundaries, or constraints that affect implementation. Link to existing architecture documentation if useful.]
 
 ## Commands
 
-- `[command]` - [Description]
-- `[command]` - [Description]
-- `[command]` - [Description]
+- `[verified command]`: [Purpose, required working directory, and prerequisites.]
 
 ## Testing
 
-- Prefer integration tests over unit tests
-- Use in-source testing for unit tests covering edge cases
-- Avoid mocks; use them only for external communication or resource fetching
-- [Add project-specific items as needed]
+[Project-specific test requirements and observable contracts, supported by existing policy or repository evidence.]
 
-## Language Policy
+## Conventions
 
-- Follow the user's language for comments, commits, and tests
-- Write the following files in English:
-  - CLAUDE.md, AGENTS.md
-  - Files under `.claude/`
-  - Files under `.github/` (except comments)
-- [Add project-specific items as needed]
+[Established compatibility, language, or contribution rules that agents need and cannot infer reliably.]
 
-## Additional Resources
+## Task-Specific Resources
 
-- `docs/ARCHITECTURE.md`: [Description]
-- `docs/agents/[FILE].md`: [Description]
-- `docs/adr/adr-001-[slug].md`: [ADR title]
+- `[existing path]`: [When to read it and what decision it supports.]
