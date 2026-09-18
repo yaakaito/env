@@ -77,4 +77,3 @@ git rev-list --merges <remote-range>
   不明なら `content-diverged` とする。
 
 結果を `layer / local SHA / remote SHA / classification / evidence` の表でまとめる。
-
