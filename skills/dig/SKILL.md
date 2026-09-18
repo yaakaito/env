@@ -1,22 +1,22 @@
 ---
 name: dig
-description: Interview the user to clarify requirements and stress-test decisions, using chat for a few questions or an HTML questionnaire for many.
+description: Interview the user when they request in-depth requirements clarification or decision stress-testing, using chat or an HTML questionnaire.
 user-invocable: true
 disable-model-invocation: true
 ---
 
 # Dig
 
-Interview the user about the current topic until you reach a shared understanding. Walk down each branch of the problem — scope, behavior, data, edge cases, constraints — resolving decisions in dependency order.
+Clarify the decisions needed for the user's next step. Explore relevant scope, behavior, data, edge cases, and constraints in dependency order; stop when remaining unknowns can be explicitly deferred without changing that step.
 
 - Dig into what is expensive to change later: specifications, behavior, policies, and technical direction — data models, boundaries, dependencies, trade-offs
 - Do not dig into what is cheap to adjust later: coding style preferences, naming details, wording, fine-grained UI. Decide these yourself and move on — they are easier to tune once something exists to look at. A detail that carries a requirement (accessibility, localization, compliance, externally visible behavior) is a specification, not a preference — dig into it
 - If a question can be answered by exploring the codebase, explore instead of asking
 - If a question's options depend on another's answer, defer it until that answer is available
 - Include your recommended answer and a brief reason with each question when you have a basis for a recommendation
-- Do not accept vague answers — "it depends", "probably", "later" are branches to dig into, not answers
-- Do not start implementing the subject of the interview until the user confirms the understanding is shared; creating the questionnaire is part of the interview
-- When done, summarize what was decided (with rationale) and what remains open
+- Follow up on vague answers when they affect the next decision. If the user defers a decision or delegates it to you, record that choice and its implications instead of repeatedly asking
+- Interviewing alone does not authorize implementation. If the user has already asked you to implement after clarification, proceed once the necessary decisions are settled without requiring a separate confirmation. Creating the questionnaire is part of the interview
+- When done, summarize decisions with rationale, any assumptions, and deferred or unresolved points. Distinguish a recommendation from the user's choice; unanswered questions and elapsed time are not approval
 
 ## Choose the question format
 
