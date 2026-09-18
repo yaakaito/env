@@ -1,96 +1,32 @@
 ---
 name: adr-writer
-description: Skill for creating and editing Architecture Decision Records (ADRs). Use when requests involve "create ADR", "record architecture decision", or "document design decisions". Supports creating new ADRs, updating existing ADRs, and reviewing ADR format.
+description: Create, update, or review Architecture Decision Records (ADRs) using the project's conventions. Use when asked to record an architecture decision or work on an ADR; not for general design discussion without a requested record.
 ---
 
 # ADR Writer
 
-A skill for creating Architecture Decision Records (ADRs). Generates ADRs following project-specific format conventions.
+Record the context, decision, consequences, and considered alternatives so readers can understand why the architecture was chosen.
 
-## ADR Format
+## Project Conventions
 
-### File Naming Convention
+Follow the user's requested format and the project's ADR conventions for location, naming, numbering, language, and structure. Inspect the target ADR, relevant existing ADRs, and any project template as needed to establish those conventions and understand the decision. Do not require a fixed number of documents or read unrelated ADRs.
 
-```
-adr-NNN-short-description-in-english-with-hyphens.md
-```
+When no convention exists, use `docs/adr/adr-NNN-short-description-in-english.md` with the next number after the highest existing ADR number (start at `001` if none exist), an English title, and Japanese body text under English section headings. Use [assets/adr-example.md](assets/adr-example.md) as the fallback template; load it only when creating an ADR without a project template.
 
-Example: `adr-002-new-feature.md`
+## Decision and Status
 
-### Storage Location
+Use the conversation and relevant project evidence to distinguish a proposal from an approved decision. Do not infer approval from a request to write an ADR. For a new ADR with no approval evidence, use the project's proposal status or `Proposed` if none is defined. Use `Approved` or the project's equivalent only when approval is established.
 
-```
-docs/adr/
-```
+When editing an existing ADR, preserve its status and recorded decision unless the request or evidence supports changing them. If a decision is being replaced, follow the project's superseding convention and preserve the original rationale and links between records. Ask only when missing decision details prevent an accurate record; identify unresolved details rather than inventing them.
 
-### Structure
+## Content
 
-```markdown
-# Title (in English)
+- Context explains why the decision is needed, using known facts and constraints.
+- Decision states the chosen or proposed approach specifically enough to guide implementation. Include diagrams or language-agnostic pseudocode when they clarify the design; do not include implementation-specific code.
+- Consequences describe benefits, drawbacks, trade-offs, and relevant side effects.
+- Alternatives include options actually considered and the known reasons for not adopting them. Mark missing rationale as unknown rather than fabricating a comparison.
+- References link to relevant ADRs and source material supporting the record.
 
-## Status
+## Completion
 
-Approved
-
-## Context
-
-Describe the background, challenges, and current issues. Follow the flow: facts → challenges → what you want to solve.
-Use lists to enumerate facts and issues. Avoid adding sub-headers; prefer prose and lists within this section.
-
-## Decision
-
-Start with a brief summary of the overall decision (1-2 paragraphs). Then, if there are multiple decisions, create a sub-section for each (e.g., ### Decision 1).
-However, avoid creating too many sub-sections unnecessarily. Use tables or Mermaid diagrams as needed.
-
-**Important**: Do NOT include implementation-specific code. Use pseudocode only to illustrate concepts.
-
-## Consequences
-
-### Positive
-
-- Positive outcomes and benefits
-
-### Negative
-
-- Negative outcomes, drawbacks, and trade-offs
-
-### Neutral
-
-- Neutral impacts and side effects
-
-## Notes
-
-### Alternatives Considered
-
-- **Alternative A**: Reason for not adopting
-- **Alternative B**: Reason for not adopting
-
-### References
-
-- Related ADRs and external resources
-```
-
-## Creation Steps
-
-1. **Determine next ADR number**: Check existing files in `docs/adr/` to determine the next number
-2. **Use example**: Refer to `assets/adr-example.md`
-3. **Fill in each section**:
-   - Title should be concise and in English
-   - Context/Decision/Consequences/Notes should be detailed and in Japanese
-   - Add code blocks, tables, and Mermaid diagrams as needed
-4. **Save file**: Save as `docs/adr/adr-NNN-description.md`
-
-## Examples
-
-- [assets/adr-example.md](assets/adr-example.md) - Structure template with explanations
-- Before writing, read the two most recent ADRs in `docs/adr/` to understand the current format and writing style
-
-## Writing Guidelines
-
-- **Status**: Always set to "Approved"
-- **Strict structure adherence**: Follow the defined ADR format strictly. Before adding any new headers or sections, carefully consider whether it is truly necessary. Prefer using lists or prose within existing sections
-- **Context**: Clearly explain "why this decision is needed now"
-- **Decision**: Be specific and implementation-ready. Avoid vague expressions
-- **Code examples**: Never include implementation-specific code from the actual codebase. Use pseudocode only to illustrate concepts and help readers understand the design. Pseudocode should be language-agnostic and focus on the "what" rather than the "how"
-- **Consequences**: Honestly describe both benefits and drawbacks. No solution is perfect
-- **Alternatives Considered**: Document alternatives that were considered and explain why they were not adopted
+For creation or editing, save the requested ADR and check its numbering, links, status, and consistency with project conventions and the supplied decision. For a review-only request, report findings without changing files. Report unresolved decision details that affect the record's accuracy.
