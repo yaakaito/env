@@ -1,79 +1,37 @@
-# [Title]
+# [Concise English title]
 
 ## Status
 
-Approved
+Proposed
 
 ## Context
 
-Describe the background, challenges, and current issues here. Follow the flow: facts → challenges → what you want to solve.
-Use bullet points when listing facts or issues:
-
-- [Fact 1]
-- [Fact 2]
-- [Fact 3]
-
-Issues:
-
-- [Challenge 1]
-- [Challenge 2]
-
-Close this section by explaining what you want to solve and the general approach.
+[Explain in Japanese the known facts, constraints, and problem that require this decision.]
 
 ## Decision
 
-Start with a brief summary of the overall decision. This summary should give readers a high-level understanding of what was decided and why (1-2 paragraphs).
-
-[Summary of the decision goes here. Explain the general approach and key principles.]
-
-Include diagrams if helpful for explaining the overall design.
-
-### Decision 1
-
-If there are multiple decisions, create a section for each. Describe the details of each decision here.
-However, avoid creating too many sections unnecessarily.
-
-Use pseudocode to illustrate concepts (not implementation-specific code):
-
-```js
-// Pseudocode example
-async function handleRequest(request) {
-  const cached = await cache.get(request);
-  if (cached) {
-    return cached;
-  }
-
-  const response = await fetch(origin);
-  await cache.put(request, response);
-  return response;
-}
-```
+[Describe in Japanese the proposed or approved approach and its rationale. Add subsections only when distinct decisions need them. Use diagrams or language-agnostic pseudocode only when useful.]
 
 ## Consequences
 
 ### Positive
 
-- [Positive outcomes]
-- [Positive outcomes]
+- [Expected benefit]
 
 ### Negative
 
-- [Negative outcomes]
-- [Negative outcomes]
+- [Drawback or trade-off]
 
 ### Neutral
 
-- [Neutral impacts]
-- [Neutral impacts]
+- [Relevant side effect, if any]
 
 ## Notes
 
 ### Alternatives Considered
 
-- **Alternatives**: [Alternative approaches that were considered]
-- **Alternatives**: [Alternative approaches that were considered]
-- **Alternatives**: [Alternative approaches that were considered]
+- [Option actually considered and the known reason it was not adopted]
 
 ### References
 
-- [Related documents and external resources]
+- [Related ADR or supporting source]
