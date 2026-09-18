@@ -58,6 +58,8 @@ skills:
 remote_skills:
   - github/gh-stack gh-stack -> claude-code
   - github/gh-stack gh-stack -> universal
+  - microsoft/playwright-cli playwright-cli -> claude-code
+  - microsoft/playwright-cli playwright-cli -> universal
 
 # Commands that install CLIs needed by the phases below.
 installers:
