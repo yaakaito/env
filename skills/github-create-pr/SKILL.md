@@ -14,9 +14,11 @@ context: fork
 
 `git status`、現在のブランチ、remote、base との差分と commit 履歴から、PR に入る変更を確認する。
 base はユーザーの指定とリポジトリの運用から判断し、ブランチ名を決め打ちしない。
+base の repository とブランチ、head の repository とブランチ、push 先の remote を区別して確定する。
 commit 済みの変更は `git diff <base>...HEAD` と `git log <base>..HEAD` で確認する。
 
 未コミットの変更は、会話と差分から依頼に含まれると確認できるものだけを、内容に合った単位で commit する。
+未追跡ファイルも列挙して内容を確認し、依頼範囲に含まれるかを判断する。
 PR 作成の依頼を、手元の全変更を取り込む許可として扱わない。
 範囲外の変更は保持し、秘密情報を含むファイルは commit しない。
 commit メッセージはリポジトリの規約に従い、規約がなければ Conventional Commits を使う。
@@ -34,6 +36,8 @@ PR 作成前に、1 つの PR でレビューできる規模か、stack に分�
 1 つの PR では大きすぎると判断した場合は、その理由と、各 PR の目的、依存関係を示した分割案を提示する。
 依存関係のある変更は stack、独立した変更は別々の PR とする案を示す。
 分割方針が指定済みなら尊重し、指定された各 PR の規模を評価する。
+分割方針が未確定なら、ユーザーの選択を待ってから分割と公開に進む。
+既に方針が指定されている場合や判断を委任されている場合は、承認を取り直さない。
 分割が不要なら、確認を求めず作成へ進む。
 stack の構築と提出には、利用できる場合は `gh-stack` skill を使う。
 
@@ -108,21 +112,30 @@ stack の構築と提出には、利用できる場合は `gh-stack` skill を�
 
 ## 公開と完了
 
-依頼範囲のブランチを `git push -u` で push する。
-本文は実際の改行を含む一時ファイルに保存し、base と head を明示して作成する。
+stack を選んだ場合は、stack の公開手順で提出し、以下の通常の公開手順は実行しない。
+stack を公開できない場合は、単一 PR に切り替えず、未完了の操作と理由を報告する。
+
+通常の PR は、確定した remote に依頼範囲のブランチを push する。
+本文は実際の改行を含む一時ファイルに保存する。
+各値を shell 変数に安全に格納し、展開を引用する。
+`head_ref` は同じ repository ならブランチ名、ユーザー所有の fork なら `owner:branch` とする。
+organization 所有の fork は `gh pr create --head` の owner 指定に対応していないため、下記の作成 URL を使う。
 
 ```bash
-gh pr create --base <base> --head <branch> --title '<title>' --body-file <body-file>
+git push -u "$head_remote" "$head_branch"
+gh pr create --repo "$base_repo" --base "$base_branch" --head "$head_ref" --title "$title" --body-file "$body_file"
 ```
 
-同じブランチの PR が既にある場合や、作成リクエストの応答が不明な場合は、既存 PR を確認して重複作成を避ける。
+作成前と、作成リクエストの応答が不明な場合は、既存の Open PR を確認する。
+base の repository とブランチ、head の repository とブランチがすべて一致する場合だけ重複と判定する。
 作成した PR の URL と、必要なら依頼から除外した変更を報告する。
 
-`gh` が使えない場合や API 制限で作成できない場合は、push の成否を確認して次の形式の作成 URL を返す。
-owner と repo は remote から取得し、タイトルと本文は改行を含め percent-encode する。
+`gh` が使えない場合、CLI で対象を扱えない場合、API 制限で作成できない場合は、push の成否を確認して次の形式の作成 URL を返す。
+base repository を URL の公開先とし、head は同じ repository ならブランチ名、fork なら `owner:branch` とする。
+ブランチ名、タイトル、本文は改行や特殊文字を含め percent-encode する。
 
 ```text
-https://github.com/<owner>/<repo>/compare/<base>...<branch>?quick_pull=1&title=<encoded-title>&body=<encoded-body>
+https://github.com/<base-owner>/<base-repo>/compare/<encoded-base>...<encoded-head>?quick_pull=1&title=<encoded-title>&body=<encoded-body>
 ```
 
 これは作成済みの PR ではないと明記し、下書きのタイトルと本文、push を含む未完了の操作も伝える。
