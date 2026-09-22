@@ -119,7 +119,7 @@ stack を公開できない場合は、単一 PR に切り替えず、未完了�
 本文は実際の改行を含む一時ファイルに保存する。
 各値を shell 変数に安全に格納し、展開を引用する。
 `head_ref` は同じ repository ならブランチ名、ユーザー所有の fork なら `owner:branch` とする。
-organization 所有の fork は `gh pr create --head` の owner 指定に対応していないため、下記の作成 URL を使う。
+organization 所有の fork は `gh pr create --head` の owner 指定に対応していないため、push 後、下記の作成 URL を使う。
 
 ```bash
 git push -u "$head_remote" "$head_branch"
