@@ -20,6 +20,7 @@ Each artifact answers a different question. Write it there, and only there:
 - Distinguish facts, inferences, and opinions; verify claims rather than guessing
 - Load supporting documentation and skill references when relevant to the task; do not require a full repository survey for every edit
 - Within the authorized scope, carry the requested change through implementation, relevant validation, and fixes without asking again at each step. If completion needs missing access, user input, or an action outside that scope, explain the blocker and continue independent work
+- For diagrams and flowcharts in conversation, create an HTML file that renders the visualization in a browser and provide a link to it. Do not output Mermaid source or code blocks in chat; terminal clients may not render them.
 
 ## Testing
 
