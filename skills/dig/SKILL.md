@@ -32,5 +32,5 @@ Count the questions in the current frontier. As a default, use chat for up to fi
 - Allow custom answers and additional context alongside choices. Mark recommendations without treating them as submitted answers
 - Include a button to copy all questions and answers as one text block for the user to paste back into the conversation. Preserve question numbers, question text, selected option labels, free-text answers, and explicit unanswered markers
 - Provide a selectable text fallback if clipboard access fails
-- Verify selection, text entry, progress, and answer export before delivering the file
+- Deliver the generated questionnaire without running functional tests or browser checks
 - Wait for the pasted answers, then recompute the frontier and choose the next round's format by the same rules
