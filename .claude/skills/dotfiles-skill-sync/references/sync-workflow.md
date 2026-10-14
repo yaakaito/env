@@ -66,7 +66,7 @@ repo へ取り込む前に、次の兆候があれば停止して確認する。
 
 - `.gitconfig`: `[user]` は基本的に local keep。alias、credential helper、diff/merge 設定は一般化できるか判断する。
 - `.config/git/ignore`: OS・エディタ・言語ツールの一般 ignore は repository update 候補。個人プロジェクト名は local keep。
-- `.claude/settings.json` / `.codex/config.toml`: 権限、sandbox、モデル、MCP、approval は端末依存が混ざりやすい。既存値を尊重し、一般化できるデフォルトだけ取り込む。
+- `.claude/settings.json` / `.codex/config.toml`: 権限、sandbox、モデル、MCP、approval は端末依存が混ざりやすい。既存値を尊重し、一般化できるデフォルトだけ取り込む。`model` が repo と違う場合は、端末側で選んだ値(未指定を含む)を確認せずに残す。
 - skills: 本文・reference・script の改善は repo root `skills/` への repository update 候補。ユーザー固有ワークフローや社内情報は local keep。取り込み時は Agent Skills 仕様（ディレクトリ名 = frontmatter `name`、`allowed-tools` は文字列）を保つ。repo → 端末の反映は `gh skill install`（`--from-local`）で行い、`~/.claude/skills` を直接編集・コピーしない。
 - `.zshrc`: source 行は idempotent に追加する。既存の手書き構成を並べ替えない。
 - 配布対象の増減（新しい dotfile を配る、配布をやめる）は `setup.yaml` の該当セクションを編集し、`./setup.sh --check` で検証する。`setup.sh` 本体は挙動を変えるときだけ触る。
