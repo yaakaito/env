@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dig questionnaire</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --muted: light-dark(#6b7280, #9ca3af);
+    --border: light-dark(#d1d5db, #4b5563);
+    --accent: light-dark(#2563eb, #60a5fa);
+  }
+  body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 52rem; margin: 0 auto; padding: 1rem 1rem 4rem; }
+  header { position: sticky; top: 0; background: Canvas; padding: .5rem 0; border-bottom: 1px solid var(--border); z-index: 1; }
+  h1 { font-size: 1.25rem; margin: 0; }
+  h2 { font-size: 1.05rem; margin: 2rem 0 .5rem; }
+  .progress { color: var(--muted); }
+  .question { border: 1px solid var(--border); border-radius: .5rem; padding: .75rem 1rem; margin: .75rem 0; }
+  .question.answered { border-color: var(--accent); }
+  .question-text { font-weight: 600; white-space: pre-wrap; }
+  .recommendation { color: var(--muted); font-size: .9rem; margin: .25rem 0 .5rem; white-space: pre-wrap; }
+  label.option { display: block; margin: .15rem 0; }
+  textarea { width: 100%; box-sizing: border-box; font: inherit; }
+  .note { margin-top: .5rem; }
+  .note summary { color: var(--muted); cursor: pointer; font-size: .9rem; }
+  button { font: inherit; padding: .4rem 1rem; }
+  #copy-status { margin-left: .5rem; color: var(--muted); }
+  #answers-text { min-height: 12rem; font-family: ui-monospace, monospace; font-size: .85rem; }
+  .description { margin: .5rem 0; overflow-x: auto; }
+  .description img, .description svg { max-width: 100%; height: auto; }
+  .description pre { overflow-x: auto; }
+  .description table { border-collapse: collapse; }
+  .description th, .description td { border: 1px solid var(--border); padding: .25rem .5rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title"></h1>
+  <div class="progress" id="progress"></div>
+</header>
+<div class="description" id="description"></div>
+<main id="questions"></main>
+<section>
+  <h2>回答</h2>
+  <button type="button" id="copy">回答をコピー</button><span id="copy-status"></span>
+  <p class="progress">コピーできない場合は下のテキストを選択して貼り付けてください。</p>
+  <textarea id="answers-text" readonly></textarea>
+</section>
+<script type="application/json" id="questionnaire-data">
+__QUESTIONNAIRE_JSON__
+</script>
+<script>
+  const data = JSON.parse(document.getElementById("questionnaire-data").textContent);
+  const OTHER = "__other__";
+  const state = new Map(data.questions.map((q) => [q.id, { choice: "", text: "", note: "" }]));
+
+  const el = (tag, props = {}, children = []) => {
+    const node = Object.assign(document.createElement(tag), props);
+    node.append(...children);
+    return node;
+  };
+
+  const roundLabel = data.round ? `Round ${data.round}` : "";
+  document.getElementById("title").textContent = [data.title, roundLabel].filter(Boolean).join(" — ");
+  document.title = document.getElementById("title").textContent || document.title;
+  document.getElementById("description").innerHTML = data.description || "";
+
+  function isAnswered(q) {
+    const s = state.get(q.id);
+    if (q.type === "select") return s.choice !== "" && (s.choice !== OTHER || s.text.trim() !== "");
+    return s.text.trim() !== "";
+  }
+
+  function answerText(q) {
+    if (!isAnswered(q)) return "(未回答)";
+    const s = state.get(q.id);
+    if (q.type === "select" && s.choice !== OTHER) return s.choice;
+    return s.text.trim();
+  }
+
+  function renderQuestion(q) {
+    const s = state.get(q.id);
+    const card = el("div", { className: "question" });
+    card.append(el("div", { className: "question-text", textContent: `(${q.id}/${data.questions.length}) ${q.text}` }));
+    if (q.description) card.append(el("div", { className: "description", innerHTML: q.description }));
+    if (q.recommended) {
+      const reason = q.reason ? ` — ${q.reason}` : "";
+      card.append(el("div", { className: "recommendation", textContent: `推奨: ${q.recommended}${reason}` }));
+    }
+
+    const update = () => {
+      card.classList.toggle("answered", isAnswered(q));
+      refresh();
+    };
+
+    if (q.type === "select") {
+      const otherText = el("textarea", { rows: 2, placeholder: "その他の回答", hidden: true });
+      otherText.addEventListener("input", () => { s.text = otherText.value; update(); });
+      const choices = [...q.options.map((o) => [o, o]), [OTHER, "その他（自由記入）"]];
+      for (const [value, label] of choices) {
+        const radio = el("input", { type: "radio", name: `q${q.id}`, value });
+        radio.addEventListener("change", () => {
+          s.choice = value;
+          otherText.hidden = value !== OTHER;
+          update();
+        });
+        card.append(el("label", { className: "option" }, [radio, ` ${label}`]));
+      }
+      card.append(otherText);
+    } else {
+      const answer = el("textarea", { rows: 3, placeholder: "回答" });
+      answer.addEventListener("input", () => { s.text = answer.value; update(); });
+      card.append(answer);
+    }
+
+    const note = el("textarea", { rows: 2, placeholder: "補足・前提・懸念など" });
+    note.addEventListener("input", () => { s.note = note.value; refresh(); });
+    card.append(el("details", { className: "note" }, [el("summary", { textContent: "補足を追加" }), note]));
+    return card;
+  }
+
+  const container = document.getElementById("questions");
+  const topics = [...new Set(data.questions.map((q) => q.topic || ""))];
+  for (const topic of topics) {
+    if (topic) container.append(el("h2", { textContent: topic }));
+    for (const q of data.questions.filter((q) => (q.topic || "") === topic)) container.append(renderQuestion(q));
+  }
+
+  const answersText = document.getElementById("answers-text");
+  function buildText() {
+    const lines = roundLabel ? [roundLabel, ""] : [];
+    for (const q of data.questions) {
+      lines.push(`(${q.id}/${data.questions.length}) ${q.text}`);
+      lines.push(`回答: ${answerText(q)}`);
+      const note = state.get(q.id).note.trim();
+      if (note) lines.push(`補足: ${note}`);
+      lines.push("");
+    }
+    return lines.join("\n").trimEnd();
+  }
+
+  function refresh() {
+    const answered = data.questions.filter(isAnswered).length;
+    document.getElementById("progress").textContent = `回答済み ${answered}/${data.questions.length}`;
+    answersText.value = buildText();
+  }
+  refresh();
+
+  document.getElementById("copy").addEventListener("click", async () => {
+    const status = document.getElementById("copy-status");
+    try {
+      await navigator.clipboard.writeText(answersText.value);
+      status.textContent = "コピーしました";
+    } catch {
+      answersText.focus();
+      answersText.select();
+      status.textContent = "コピーできませんでした。選択済みのテキストを手動でコピーしてください";
+    }
+  });
+</script>
+</body>
+</html>
