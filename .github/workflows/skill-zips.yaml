@@ -29,8 +29,14 @@ jobs:
         run: bin/build-skill-zips dist/skills
 
       # 削除したスキルの zip を残さず、タグも現在のコミットへ動かすため作り直す
+      # 古い ref の手動実行や再実行でリリースを巻き戻さないよう、main の HEAD 以外は公開しない
       - name: Recreate release
         run: |
+          main_sha="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq '.object.sha')"
+          if [ "$main_sha" != "$GITHUB_SHA" ]; then
+            echo "main は $main_sha のため $GITHUB_SHA の公開をスキップします"
+            exit 0
+          fi
           gh release delete "$RELEASE_TAG" --cleanup-tag --yes || true
           gh release create "$RELEASE_TAG" dist/skills/*.zip \
             --target "$GITHUB_SHA" \
