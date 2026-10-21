@@ -8,7 +8,11 @@ output_dir="$(mkdir -p "${1:-$repo_root/dist/skills}" && cd "${1:-$repo_root/dis
 cd "$repo_root/skills"
 for skill_file in */SKILL.md; do
   skill_name="${skill_file%/SKILL.md}"
-  frontmatter_name="$(sed -n 's/^name:[[:space:]]*//p' "$skill_file" | head -n 1)"
+  frontmatter_name="$(awk '
+    NR == 1 && $0 != "---" { exit }
+    NR > 1 && $0 == "---" { exit }
+    NR > 1 && sub(/^name:[[:space:]]*/, "") { print; exit }
+  ' "$skill_file")"
   if [ "$frontmatter_name" != "$skill_name" ]; then
     echo "error: $skill_file の name ($frontmatter_name) がディレクトリ名と一致しません" >&2
     exit 1
