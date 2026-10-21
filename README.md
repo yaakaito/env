@@ -119,18 +119,18 @@ gh skill publish --dry-run
 
 Claude.ai などスキルを zip でアップロードする環境向けに、`main` の `skills/` が変わるたびに GitHub Actions（`.github/workflows/skill-zips.yaml`）が各スキルを zip にして [`skills` リリース](https://github.com/yaakaito/env/releases/tag/skills)に置きます。
 
-| スキル | zip |
-| --- | --- |
-| adr-writer | [adr-writer.zip](https://github.com/yaakaito/env/releases/download/skills/adr-writer.zip) |
-| agents-md | [agents-md.zip](https://github.com/yaakaito/env/releases/download/skills/agents-md.zip) |
-| dig | [dig.zip](https://github.com/yaakaito/env/releases/download/skills/dig.zip) |
-| discuss | [discuss.zip](https://github.com/yaakaito/env/releases/download/skills/discuss.zip) |
-| gh-stack-reconcile | [gh-stack-reconcile.zip](https://github.com/yaakaito/env/releases/download/skills/gh-stack-reconcile.zip) |
-| github-create-pr | [github-create-pr.zip](https://github.com/yaakaito/env/releases/download/skills/github-create-pr.zip) |
+| スキル                       | zip                                                                                                                           |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| adr-writer                   | [adr-writer.zip](https://github.com/yaakaito/env/releases/download/skills/adr-writer.zip)                                     |
+| agents-md                    | [agents-md.zip](https://github.com/yaakaito/env/releases/download/skills/agents-md.zip)                                       |
+| dig                          | [dig.zip](https://github.com/yaakaito/env/releases/download/skills/dig.zip)                                                   |
+| discuss                      | [discuss.zip](https://github.com/yaakaito/env/releases/download/skills/discuss.zip)                                           |
+| gh-stack-reconcile           | [gh-stack-reconcile.zip](https://github.com/yaakaito/env/releases/download/skills/gh-stack-reconcile.zip)                     |
+| github-create-pr             | [github-create-pr.zip](https://github.com/yaakaito/env/releases/download/skills/github-create-pr.zip)                         |
 | github-create-umbrella-issue | [github-create-umbrella-issue.zip](https://github.com/yaakaito/env/releases/download/skills/github-create-umbrella-issue.zip) |
-| github-fix-failed-workflow | [github-fix-failed-workflow.zip](https://github.com/yaakaito/env/releases/download/skills/github-fix-failed-workflow.zip) |
-| research | [research.zip](https://github.com/yaakaito/env/releases/download/skills/research.zip) |
-| writing-tech-text | [writing-tech-text.zip](https://github.com/yaakaito/env/releases/download/skills/writing-tech-text.zip) |
+| github-fix-failed-workflow   | [github-fix-failed-workflow.zip](https://github.com/yaakaito/env/releases/download/skills/github-fix-failed-workflow.zip)     |
+| research                     | [research.zip](https://github.com/yaakaito/env/releases/download/skills/research.zip)                                         |
+| writing-tech-text            | [writing-tech-text.zip](https://github.com/yaakaito/env/releases/download/skills/writing-tech-text.zip)                       |
 
 ローカルでは `bin/build-skill-zips` で `dist/skills/` に同じ zip を作れます。
 
