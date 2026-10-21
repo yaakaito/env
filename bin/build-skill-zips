@@ -1,0 +1,20 @@
+#!/bin/bash
+# skills/<name>/ を Claude にアップロードできる <name>.zip (中身は <name>/SKILL.md ...) にまとめる
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "$0")/.." && pwd)"
+output_dir="$(mkdir -p "${1:-$repo_root/dist/skills}" && cd "${1:-$repo_root/dist/skills}" && pwd)"
+
+cd "$repo_root/skills"
+for skill_file in */SKILL.md; do
+  skill_name="${skill_file%/SKILL.md}"
+  frontmatter_name="$(sed -n 's/^name:[[:space:]]*//p' "$skill_file" | head -n 1)"
+  if [ "$frontmatter_name" != "$skill_name" ]; then
+    echo "error: $skill_file の name ($frontmatter_name) がディレクトリ名と一致しません" >&2
+    exit 1
+  fi
+
+  rm -f "$output_dir/$skill_name.zip"
+  zip -qrX "$output_dir/$skill_name.zip" "$skill_name" -x '*.DS_Store'
+  echo "$output_dir/$skill_name.zip"
+done
