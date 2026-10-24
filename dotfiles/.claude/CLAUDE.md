@@ -18,7 +18,7 @@ Each artifact answers a different question. Write it there, and only there:
 - Follow repository language conventions; otherwise, follow the user's language for prose and ecosystem conventions for code
 - Distinguish facts, inferences, and opinions; verify uncertain facts before relying on them
 - Read supporting documents and skill references when they inform the current task; do not load unrelated workflows
-- For diagrams and flowcharts in conversation, create an HTML file that renders the visualization in a browser and provide a link to it. Do not output Mermaid source or code blocks in chat; terminal clients may not render them.
+- For diagrams and flowcharts in conversation, write a simple, self-contained HTML file under `/tmp` that renders the visualization in a browser and provide its absolute path. Do not publish it as an Artifact or other hosted page. Do not output Mermaid source or code blocks in chat; terminal clients may not render them.
 
 ## Completion
 
