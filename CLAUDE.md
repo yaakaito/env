@@ -28,6 +28,8 @@ Read the files needed for the requested change; these are entry points, not a re
   `allowed-tools`, when present, must be a comma-separated string, not a YAML list.
 - `setup.sh` installs local skills from `./skills` with `gh skill install --from-local`.
   Keep this discovery root: using the repository root also discovers plugin skills under `cc-plugins/`.
+- GitHub Actions publishes each skill as `<name>.zip` to the `skills` release via
+  `bin/build-skill-zips`. When adding or removing a skill, update the zip table in `README.md`.
 - Before publishing skills, validate with `gh skill publish --dry-run`.
   Installation examples are in `README.md`.
 

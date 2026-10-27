@@ -1,0 +1,43 @@
+name: Skill zips
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "skills/**"
+      - "bin/build-skill-zips"
+      - ".github/workflows/skill-zips.yaml"
+  workflow_dispatch:
+
+concurrency:
+  group: skill-zips
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: skills
+    steps:
+      # 古い ref の手動実行や再実行でもリリースを巻き戻さないよう、常に main の最新から作る
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Build skill zips
+        run: bin/build-skill-zips dist/skills
+
+      # 削除したスキルの zip を残さず、タグも現在のコミットへ動かすため作り直す
+      - name: Recreate release
+        run: |
+          commit_sha="$(git rev-parse HEAD)"
+          gh release delete "$RELEASE_TAG" --cleanup-tag --yes || true
+          gh release create "$RELEASE_TAG" dist/skills/*.zip \
+            --target "$commit_sha" \
+            --title "Skills" \
+            --notes "skills/ 以下の各スキルを Claude にアップロードできる zip にしたものです ($commit_sha)。" \
+            --latest=false
