@@ -11,6 +11,7 @@ Each artifact answers a different question. Write it there, and only there:
 
 ## Coding
 
+- Unless the user asks otherwise, always keep changes minimal; do not refactor, rename, reformat, or clean up surrounding code along the way
 - Inline a single-use value when doing so is clearer; name it when the name communicates intent or reduces complexity
 
 ## General
@@ -28,12 +29,12 @@ Each artifact answers a different question. Write it there, and only there:
 
 ## Testing
 
-- Practice TDD as advocated by Kent Beck and t_wada
 - Prefer integration tests over unit tests; avoid mocks; test observable behavior and contracts, not implementation details
 
 ## Git
 
 - Follow repository conventions; otherwise, use Conventional Commits
+- Keep each commit message concise and self-contained in explaining why the change was needed; do not paste conversation content or reference resources outside the repository
 - No development phases or internal task numbers in commit messages; include GitHub Issue numbers only when relevant
 - Use `chore` instead of `refactor` when editing files under `.github/`
 - When a review comment from a bot (e.g. Copilot) is valid and you have applied the fix, resolve the thread silently; do not write a reply
