@@ -1,7 +1,6 @@
 ---
 name: github-create-pr
 description: PR 作成を依頼されたときに、依頼範囲の変更を確認し、リポジトリのテンプレートに沿ったタイトルと本文で GitHub PR を作る。本文の下書きだけを求められた場合は公開しない。
-context: fork
 ---
 
 # PR を作成する
