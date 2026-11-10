@@ -5,7 +5,6 @@
     "ENABLE_LSP_TOOL": "1",
     "ENABLE_TOOL_SEARCH": "true",
     "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "1",
-    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
     "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "1",
     "CLAUDE_CODE_NO_FLICKER": "1"
   },
@@ -61,7 +60,7 @@
     "command": "~/.claude/status-line.sh",
     "padding": 0
   },
-  "model": "claude-fable-5-1[1m]",
+  "model": "claude-fable-5-2[1m]",
   "effortLevel": "high",
   "theme": "dark",
   "enabledPlugins": {
@@ -86,10 +85,7 @@
   "agentPushNotifEnabled": false,
   "skipAutoPermissionPrompt": true,
   "modelSettings": {
-    "claude-haiku-4-5": {
-      "effortLevel": "low"
-    },
-    "claude-fable-5-1": {
+    "claude-fable-5-2": {
       "effortLevel": "high"
     }
   }
