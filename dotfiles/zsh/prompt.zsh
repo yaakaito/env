@@ -25,6 +25,7 @@ zstyle ':vcs_info:git+set-message:*' hooks git-untracked
 
 __prompt_command_start=
 __prompt_duration_line=
+__prompt_devbox_prefix=
 
 __prompt_start_timer() {
   __prompt_command_start=$EPOCHREALTIME
@@ -34,6 +35,10 @@ __prompt_refresh() {
   # vcs_info より先に経過時間を確定させ、git の処理時間を表示に混ぜない
   local -F now=$EPOCHREALTIME
   vcs_info
+  __prompt_devbox_prefix=
+  if [[ -n $DEVBOX_PROMPT ]]; then
+    __prompt_devbox_prefix="%F{green}(${DEVBOX_PROMPT})%f "
+  fi
   __prompt_duration_line=
   # 空 Enter では preexec が走らない = 計測開始がないので時間表示を出さない
   [[ -n $__prompt_command_start ]] || return 0
@@ -51,5 +56,5 @@ __prompt_refresh() {
 add-zsh-hook preexec __prompt_start_timer
 add-zsh-hook precmd __prompt_refresh
 
-PROMPT='${__prompt_duration_line}%F{cyan}%~%f ${vcs_info_msg_0_}$ '
+PROMPT='${__prompt_duration_line}${__prompt_devbox_prefix}%F{cyan}%~%f ${vcs_info_msg_0_}$ '
 RPROMPT='%F{244}%*%f'
