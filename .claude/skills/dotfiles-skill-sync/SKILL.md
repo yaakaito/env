@@ -61,6 +61,7 @@ description: Clone 済みのこの環境リポジトリのルートで実行し�
    - 変更した Markdown / shell / YAML / TOML / JSON の構文確認
    - 必要なら `bash -n setup.sh`、`zsh -n`、`jq`、`git config --get` などの軽量検証
 8. 今回ユーザーが確定した判断のうち、次回も再確認になり得るもの(Local keep、削除見送りなど)を `MEMORY.md` に記録する。書式と記録対象は `references/sync-memory.md` に従う。
+9. `MEMORY.md` の `## 追加の指示` に書かれた指示に従う。この端末で入れ直した skill の書き換えなど、sync の後にこの端末でだけ行う作業がここに書かれる。
 
 ## Confirmation Rules
 
