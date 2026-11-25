@@ -66,6 +66,10 @@ remote_skills:
   - microsoft/playwright-cli playwright-cli -> universal
   - yaakaito/agflo agflo-ship -> claude-code
   - yaakaito/agflo agflo-ship -> universal
+  - GoogleChrome/modern-web-guidance modern-web-guidance -> claude-code
+  - GoogleChrome/modern-web-guidance modern-web-guidance -> universal
+  - nanaism/yomiyasu yomiyasu -> claude-code
+  - nanaism/yomiyasu yomiyasu -> universal
 
 # Commands that install CLIs needed by the phases below.
 installers:
