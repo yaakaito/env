@@ -1,4 +1,5 @@
 {
+  "advisorModel": "fable",
   "hooks": {
     "PostToolUse": [
       {
