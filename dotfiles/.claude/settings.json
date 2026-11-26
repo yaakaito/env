@@ -61,6 +61,7 @@
     "padding": 0
   },
   "model": "claude-opus-5-5[1m]",
+  "advisorModel": "fable",
   "effortLevel": "medium",
   "theme": "dark",
   "enabledPlugins": {
