@@ -130,6 +130,9 @@ Claude.ai などスキルを zip でアップロードする環境向けに、`m
 | github-create-umbrella-issue | [github-create-umbrella-issue.zip](https://github.com/yaakaito/env/releases/download/skills/github-create-umbrella-issue.zip) |
 | github-fix-failed-workflow   | [github-fix-failed-workflow.zip](https://github.com/yaakaito/env/releases/download/skills/github-fix-failed-workflow.zip)     |
 | research                     | [research.zip](https://github.com/yaakaito/env/releases/download/skills/research.zip)                                         |
+| spawn-agy                    | [spawn-agy.zip](https://github.com/yaakaito/env/releases/download/skills/spawn-agy.zip)                                       |
+| spawn-claude                 | [spawn-claude.zip](https://github.com/yaakaito/env/releases/download/skills/spawn-claude.zip)                                 |
+| spawn-codex                  | [spawn-codex.zip](https://github.com/yaakaito/env/releases/download/skills/spawn-codex.zip)                                   |
 | writing-tech-text            | [writing-tech-text.zip](https://github.com/yaakaito/env/releases/download/skills/writing-tech-text.zip)                       |
 
 ローカルでは `bin/build-skill-zips` で `dist/skills/` に同じ zip を作れます。
